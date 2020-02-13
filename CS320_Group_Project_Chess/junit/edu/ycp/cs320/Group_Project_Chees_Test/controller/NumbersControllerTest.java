@@ -1,12 +1,12 @@
-package edu.ycp.cs320.lab02.controller;
+package edu.ycp.cs320.Group_Project_Chees_Test.controller;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.lab02a_dmoore29.controller.NumbersController;
-import edu.ycp.cs320.lab02a_dmoore29.model.Numbers;
+import edu.ycp.cs320.Group_Project_Chees.controller.NumbersController;
+import edu.ycp.cs320.Group_Project_Chees.model.Numbers;
 
 public class NumbersControllerTest {
 	private Numbers model;
@@ -34,7 +34,7 @@ public class NumbersControllerTest {
 	@Test
 	public void testMultiply() {
 		controller.multiply(model.getFirst(), model.getSecond());
-		double result = 180;
+		double result = 36;
 		assertTrue(result == model.getResult());
 	}
 }

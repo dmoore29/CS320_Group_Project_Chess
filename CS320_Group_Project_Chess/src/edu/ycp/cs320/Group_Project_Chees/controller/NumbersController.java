@@ -1,6 +1,6 @@
-package edu.ycp.cs320.lab02a_dmoore29.controller;
+package edu.ycp.cs320.Group_Project_Chees.controller;
 
-import edu.ycp.cs320.lab02a_dmoore29.model.Numbers;
+import edu.ycp.cs320.Group_Project_Chees.model.Numbers;
 
 public class NumbersController {
 	private Numbers model;

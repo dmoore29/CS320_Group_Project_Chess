@@ -1,3 +1,5 @@
+package edu.ycp.cs320.Group_Project_Chees.model;
+
 // This is a quick model. After writing this I realized that we need 
 // a Piece class and potentially a Space class.
 

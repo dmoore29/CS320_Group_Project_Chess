@@ -1,4 +1,4 @@
-package edu.ycp.cs320.Group_Project_Chees_Test.controller;
+package edu.ycp.cs320.Group_Project_Chess_Test.controller;
 
 import static org.junit.Assert.assertTrue;
 

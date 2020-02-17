@@ -1,4 +1,4 @@
-package edu.ycp.cs320.Group_Project_Chees_Test.model;
+package edu.ycp.cs320.Group_Project_Chess_Test.model;
 
 import static org.junit.Assert.*;
 

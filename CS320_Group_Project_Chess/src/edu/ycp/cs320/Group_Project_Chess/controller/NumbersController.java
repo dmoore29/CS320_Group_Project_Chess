@@ -1,6 +1,6 @@
-package edu.ycp.cs320.Group_Project_Chees.controller;
+package edu.ycp.cs320.Group_Project_Chess.controller;
 
-import edu.ycp.cs320.Group_Project_Chees.model.Numbers;
+import edu.ycp.cs320.Group_Project_Chess.model.Numbers;
 
 public class NumbersController {
 	private Numbers model;

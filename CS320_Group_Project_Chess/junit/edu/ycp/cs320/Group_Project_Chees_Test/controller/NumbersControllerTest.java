@@ -5,8 +5,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.Group_Project_Chees.controller.NumbersController;
-import edu.ycp.cs320.Group_Project_Chees.model.Numbers;
+import edu.ycp.cs320.Group_Project_Chess.controller.NumbersController;
+import edu.ycp.cs320.Group_Project_Chess.model.Numbers;
 
 public class NumbersControllerTest {
 	private Numbers model;

@@ -1,4 +1,4 @@
-package edu.ycp.cs320.Group_Project_Chees.servlet.ajax;
+package edu.ycp.cs320.Group_Project_Chess.servlet.ajax;
 
 import java.io.IOException;
 
@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.Group_Project_Chees.controller.NumbersController;
-import edu.ycp.cs320.Group_Project_Chees.model.Numbers;
+import edu.ycp.cs320.Group_Project_Chess.controller.NumbersController;
+import edu.ycp.cs320.Group_Project_Chess.model.Numbers;
 
 public class AddNumbersAjaxServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

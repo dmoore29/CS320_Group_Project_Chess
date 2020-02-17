@@ -4,6 +4,8 @@ import java.io.File;
 
 import org.eclipse.jetty.server.Server;
 
+import edu.ycp.cs320.Group_Project_Chess.main.Launcher;
+
 public class Main {
 	public static void main(String[] args) throws Exception {
 		String webappCodeBase = "./war";

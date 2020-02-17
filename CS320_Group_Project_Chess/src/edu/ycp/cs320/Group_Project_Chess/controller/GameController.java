@@ -1,7 +1,6 @@
 package edu.ycp.cs320.Group_Project_Chess.controller;
 
 import edu.ycp.cs320.Group_Project_Chess.model.Game; 
-import edu.ycp.cs320.Group_Project_Chess.model.Numbers;
 import edu.ycp.cs320.Group_Project_Chess.model.Space; 
 
 public class GameController {
@@ -27,6 +26,7 @@ public class GameController {
 	 */
 	public boolean validMove(Game model, Space origin, Space destination) {
 		throw new UnsupportedOperationException("TODO - implement");
+//		model.getBoard().get
 	}
 	
 	/**

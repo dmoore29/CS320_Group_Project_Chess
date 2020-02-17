@@ -1,12 +1,12 @@
-package edu.ycp.cs320.lab02.controller;
+package edu.ycp.cs320.Group_Project_Chess_Test.controller;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.lab02a_dmoore29.controller.GuessingGameController;
-import edu.ycp.cs320.lab02a_dmoore29.model.GuessingGame;
+import edu.ycp.cs320.Group_Project_Chess.controller.GuessingGameController;
+import edu.ycp.cs320.Group_Project_Chess.model.GuessingGame;
 
 public class GuessingGameControllerTest {
 	private GuessingGame model;

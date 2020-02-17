@@ -1,4 +1,4 @@
-package edu.ycp.cs320.lab02a_dmoore29.servlet;
+package edu.ycp.cs320.Group_Project_Chess.servlet;
 
 import java.io.IOException;
 
@@ -7,47 +7,46 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.lab02a_dmoore29.controller.NumbersController;
-import edu.ycp.cs320.lab02a_dmoore29.model.Numbers;
+import edu.ycp.cs320.Group_Project_Chess.controller.NumbersController;
+import edu.ycp.cs320.Group_Project_Chess.model.Numbers;
 
-public class AddNumbersServlet extends HttpServlet {
+public class MultiplyNumbersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		System.out.println("AddNumbers Servlet: doGet");	
+		System.out.println("MultiplyNumbers Servlet: doGet");	
 		
 		// call JSP to generate empty form
-		req.getRequestDispatcher("/_view/addNumbers.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/multiplyNumbers.jsp").forward(req, resp);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		System.out.println("AddNumbers Servlet: doPost");
+		System.out.println("MultiplyNumbers Servlet: doPost");
 		
 		Numbers model = new Numbers();
 		
 		NumbersController controller = new NumbersController();
 		
 		controller.setModel(model);
-
-
+		
 		// holds the error message text, if there is any
 		String errorMessage = null;
-				
+
+		
 		// decode POSTed form parameters and dispatch to controller
 		try {
 			Double first = getDoubleFromParameter(req.getParameter("first"));
 			Double second = getDoubleFromParameter(req.getParameter("second"));
-			Double third = getDoubleFromParameter(req.getParameter("third"));
 
 			// check for errors in the form data before using is in a calculation
-			if (first == null || second == null || third == null) {
-				errorMessage = "Please specify three numbers";
+			if (first == null || second == null) {
+				errorMessage = "Please specify two numbers";
 			}
 			// otherwise, data is good, do the calculation
 			// must create the controller each time, since it doesn't persist between POSTs
@@ -56,8 +55,7 @@ public class AddNumbersServlet extends HttpServlet {
 			else {
 				model.setFirst(first);
 				model.setSecond(second);
-				model.setThird(third);
-				controller.add(first, second, third);
+				controller.multiply(first, second);
 			}
 		} catch (NumberFormatException e) {
 			errorMessage = "Invalid double";
@@ -70,22 +68,14 @@ public class AddNumbersServlet extends HttpServlet {
 		// and forth, it's a good idea
 //		req.setAttribute("first", req.getParameter("first"));
 //		req.setAttribute("second", req.getParameter("second"));
-//		req.setAttribute("third", req.getParameter("third"));
-//		
+		
 		// add result objects as attributes
 		// this adds the errorMessage text and the result to the response
 		req.setAttribute("errorMessage", errorMessage);
-//		req.setAttribute("result", result);
 		req.setAttribute("number", model);
 		
 		// Forward to view to render the result HTML document
-		req.getRequestDispatcher("/_view/addNumbers.jsp").forward(req, resp);
-		
-//		resp.setContentType("application/json");
-//		resp.getWriter().println("{ \"first\": " + model.getFirst() +
-//				", \"second\": " + model.getSecond() +
-//				", \"third\": " + model.getThird() +
-//				", \"result\": " + model.getResult() + "}" );	
+		req.getRequestDispatcher("/_view/multiplyNumbers.jsp").forward(req, resp);
 	}
 
 	// gets double from the request with attribute named s

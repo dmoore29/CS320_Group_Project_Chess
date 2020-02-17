@@ -1,11 +1,11 @@
-package edu.ycp.cs320.lab02.model;
+package edu.ycp.cs320.Group_Project_Chess_Test.model;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.lab02a_dmoore29.model.Numbers;
+import edu.ycp.cs320.Group_Project_Chess.model.Numbers;
 
 public class NumbersTest {
 	private Numbers model;

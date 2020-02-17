@@ -1,3 +1,4 @@
+package edu.ycp.cs320.Group_Project_Chess.model;
 
 public class BoardModel {
 	//Create an 8x8 array of Space objects.

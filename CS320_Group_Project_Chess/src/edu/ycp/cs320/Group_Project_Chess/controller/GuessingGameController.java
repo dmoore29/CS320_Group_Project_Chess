@@ -1,6 +1,6 @@
-package edu.ycp.cs320.lab02a_dmoore29.controller;
+package edu.ycp.cs320.Group_Project_Chess.controller;
 
-import edu.ycp.cs320.lab02a_dmoore29.model.GuessingGame;
+import edu.ycp.cs320.Group_Project_Chess.model.GuessingGame;
 
 /**
  * Controller for the guessing game.

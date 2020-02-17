@@ -1,4 +1,4 @@
-package edu.ycp.cs320.lab02a_dmoore29.main;
+package edu.ycp.cs320.Group_Project_Chess.main;
 
 import java.lang.management.ManagementFactory;
 

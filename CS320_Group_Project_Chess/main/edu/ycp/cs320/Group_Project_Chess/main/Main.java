@@ -1,10 +1,8 @@
-package edu.ycp.cs320.lab02a_dmoore29.main;
+package edu.ycp.cs320.Group_Project_Chess.main;
 
 import java.io.File;
 
 import org.eclipse.jetty.server.Server;
-
-import edu.ycp.cs320.Group_Project_Chess.main.Launcher;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
@@ -34,5 +32,4 @@ public class Main {
 }
 
 
-//David Moore
-//Anthony Beddia 2
+//David Moore - Testing branch yet again (3).

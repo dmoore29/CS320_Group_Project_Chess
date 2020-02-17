@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.Group_Project_Chees.model.Numbers;
+import edu.ycp.cs320.Group_Project_Chess.model.Numbers;
 
 public class NumbersTest {
 	private Numbers model;

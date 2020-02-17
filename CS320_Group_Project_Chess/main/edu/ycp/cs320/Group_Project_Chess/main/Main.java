@@ -1,4 +1,4 @@
-package edu.ycp.cs320.Group_Project_Chees.main;
+package edu.ycp.cs320.Group_Project_Chess.main;
 
 import java.io.File;
 

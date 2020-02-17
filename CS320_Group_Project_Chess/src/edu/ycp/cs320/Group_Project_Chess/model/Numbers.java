@@ -1,4 +1,4 @@
-package edu.ycp.cs320.Group_Project_Chees.model;
+package edu.ycp.cs320.Group_Project_Chess.model;
 
 // model class for Numbers
 // only the controller should be allowed to call the set methods

@@ -1,6 +1,6 @@
-package edu.ycp.cs320.Group_Project_Chees.controller;
+package edu.ycp.cs320.Group_Project_Chess.controller;
 
-import edu.ycp.cs320.Group_Project_Chees.model.GuessingGame;
+import edu.ycp.cs320.Group_Project_Chess.model.GuessingGame;
 
 /**
  * Controller for the guessing game.

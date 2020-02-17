@@ -1,11 +1,11 @@
-package edu.ycp.cs320.lab02.model;
+package edu.ycp.cs320.Group_Project_Chees_Test.model;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.lab02a_dmoore29.model.GuessingGame;
+import edu.ycp.cs320.Group_Project_Chees.model.GuessingGame;
 
 public class GuessingGameTest {
 	private GuessingGame model;

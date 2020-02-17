@@ -1,4 +1,4 @@
-package edu.ycp.cs320.lab02a_dmoore29.servlet.ajax;
+package edu.ycp.cs320.Group_Project_Chees.servlet.ajax;
 
 import java.io.IOException;
 
@@ -7,10 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.lab02a_dmoore29.controller.NumbersController;
-import edu.ycp.cs320.lab02a_dmoore29.model.Numbers;
+import edu.ycp.cs320.Group_Project_Chees.controller.NumbersController;
+import edu.ycp.cs320.Group_Project_Chees.model.Numbers;
 
-public class AddNumbersAjaxServlet extends HttpServlet {
+public class MultiplyNumbersAjaxServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -29,10 +29,9 @@ public class AddNumbersAjaxServlet extends HttpServlet {
 		// Get parameters
 		Double first = getDouble(req, "first");
 		Double second = getDouble(req, "second");
-		Double third = getDouble(req, "third");
 		
 		// Check whether parameters are valid
-		if (first == null || second == null || third == null) {
+		if (first == null || second == null) {
 			badRequest("Bad parameters", resp);
 			return;
 		}
@@ -40,17 +39,15 @@ public class AddNumbersAjaxServlet extends HttpServlet {
 		
 		model.setFirst(first);
 		model.setSecond(second);
-		model.setThird(third);
-				
+		
 		// Use a controller to process the request
 		NumbersController controller = new NumbersController();
-		controller.add(first, second, third);
+		controller.multiply(first, second);
 		
 		// Send back a response
 		resp.setContentType("application/json");
 		resp.getWriter().println("{ \"first\": " + model.getFirst() +
 				", \"second\": " + model.getSecond() +
-				", \"third\": " + model.getThird() +
 				", \"result\": " + model.getResult() + "}" );	}
 
 	private Double getDouble(HttpServletRequest req, String name) {

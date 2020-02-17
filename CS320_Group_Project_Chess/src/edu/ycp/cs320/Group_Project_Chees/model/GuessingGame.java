@@ -1,4 +1,4 @@
-package edu.ycp.cs320.lab02a_dmoore29.model;
+package edu.ycp.cs320.Group_Project_Chees.model;
 
 // model class for GuessingGame
 // only the controller should be allowed to call the set methods

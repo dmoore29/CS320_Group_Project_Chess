@@ -15,6 +15,10 @@ public class Game {
 		this.board = board;
 	}
 	
+	public BoardModel getBoard() {
+		return board;
+	}
+	
 	public void addCapturedP1() {
 		throw new UnsupportedOperationException("TODO - implement");
 	}

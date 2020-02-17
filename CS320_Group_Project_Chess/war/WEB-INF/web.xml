@@ -7,32 +7,32 @@
 
   <!-- Servlets --><servlet>
   	<servlet-name>MultiplyNumbersServlet</servlet-name>
-  	<servlet-class>edu.ycp.cs320.lab02a_dmoore29.servlet.MultiplyNumbersServlet</servlet-class>
+  	<servlet-class>edu.ycp.cs320.Group_Project_Chees.servlet.MultiplyNumbersServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>IndexServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.lab02a_dmoore29.servlet.IndexServlet</servlet-class>
+    <servlet-class>edu.ycp.cs320.Group_Project_Chees.servlet.IndexServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>AddNumbersServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.lab02a_dmoore29.servlet.AddNumbersServlet</servlet-class>
+    <servlet-class>edu.ycp.cs320.Group_Project_Chees.servlet.AddNumbersServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>GuessingGameServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.lab02a_dmoore29.servlet.GuessingGameServlet</servlet-class>
+    <servlet-class>edu.ycp.cs320.Group_Project_Chees.servlet.GuessingGameServlet</servlet-class>
   </servlet>
   
   <!-- AJAX servlets. -->
   <servlet>
   	<servlet-name>MultiplyNumbersAjaxServlet</servlet-name>
-  	<servlet-class>edu.ycp.cs320.lab02a_dmoore29.servlet.ajax.MultiplyNumbersAjaxServlet</servlet-class>
+  	<servlet-class>edu.ycp.cs320.Group_Project_Chees.servlet.ajax.MultiplyNumbersAjaxServlet</servlet-class>
   </servlet><servlet>
     <servlet-name>AddNumbersAjaxServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.lab02a_dmoore29.servlet.ajax.AddNumbersAjaxServlet</servlet-class>
+    <servlet-class>edu.ycp.cs320.Group_Project_Chees.servlet.ajax.AddNumbersAjaxServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>NextGuessAjaxServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.lab02a_dmoore29.servlet.ajax.NextGuessAjaxServlet</servlet-class>
+    <servlet-class>edu.ycp.cs320.Group_Project_Chees.servlet.ajax.NextGuessAjaxServlet</servlet-class>
   </servlet>
 
   <!-- Servlet mappings --><servlet-mapping>

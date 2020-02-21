@@ -14,7 +14,7 @@
         <header>
             <img src="images/chess_logo.png" alt="Logo">
             <section id="title-subtitle">
-                <h2>Velocity Game</h2>
+                <h2>Velocity Games</h2>
                 <h3>Welcome To the Future of Board Games</h3>
             </section>
         </header>

@@ -1,0 +1,279 @@
+html{
+    background-color: lime;
+}
+body {
+    font-family: "Open Sans", Arial, Helvetica, sans-serif;
+    width: 90%;
+    margin: 0 auto;
+    background-color: black;
+    box-shadow: 0 0 10px 2px black;
+    color: lime;
+}
+header {
+    background-image: linear-gradient(to right, black, lime);
+    padding: 1.875%;
+    position: relative;
+}
+header > img {
+    height: 25%;
+    width: 20%;
+    float: left;
+    margin-left: 20%;
+}
+#GPC{
+    height: 100%;
+    width: 100%;    
+}
+#Title1{
+    text-decoration: underline;
+}
+#Title2{
+    text-decoration: underline;
+    margin-left: 25%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+#Activities{
+    list-style-type: disc;
+}
+#Links{
+    text-decoration: underline;
+}
+#title-subtitle {
+    float:left;
+}
+#title-subtitle > h2 {
+    font-size: 2.5em;
+    margin-left: 100px;
+    color: black;
+    text-align: center;
+}
+#title-subtitle > h3 {
+    font-size: 1em;
+    margin-left: 100px;
+    color: black;
+    text-align: center;
+}
+main, footer {
+    padding: 1.875%;
+}
+h1 {
+    font-size: 1.5em;
+}
+h2 {
+    font-size: 1.25em;
+}
+h1::first-letter {
+    font-size: 150%;
+}
+a:focus, a:hover {
+    text-decoration: none;
+}
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+ul li {
+    line-height: 1.5;
+}
+footer p {
+    text-align: center;
+}
+aside {
+    float: left;
+    width: 21.25%;
+    padding: 0 1.875%;
+    color: lime;
+
+}
+aside > h2{
+    text-decoration: underline;
+}
+#IGN{
+    font-style: italic;
+}
+header {
+    overflow: auto;
+}
+main {
+    float: right;
+    width: 71.25%;
+    padding: 0 1.875%;
+}
+footer {
+    clear: both;
+}
+#hamburger-button {
+    background: lime;
+    color: black;
+    float: right;
+    border-style: none;
+    border-radius: 3px;
+    display: none;
+    position: absolute;
+    top: 1.875%;
+    right: 3.5%;
+}
+#hamburger-button div {
+    width: 20px;
+    height: 2px;
+    background-color: white;
+    margin: 6px 0;
+}
+nav ul {
+    list-style-type: none;
+    text-align: center;
+    padding-left: 0;
+}
+nav ul li {
+    display: inline;
+}
+main section ul li{
+    display: inline;
+    padding-right:20px
+}
+nav ul li + li {
+    padding-left: 20px;
+}
+nav ul li .current {
+    text-decoration: none;
+}
+#planning{
+    background-color:lightblue;
+    width:50%;
+    margin-top:1em;
+    margin-bottom:1em;
+    margin-right:auto;
+    margin-left:auto;
+    box-shadow: 2px 2px grey;
+    border-radius: 10px;
+    text-align:center;
+}
+main a{
+    text-decoration:none;
+}
+main p{
+    margin-right:33%;
+}
+#menu{
+    float:right;
+}
+#menu ul{
+    list-style-type:none;
+    padding-left:0;
+}
+#menu ul{
+    list-style-type:none;
+    padding-left:0;
+}
+#menu ul li{
+    margin:5px;
+}
+#Seth{
+    height: 70%;
+    width: 20%;
+    margin-right: 3%;
+}
+#Names > h2{
+    display: inline;
+    text-decoration: underline;
+    margin-right: 10%;
+}
+#Kelly{
+    height: 70%;
+    width: 20%;
+    margin-right: 5%;
+}
+#Andrew{
+    height: 70%;
+    width: 20%;
+}
+#Bios{
+    column-count: 3;
+    width:70%;
+    text-align:center;
+    display:block;
+    background-color: transparent;
+    border: 1px solid transparent;
+    column-rule-color: lime;
+    column-rule-style: groove;
+    column-rule-width: 1px;
+    margin-right: 10px;
+    margin-bottom: 1px;
+    float:left;
+}
+#Velocity{
+    margin-top: 50%;
+    height: 150%;
+    width: 150%;
+    transform: rotate(270deg);
+}
+#Velocity2{
+    margin-top: 75%;
+    height: 150%;
+    width: 150%;
+    transform: rotate(270deg);
+}
+
+table {
+    border-collapse: collapse;
+    width: 60%;
+}
+table td {
+    border-style: solid;
+    border-width: 1px;
+    border-color: grey;
+}
+table th {
+    border-style: solid;
+    border-width: 1px;
+    border-color: grey;
+}
+table > td > a[hdr-beach]{
+    text-align: right;
+}
+#menu ul li a{
+    display:block;
+    padding:.5em;
+    width:150px;
+    background-color:lime;
+    color:black;
+    text-decoration:none;
+    border-radius:5px;
+    box-shadow:2px 2px 2px grey;
+}
+#menu ul li a.current{
+    background-color:lightblue;
+    color:blue;
+}
+#CS{
+    height:75%;
+    width:75%
+}
+@media only screen and (max-width: 959px) {
+    #hamburger-button {
+        display: block;
+    }
+    #top-menu {
+        display: none;
+    }
+}
+@media only screen and (max-width: 767px) {
+    main, aside {
+        float: none;
+        width: 96.25%;
+    }
+}
+@media only screen and (max-width: 497px) {
+    body {
+        width: 100%;
+    }
+    header > img, #title-subtitle {
+        float: none;
+    }
+    header > img {
+        width: 90px;
+        margin: 10px auto;
+        display: block;
+    }
+}

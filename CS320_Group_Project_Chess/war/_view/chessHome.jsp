@@ -10,9 +10,19 @@
 		.homeTitle {
 			color: red;
 		}
+		.text{
+			float: right;
+		}
 		</style>
 	</head>
 	<body>
 		<h1 class="homeTitle">Welcome to "Chess Title"</h1>
+		
+		<p class="text">Hello welcome to our homepage this is just a bunch of test text to see if the 
+		paragraph function is working properly. Blah blah blah.
+		Hello welcome to our homepage this is just a bunch of test text to see if the 
+		paragraph function is working properly. Blah blah blah.
+		Hello welcome to our homepage this is just a bunch of test text to see if the 
+		paragraph function is working properly. Blah blah blah.</p>
 	</body>
 </html>

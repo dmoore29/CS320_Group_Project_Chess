@@ -13,6 +13,6 @@
 		</style>
 	</head>
 	<body>
-		<h1 class="homeTitle">Welcome to "Chess Title</h1>
+		<h1 class="homeTitle">Welcome to "Chess Title"</h1>
 	</body>
 </html>

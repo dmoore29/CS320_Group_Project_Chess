@@ -37,6 +37,10 @@
   	<servlet-name>HomeServlet</servlet-name>
   	<servlet-class>edu.ycp.cs320.Group_Project_Chess.servlet.HomeServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>ChessGameServlet</servlet-name>
+  	<servlet-class>edu.ycp.cs320.Group_Project_Chess.servlet.ChessGameServlet</servlet-class>
+  </servlet>
 
   <!-- AJAX servlets. -->
   <servlet>
@@ -79,6 +83,10 @@
   <servlet-mapping>
   	<servlet-name>HomeServlet</servlet-name>
   	<url-pattern>/home</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ChessGame</servlet-name>
+  	<url-pattern>/chessGame</url-pattern>
   </servlet-mapping>
 
   <!--  AJAX servlet mappings. -->

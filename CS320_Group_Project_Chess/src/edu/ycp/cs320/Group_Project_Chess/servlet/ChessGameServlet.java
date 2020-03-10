@@ -25,6 +25,11 @@ public class ChessGameServlet extends HttpServlet {
 			throws ServletException, IOException {
 		System.out.println("ChessGame Servlet: doPost");
 		
+		if (req.getParameter("home") != null) {
+			System.out.println("ChessGame Servlet: forwarding to hHome");
+			req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);
+		}
+		
 		if (req.getParameter("chessHome") != null) {
 			System.out.println("ChessGame Servlet: forwarding to chessHome");
 			req.getRequestDispatcher("/_view/chessHome.jsp").forward(req, resp);

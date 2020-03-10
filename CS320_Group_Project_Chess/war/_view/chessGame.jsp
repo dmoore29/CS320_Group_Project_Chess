@@ -13,6 +13,7 @@
 
 		This is a chess game
 		<div>
+			<input name="home" type="submit" value="Home Page" />
 			<input name="chessHome" type="submit" value="Chess Home" />
 			<input name="profile" type="submit" value="Profile" />
 			<input name="friends" type="submit" value="Friends" />

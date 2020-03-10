@@ -45,6 +45,10 @@
   	<servlet-name>ProfileServlet</servlet-name>
   	<servlet-class>edu.ycp.cs320.Group_Project_Chess.servlet.ProfileServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>FriendsServlet</servlet-name>
+  	<servlet-class>edu.ycp.cs320.Group_Project_Chess.servlet.FriendsServlet</servlet-class>
+  </servlet>
 
   <!-- AJAX servlets. -->
   <servlet>
@@ -95,6 +99,10 @@
   <servlet-mapping>
   	<servlet-name>ProfileServlet</servlet-name>
   	<url-pattern>/profile</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>FriendsServlet</servlet-name>
+  	<url-pattern>/friends</url-pattern>
   </servlet-mapping>
 
   <!--  AJAX servlet mappings. -->

@@ -85,7 +85,7 @@
   	<url-pattern>/home</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>ChessGame</servlet-name>
+  	<servlet-name>ChessGameServlet</servlet-name>
   	<url-pattern>/chessGame</url-pattern>
   </servlet-mapping>
 

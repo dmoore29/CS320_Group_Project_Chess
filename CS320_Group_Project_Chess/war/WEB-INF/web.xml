@@ -33,7 +33,11 @@
   	<servlet-name>LoginServlet</servlet-name>
   	<servlet-class>edu.ycp.cs320.Group_Project_Chess.servlet.LoginServlet</servlet-class>
   </servlet>
-  
+  <servlet>
+  	<servlet-name>HomeServlet</servlet-name>
+  	<servlet-class>edu.ycp.cs320.Group_Project_Chess.servlet.HomeServlet</servlet-class>
+  </servlet>
+
   <!-- AJAX servlets. -->
   <servlet>
   	<servlet-name>MultiplyNumbersAjaxServlet</servlet-name>
@@ -72,7 +76,11 @@
   	<servlet-name>LoginServlet</servlet-name>
   	<url-pattern>/login</url-pattern>
   </servlet-mapping>
-  
+  <servlet-mapping>
+  	<servlet-name>HomeServlet</servlet-name>
+  	<url-pattern>/home</url-pattern>
+  </servlet-mapping>
+
   <!--  AJAX servlet mappings. -->
   <servlet-mapping>
   	<servlet-name>MultiplyNumbersAjaxServlet</servlet-name>

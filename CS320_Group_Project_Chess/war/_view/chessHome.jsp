@@ -19,6 +19,13 @@
             </section>
         </header>
         <main>
+        	<form action="${pageContext.servletContext.contextPath}/chessHome" method="post">
+        		<div>
+					<input name="home" type="submit" value="Home Page" />
+					<input name="chessGame" type="submit" value="Play Chess" />
+					<input name="profile" type="submit" value="Profile" />
+				</div>
+			</form>
             <nav id="menu">
                 <ul>
                     <li><a href="Home.html"><strong>Home</strong></a></li>

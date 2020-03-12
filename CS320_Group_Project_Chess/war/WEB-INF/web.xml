@@ -29,7 +29,27 @@
     <servlet-name>ChessHomeServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.Group_Project_Chess.servlet.ChessHomeServlet</servlet-class>
   </servlet>
-  
+  <servlet>
+  	<servlet-name>LoginServlet</servlet-name>
+  	<servlet-class>edu.ycp.cs320.Group_Project_Chess.servlet.LoginServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>HomeServlet</servlet-name>
+  	<servlet-class>edu.ycp.cs320.Group_Project_Chess.servlet.HomeServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>ChessGameServlet</servlet-name>
+  	<servlet-class>edu.ycp.cs320.Group_Project_Chess.servlet.ChessGameServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>ProfileServlet</servlet-name>
+  	<servlet-class>edu.ycp.cs320.Group_Project_Chess.servlet.ProfileServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>FriendsServlet</servlet-name>
+  	<servlet-class>edu.ycp.cs320.Group_Project_Chess.servlet.FriendsServlet</servlet-class>
+  </servlet>
+
   <!-- AJAX servlets. -->
   <servlet>
   	<servlet-name>MultiplyNumbersAjaxServlet</servlet-name>
@@ -43,7 +63,8 @@
     <servlet-class>edu.ycp.cs320.Group_Project_Chess.servlet.ajax.NextGuessAjaxServlet</servlet-class>
   </servlet>
 
-  <!-- Servlet mappings --><servlet-mapping>
+  <!-- Servlet mappings -->
+  <servlet-mapping>
   	<servlet-name>MultiplyNumbersServlet</servlet-name>
   	<url-pattern>/multiplyNumbers</url-pattern>
   </servlet-mapping>
@@ -63,7 +84,27 @@
     <servlet-name>GuessingGameServlet</servlet-name>
     <url-pattern>/guessingGame</url-pattern>
   </servlet-mapping>
-  
+  <servlet-mapping>
+  	<servlet-name>LoginServlet</servlet-name>
+  	<url-pattern>/login</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>HomeServlet</servlet-name>
+  	<url-pattern>/home</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ChessGameServlet</servlet-name>
+  	<url-pattern>/chessGame</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ProfileServlet</servlet-name>
+  	<url-pattern>/profile</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>FriendsServlet</servlet-name>
+  	<url-pattern>/friends</url-pattern>
+  </servlet-mapping>
+
   <!--  AJAX servlet mappings. -->
   <servlet-mapping>
   	<servlet-name>MultiplyNumbersAjaxServlet</servlet-name>

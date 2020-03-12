@@ -28,14 +28,24 @@ public class ChessHomeServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		System.out.println("chessHome Servlet: doPost");
+
+		if (req.getParameter("home") != null) {
+			System.out.println("ChessHome Servlet: forwarding to home");
+			req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);
+		}
 		
-		if (req.getParameter("chessHome") != null) {
-			System.out.println("chessHome Servlet: forwarding to chessHome");
-			req.getRequestDispatcher("/_view/chessHome.jsp").forward(req, resp);
+		if (req.getParameter("chessGame") != null) {
+			System.out.println("ChessHome Servlet: forwarding to chessGame");
+			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
+		}
+		
+		if (req.getParameter("profile") != null) {
+			System.out.println("ChessHome Servlet: forwarding to profile");
+			req.getRequestDispatcher("/_view/profile.jsp").forward(req, resp);
 		}
 		
 		//initiate a board, game, and controller
-		BoardModel board = new BoardModel();
+		/*BoardModel board = new BoardModel();
 		Game game = new Game();
 		GameController controller = new GameController();
 		
@@ -43,6 +53,7 @@ public class ChessHomeServlet extends HttpServlet {
 		board.populateBoard();
 		game.setBoard(board);
 		controller.setModel(game);
+		*/
 	}
 }
 

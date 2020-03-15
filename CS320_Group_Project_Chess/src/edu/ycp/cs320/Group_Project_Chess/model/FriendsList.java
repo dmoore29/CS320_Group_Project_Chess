@@ -9,6 +9,11 @@ public class FriendsList {
 		
 	}
 	
+	public ArrayList<String> getFriendsList() {
+		return this.friendsList;
+	}
+	
+	
 	public void addFriend(String friend) {
 		this.friendsList.add(friend);
 	}

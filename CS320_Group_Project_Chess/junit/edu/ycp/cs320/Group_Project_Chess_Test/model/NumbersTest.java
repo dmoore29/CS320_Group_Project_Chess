@@ -21,16 +21,19 @@ public class NumbersTest {
 		assertTrue(5 == model.getFirst());
 	}
 	
+	@Test
 	public void testSetSecond() {
 		model.setSecond(50);
 		assertTrue(50 == model.getSecond());
 	}	
 	
+	@Test
 	public void testSetThird() {
 		model.setThird(25);
 		assertTrue(25 == model.getThird());
 	}
 	
+	@Test
 	public void testSetResult() {
 		model.setResult(62);
 		assertTrue(62 == model.getResult());

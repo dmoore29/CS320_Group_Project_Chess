@@ -10,7 +10,7 @@ public class BoardModel {
 		board = new Space[8][8];
 		for(int i = 0; i < board.length; i++) {
 			for(int j = 0; j < board[i].length; j++) {
-				board[i][j] = new Space(null, i, j);
+				board[i][j] = new Space(null, i*100, (i+1)*100, j*100, (j+1)*100);
 			}
 		}
 	}

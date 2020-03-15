@@ -2,7 +2,7 @@ package edu.ycp.cs320.Group_Project_Chess.model;
 
 import java.awt.Point;
 
-public class Piece {
+public abstract class Piece {
 	private Rank rank;
 	private int color; //0 for black, 1 for white
 	private Point location; //x , y; 0-7 , 0-7
@@ -39,4 +39,6 @@ public class Piece {
 	public Point getLocation() {
 		return location;
 	}
+	
+	public abstract void move();
 }

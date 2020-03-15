@@ -21,6 +21,7 @@ public class GuessingGameTest {
 		assertEquals(1, model.getMin());
 	}
 	
+	@Test
 	public void testSetMax() {
 		model.setMax(100);
 		assertEquals(100, model.getMax());

@@ -12,7 +12,7 @@ public class Credentials {
 		this.password = password;
 	}
 	
-	public String email() {
+	public String getEmail() {
 		return this.email;
 	}
 	

@@ -26,10 +26,6 @@
     <servlet-class>edu.ycp.cs320.Group_Project_Chess.servlet.ChessHomeServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>ChessHomeServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.Group_Project_Chess.servlet.ChessHomeServlet</servlet-class>
-  </servlet>
-  <servlet>
   	<servlet-name>LoginServlet</servlet-name>
   	<servlet-class>edu.ycp.cs320.Group_Project_Chess.servlet.LoginServlet</servlet-class>
   </servlet>

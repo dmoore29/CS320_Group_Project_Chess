@@ -7,20 +7,24 @@ import org.junit.Test;
 
 import edu.ycp.cs320.Group_Project_Chess.model.Credentials;
 import edu.ycp.cs320.Group_Project_Chess.model.FriendsList;
+import edu.ycp.cs320.Group_Project_Chess.model.Player;
 import edu.ycp.cs320.Group_Project_Chess.model.Profile;
 import edu.ycp.cs320.Group_Project_Chess.model.Stats;
 import edu.ycp.cs320.Group_Project_Chess.model.User;
 
-public class UserTest {
-	private User model;
+public class PlayerTest {
+	private Player model;
+	private User user;
+	private int color;
 	private Credentials credentials;
 	private Stats stats;
 	private FriendsList friends;
 	private Profile profile;
 	
+	
 
 	@Before
-	public void userSetUp() {	
+	public void playerSetup() {
 		credentials = new Credentials("test@123.com", "user123", "password123");
 		stats = new Stats();
 		stats.setWins(32);
@@ -39,29 +43,19 @@ public class UserTest {
 		profile = new Profile();
 		profile.setBio("yo yo yo this is a bio");
 		profile.setPicture(null);
-		model = new User(credentials, stats, friends, profile);
+		color = 1;
+		user = new User(credentials, stats, friends, profile);
+		model = new Player(user, color);
 	}
 	
 	@Test
-	public void testGetCredentials() {
-		assertEquals(credentials, model.getCredentials());
+	public void testUser() {
+		assertEquals(user, model.getUser());
 	}
 	
 	@Test
-	public void testGetStats() {
-		assertEquals(stats, model.getStats());
+	public void testGetColor() {
+		assertEquals(color, model.getColor());
 	}
-	
-	@Test
-	public void testGetFriends() {
-		assertEquals(friends, model.getFriends());
-	}
-	
-	@Test
-	public void testGetProfile() {
-		assertEquals(profile, model.getProfile());
-	}
-	
-	
 
 }

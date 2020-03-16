@@ -26,21 +26,21 @@ public class Game {
 		
 		//create knights, rooks, and bishops
 		for(int i = 0; i < 2; i++){
-			board.setPiece(new Pawn(Rank.KNIGHT, 1, new Point((i*5)+1, 0)));
-			board.setPiece(new Pawn(Rank.KNIGHT, 0, new Point((i*5)+1, 7)));
-			board.setPiece(new Pawn(Rank.ROOK, 1, new Point((i*7), 0)));
-			board.setPiece(new Pawn(Rank.ROOK, 0, new Point((i*7), 7)));
-			board.setPiece(new Pawn(Rank.BISHOP, 1, new Point((i*3)+2, 0)));
-			board.setPiece(new Pawn(Rank.BISHOP, 0, new Point((i*3)+2, 7)));
+			board.setPiece(new Knight(Rank.KNIGHT, 1, new Point((i*5)+1, 0)));
+			board.setPiece(new Knight(Rank.KNIGHT, 0, new Point((i*5)+1, 7)));
+			board.setPiece(new Rook(Rank.ROOK, 1, new Point((i*7), 0)));
+			board.setPiece(new Rook(Rank.ROOK, 0, new Point((i*7), 7)));
+			board.setPiece(new Bishop(Rank.BISHOP, 1, new Point((i*3)+2, 0)));
+			board.setPiece(new Bishop(Rank.BISHOP, 0, new Point((i*3)+2, 7)));
 		}
 		
 		//create kings
-		board.setPiece(new Pawn(Rank.KING, 1, new Point(3, 0)));
-		board.setPiece(new Pawn(Rank.KING, 0, new Point(3, 7)));
+		board.setPiece(new King(Rank.KING, 1, new Point(3, 0)));
+		board.setPiece(new King(Rank.KING, 0, new Point(3, 7)));
 		
 		//create queens
-		board.setPiece(new Pawn(Rank.QUEEN, 1, new Point(4, 0)));
-		board.setPiece(new Pawn(Rank.QUEEN, 0, new Point(4, 7)));
+		board.setPiece(new Queen(Rank.QUEEN, 1, new Point(4, 0)));
+		board.setPiece(new Queen(Rank.QUEEN, 0, new Point(4, 7)));
 		
 	}
 	

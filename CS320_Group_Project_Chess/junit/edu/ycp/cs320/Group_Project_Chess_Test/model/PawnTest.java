@@ -17,6 +17,7 @@ import edu.ycp.cs320.Group_Project_Chess.model.Rank;
 public class PawnTest {
 	private Pawn pawn;
 	
+	
 	@Before
 	public void SetUp() {
 		pawn = new Pawn(Rank.PAWN, 0, new Point(4, 0));

@@ -37,7 +37,14 @@ public class GameController {
 	 * @param destination	the intended move space 
 	 */
 	public void movePiece(Game model, Space origin, Space destination) {
+		// Set the piece of the 'destination' space equal to the piece from the 'origin' space.
 		 model.getBoard().getSpace(destination.getLocation().x, destination.getLocation().y).setPiece(origin.getPiece());
+		 
+		//Change the location in the piece that was just moved.
+		model.getBoard().getSpace(destination.getLocation().x, destination.getLocation().y).getPiece().setLocation(destination.getLocation());
+	
+		// Change the piece of the 'origin' space to null. The space is now empty.
+		model.getBoard().getSpace(origin.getLocation().x, origin.getLocation().y).setPiece(null);
 	}
 	
 	/**

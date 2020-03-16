@@ -38,7 +38,7 @@ public class GameController {
 	 */
 	public void movePiece(Game model, Space origin, Space destination) {
 		throw new UnsupportedOperationException("TODO - implement");
-//		model.getBoard().setPiece(, y, piece);
+//		model.getBoard().getSpace(origin.getLocation).getPiece
 	}
 	
 	/**
@@ -68,7 +68,7 @@ public class GameController {
 	 * 
 	 * @param model   the model of the game
 	 */
-	public void killPiece(Game model) {
+	public void capturePiece(Game model) {
 		throw new UnsupportedOperationException("TODO - implement");
 	}
 }

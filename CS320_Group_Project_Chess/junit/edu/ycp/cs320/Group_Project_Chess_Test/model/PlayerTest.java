@@ -15,7 +15,7 @@ import edu.ycp.cs320.Group_Project_Chess.model.User;
 public class PlayerTest {
 	private Player model;
 	private User user;
-	private int color = 1;
+	private int color;
 	private Credentials credentials;
 	private Stats stats;
 	private FriendsList friends;
@@ -43,6 +43,7 @@ public class PlayerTest {
 		profile = new Profile();
 		profile.setBio("yo yo yo this is a bio");
 		profile.setPicture(null);
+		color = 1;
 		user = new User(user.getCredentials(), user.getStats(), user.getFriends(), user.getProfile());
 		model = new Player(user, color);
 	}

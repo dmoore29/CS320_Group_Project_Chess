@@ -25,4 +25,8 @@ public class Space {
 	public Point getLocation() {
 		return location;
 	}
+	
+	public void setLocation(Point location) {
+		this.location = location;
+	}
 }

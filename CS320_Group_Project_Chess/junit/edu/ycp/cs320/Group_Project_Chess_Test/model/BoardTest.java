@@ -13,6 +13,7 @@ import java.awt.Point;
 public class BoardTest {
 	private Board model;
 	
+	//creating the game board
 	@Before
 	public void setUp() {
 		model = new Board();

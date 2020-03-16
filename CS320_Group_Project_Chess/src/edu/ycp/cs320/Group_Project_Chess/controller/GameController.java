@@ -4,7 +4,7 @@ import edu.ycp.cs320.Group_Project_Chess.model.Game;
 import edu.ycp.cs320.Group_Project_Chess.model.Space; 
 
 public class GameController {
-	private Game model;
+//	private Game model;
 	
 	/**
 	 * Set the model.
@@ -12,7 +12,7 @@ public class GameController {
 	 * @param model the model to set
 	 */
 	public void setModel(Game model) {
-		this.model = model;
+//		this.model = model;
 	}
 	
 	/**

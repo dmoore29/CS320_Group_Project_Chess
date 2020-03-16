@@ -9,7 +9,9 @@ import org.junit.Test;
 
 import edu.ycp.cs320.Group_Project_Chess.model.Board;
 import edu.ycp.cs320.Group_Project_Chess.model.Game;
+import edu.ycp.cs320.Group_Project_Chess.model.Knight;
 import edu.ycp.cs320.Group_Project_Chess.model.Player;
+import edu.ycp.cs320.Group_Project_Chess.model.Queen;
 import edu.ycp.cs320.Group_Project_Chess.model.Rank;
 import edu.ycp.cs320.Group_Project_Chess.model.User;
 
@@ -29,6 +31,10 @@ public class GameTest {
 	public void SetUp() {
 		player1 = new Player(user1, 0);
 		player2 = new Player(user2, 1);
+		oldBoard = new Board();
+		oldBoard.newGameBoard();
+		oldBoard.setPiece(new Knight(Rank.KNIGHT, 0, new Point(4, 4)));
+		oldBoard.setPiece(new Queen(Rank.QUEEN, 1, new Point(5, 4)));
 	}
 	
 	@Test
@@ -40,7 +46,12 @@ public class GameTest {
 		assertEquals(game.getBoard().getPiece(5, 6).getColor(), 0);
 	}
 	
+	@Test
 	public void previousGameTest() {
-		
+		game = new Game(player1, player2, oldBoard);
+		assertEquals(game.getBoard().getPiece(4, 4).getRank(), Rank.KNIGHT);
+		assertEquals(game.getBoard().getPiece(5, 4).getRank(), Rank.QUEEN);
+		assertEquals(game.getBoard().getPiece(4, 4).getColor(), 0);
+		assertEquals(game.getBoard().getPiece(5, 4).getColor(), 1);
 	}
 }

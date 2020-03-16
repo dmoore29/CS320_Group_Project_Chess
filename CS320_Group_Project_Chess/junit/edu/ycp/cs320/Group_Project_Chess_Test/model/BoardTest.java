@@ -9,32 +9,24 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-import edu.ycp.cs320.Group_Project_Chess.model.Profile;
+import edu.ycp.cs320.Group_Project_Chess.model.Board;
+import edu.ycp.cs320.Group_Project_Chess.model.Rank;
+import edu.ycp.cs320.Group_Project_Chess.model.Rook;
+import java.awt.Point;
 
 public class BoardTest {
-	private Profile model;
-	private BufferedImage img;
+	private Board model;
 	
 	@Before
 	public void setUp() {
-		model = new Profile();
-		
-		img = null;
-		try {
-		    img = ImageIO.read(new File("ProfilePictureSample.jpg"));
-		} catch (IOException e) {
-		}
+		model = new Board();
+		model.populateBoard();
 	}
 	
 	@Test
-	public void TestSetBio() {
-		model.setBio("This is my bio");
-		assertTrue("This is my bio" == model.getBio());
+	public void TestSetPiece() { //also tests getPiece
+		Rook rook = new Rook(Rank.ROOK, 0, new Point(4,4));
+		model.setPiece(4, 4, rook);
+		assertTrue(rook == model.getPiece(4, 4));
 	}
-	
-	@Test
-	public void TestSetPicture() {
-		model.setPicture(img);
-		assertTrue(img == model.getPicture());
-	}	
 }

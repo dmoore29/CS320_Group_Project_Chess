@@ -20,13 +20,13 @@ public class BoardTest {
 	@Before
 	public void setUp() {
 		model = new Board();
-		model.populateBoard();
+		model.newGameBoard();
 	}
 	
 	@Test
 	public void TestSetPiece() { //also tests getPiece
 		Rook rook = new Rook(Rank.ROOK, 0, new Point(4,4));
-		model.setPiece(4, 4, rook);
+		model.setPiece(rook);
 		assertTrue(rook == model.getPiece(4, 4));
 	}
 }

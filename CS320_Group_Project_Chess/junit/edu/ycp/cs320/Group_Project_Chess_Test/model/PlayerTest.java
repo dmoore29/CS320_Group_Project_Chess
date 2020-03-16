@@ -44,7 +44,7 @@ public class PlayerTest {
 		profile.setBio("yo yo yo this is a bio");
 		profile.setPicture(null);
 		color = 1;
-		user = new User(user.getCredentials(), user.getStats(), user.getFriends(), user.getProfile());
+		user = new User(credentials, stats, friends, profile);
 		model = new Player(user, color);
 	}
 	

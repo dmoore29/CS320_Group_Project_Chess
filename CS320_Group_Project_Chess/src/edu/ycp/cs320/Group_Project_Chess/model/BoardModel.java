@@ -1,4 +1,5 @@
 package edu.ycp.cs320.Group_Project_Chess.model;
+import java.awt.Point;
 
 public class BoardModel {
 	//Create an 8x8 array of Space objects.
@@ -8,9 +9,9 @@ public class BoardModel {
 	// have to be updated to include the starting pieces.
 	public void populateBoard() {
 		board = new Space[8][8];
-		for(int i = 0; i < board.length; i++) {
+		for(int i = 1; i <= board.length; i++) {
 			for(int j = 0; j < board[i].length; j++) {
-				board[i][j] = new Space(null, i*100, (i+1)*100, j*100, (j+1)*100);
+				board[i][j] = new Space(null, i*100, (i+1)*100, j*100, (j+1)*100, new Point(i,j));
 			}
 		}
 	}

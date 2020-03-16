@@ -4,7 +4,7 @@ import java.awt.Point;
 
 public abstract class Piece {
 	private Rank rank;
-	private int color; //0 for black, 1 for white
+	private int color; //1 for black, 0 for white
 	private Point location; //x , y; 0-7 , 0-7
 	
 	// Each piece will contain a rank and a player value. Higher 

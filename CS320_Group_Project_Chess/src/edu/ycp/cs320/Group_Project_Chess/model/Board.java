@@ -7,7 +7,7 @@ public class Board {
 	
 	// Sets the board to be completely empty. The board will
 	// have to be updated to include the starting pieces.
-	public void populateBoard() {
+	public void newGameBoard() {
 		board = new Space[8][8];
 		for(int i = 0; i < board.length; i++) {
 			for(int j = 0; j < board[i].length; j++) {
@@ -26,8 +26,8 @@ public class Board {
 	// Each space on the board will have a enum value between 0 and 5. 
 	// the 6 numbers will each represent a certain piece (pawn, rook, knight,
 	// bishop, queen, or king.
-	public void setPiece(int x, int y, Piece piece) {
-		this.board[x][y].setPiece(piece); ;
+	public void setPiece(Piece piece) {
+		this.board[piece.getLocation().x][piece.getLocation().y].setPiece(piece);
 	}
 	
 	
@@ -35,4 +35,5 @@ public class Board {
 	public Piece getPiece(int x, int y) {
 		return this.board[x][y].getPiece();
 	}
+	
 }

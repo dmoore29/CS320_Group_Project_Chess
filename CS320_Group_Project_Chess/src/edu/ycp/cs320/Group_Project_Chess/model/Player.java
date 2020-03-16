@@ -15,5 +15,6 @@ public class Player{
 	
 	public User getUser() {
 		return user;
+		
 	}
 }

@@ -2,7 +2,7 @@ package edu.ycp.cs320.Group_Project_Chess.model;
 
 public class Game {
 	
-	private BoardModel board;
+	private Board board;
 	private Piece[] capturedP1;
 	private Piece[] capturedP2;
 
@@ -11,11 +11,11 @@ public class Game {
 	// Updates the current state of the board. This function
 	// may not be useful, but its here in case we need it to 
 	// send the board between two players.
-	public void setBoard(BoardModel board) {
+	public void setBoard(Board board) {
 		this.board = board;
 	}
 	
-	public BoardModel getBoard() {
+	public Board getBoard() {
 		return board;
 	}
 	

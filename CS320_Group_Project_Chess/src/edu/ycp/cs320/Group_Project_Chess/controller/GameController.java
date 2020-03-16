@@ -67,7 +67,7 @@ public class GameController {
 	 * 
 	 * @param model   the model of the game
 	 */
-	public void killPiece(Game model) {
+	public void capturePiece(Game model) {
 		throw new UnsupportedOperationException("TODO - implement");
 	}
 }

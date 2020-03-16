@@ -1,7 +1,7 @@
 package edu.ycp.cs320.Group_Project_Chess.model;
 import java.awt.Point;
 
-public class BoardModel {
+public class Board {
 	//Create an 8x8 array of Space objects.
 	private Space[][] board;
 	

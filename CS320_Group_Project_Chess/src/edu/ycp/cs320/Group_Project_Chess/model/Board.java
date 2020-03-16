@@ -23,6 +23,10 @@ public class Board {
 		this.board = board;
 	}
 	
+	public Space getSpace(int xIndex, int yIndex) {
+		return this.board[xIndex][yIndex];
+	}
+	
 	// Each space on the board will have a enum value between 0 and 5. 
 	// the 6 numbers will each represent a certain piece (pawn, rook, knight,
 	// bishop, queen, or king.

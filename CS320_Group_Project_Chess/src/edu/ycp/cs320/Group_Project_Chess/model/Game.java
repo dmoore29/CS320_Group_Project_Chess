@@ -11,6 +11,7 @@ public class Game {
 	//constructor for a new game of chess
 	public Game(Player player1, Player player2) {
 		board = new Board();
+		board.newGameBoard();
 		this.player1 = player1;
 		this.player2 = player2;
 		

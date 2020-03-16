@@ -7,12 +7,12 @@ package edu.ycp.cs320.Group_Project_Chess.model;
 //    a call to model.getMin()
 
 public class Stats {
-	private double wins, losses, elo;
+	private int wins, losses, elo;
 	
 	public Stats() {
 	}
 	
-	public void setWins(double wins) {
+	public void setWins(int wins) {
 		this.wins = wins;
 	}
 	
@@ -20,7 +20,7 @@ public class Stats {
 		return wins;
 	}
 	
-	public void setLosses(double losses) {
+	public void setLosses(int losses) {
 		this.losses = losses;
 	}
 	
@@ -28,11 +28,11 @@ public class Stats {
 		return losses;
 	}
 	
-	public void setElo(double elo) {
+	public void setElo(int elo) {
 		this.elo = elo;
 	}
 	
-	public double getElo() {
+	public int getElo() {
 		return elo;
 	}
 }

@@ -4,7 +4,7 @@ import edu.ycp.cs320.Group_Project_Chess.model.Game;
 import edu.ycp.cs320.Group_Project_Chess.model.Space; 
 
 public class GameController {
-//	private Game model;
+	private Game model;
 	
 	/**
 	 * Set the model.
@@ -12,7 +12,7 @@ public class GameController {
 	 * @param model the model to set
 	 */
 	public void setModel(Game model) {
-//		this.model = model;
+		this.model = model;
 	}
 	
 	/**
@@ -37,8 +37,7 @@ public class GameController {
 	 * @param destination	the intended move space 
 	 */
 	public void movePiece(Game model, Space origin, Space destination) {
-		throw new UnsupportedOperationException("TODO - implement");
-//		model.getBoard().setPiece(, y, piece);
+		 model.getBoard().getSpace(destination.getLocation().x, destination.getLocation().y).setPiece(origin.getPiece());
 	}
 	
 	/**
@@ -68,7 +67,7 @@ public class GameController {
 	 * 
 	 * @param model   the model of the game
 	 */
-	public void killPiece(Game model) {
+	public void capturePiece(Game model) {
 		throw new UnsupportedOperationException("TODO - implement");
 	}
 }

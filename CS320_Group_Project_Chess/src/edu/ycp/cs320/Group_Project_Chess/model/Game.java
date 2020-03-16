@@ -24,22 +24,14 @@ public class Game {
 			board.setPiece(new Pawn(Rank.PAWN, 0, new Point(i, 6)));
 		}
 		
-		//create knights
+		//create knights, rooks, and bishops
 		for(int i = 0; i < 2; i++){
 			board.setPiece(new Pawn(Rank.KNIGHT, 1, new Point((i*5)+1, 0)));
-			board.setPiece(new Pawn(Rank.KNIGHT, 0, new Point((i*5)+1, 7)));		
-		}
-		
-		//create rooks
-		for(int i = 0; i < 2; i++){
+			board.setPiece(new Pawn(Rank.KNIGHT, 0, new Point((i*5)+1, 7)));
 			board.setPiece(new Pawn(Rank.ROOK, 1, new Point((i*7), 0)));
 			board.setPiece(new Pawn(Rank.ROOK, 0, new Point((i*7), 7)));
-		}
-		
-		//create bishops
-		for(int i = 0; i < 2; i++){
 			board.setPiece(new Pawn(Rank.BISHOP, 1, new Point((i*3)+2, 0)));
-			board.setPiece(new Pawn(Rank.BISHOP, 0, new Point((i*3)+2, 7)));	
+			board.setPiece(new Pawn(Rank.BISHOP, 0, new Point((i*3)+2, 7)));
 		}
 		
 		//create kings

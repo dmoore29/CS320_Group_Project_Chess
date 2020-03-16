@@ -11,7 +11,7 @@ public class GameController {
 	 * 
 	 * @param model the model to set
 	 */
-	public void setModel(Game model) {
+	public GameController(Game model) {
 		this.model = model;
 	}
 	
@@ -24,7 +24,7 @@ public class GameController {
 	 * @return false if the intended move is not allowed,
 	 *     true if the intended move is allowed.
 	 */
-	public boolean validMove(Game model, Space origin, Space destination) {
+	public boolean validMove(Space origin, Space destination) {
 		throw new UnsupportedOperationException("TODO - implement");
 //		model.getBoard().get
 	}
@@ -36,8 +36,15 @@ public class GameController {
 	 * @param origin	the starting space
 	 * @param destination	the intended move space 
 	 */
-	public void movePiece(Game model, Space origin, Space destination) {
+	public void movePiece(Space origin, Space destination) {
+		// Set the piece of the 'destination' space equal to the piece from the 'origin' space.
 		 model.getBoard().getSpace(destination.getLocation().x, destination.getLocation().y).setPiece(origin.getPiece());
+		 
+		//Change the location in the piece that was just moved.
+		model.getBoard().getSpace(destination.getLocation().x, destination.getLocation().y).getPiece().setLocation(destination.getLocation());
+	
+		// Change the piece of the 'origin' space to null. The space is now empty.
+		model.getBoard().getSpace(origin.getLocation().x, origin.getLocation().y).setPiece(null);
 	}
 	
 	/**
@@ -47,7 +54,7 @@ public class GameController {
 	 * @return false if the move did not set the player in check,
 	 *     true if the move did set the player in check.
 	 */
-	public boolean check(Game model) {
+	public boolean check() {
 		throw new UnsupportedOperationException("TODO - implement");
 	}
 	
@@ -58,7 +65,7 @@ public class GameController {
 	 * @return false if the move did not set the player in checkmate,
 	 *     true if the move did set the player in checkmate.
 	 */
-	public boolean checkmate(Game model) {
+	public boolean checkmate() {
 		throw new UnsupportedOperationException("TODO - implement");
 	}
 	
@@ -67,7 +74,7 @@ public class GameController {
 	 * 
 	 * @param model   the model of the game
 	 */
-	public void capturePiece(Game model) {
+	public void capturePiece() {
 		throw new UnsupportedOperationException("TODO - implement");
 	}
 }

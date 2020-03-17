@@ -75,4 +75,21 @@ public class GameControllerTest {
 		// Test to see if space(1,0) is now empty.
 		assertNull(game.getBoard().getSpace(1, 0).getPiece());
 	}
+	
+	@Test
+	public void testCheck() {
+		throw new UnsupportedOperationException("TODO - implement");
+	}
+	
+	@Test
+	public void testValidMove() {
+		throw new UnsupportedOperationException("TODO - implement");
+	}
+	
+	@Test
+	public void testCheckMate() {
+		throw new UnsupportedOperationException("TODO - implement");
+	}
+	
+	
 }

@@ -68,13 +68,4 @@ public class GameController {
 	public boolean checkmate() {
 		throw new UnsupportedOperationException("TODO - implement");
 	}
-	
-	/**
-	 * Removes the piece from the board and sets it in the dead pile.
-	 * 
-	 * @param model   the model of the game
-	 */
-	public void capturePiece() {
-		throw new UnsupportedOperationException("TODO - implement");
-	}
 }

@@ -7,10 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.Group_Project_Chess.model.Game;
-import edu.ycp.cs320.Group_Project_Chess.controller.GameController;
-import edu.ycp.cs320.Group_Project_Chess.model.Player;
-import edu.ycp.cs320.Group_Project_Chess.model.User;
+import edu.ycp.cs320.Group_Project_Chess.model.*;
 
 
 public class ChessGameServlet extends HttpServlet {
@@ -22,9 +19,23 @@ public class ChessGameServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
+		//TEMPORARY PERSISTANT MEMORY
+	  	Profile pr1 = new Profile();
+	  	FriendsList f1 = new FriendsList();
+	  	Stats s1 = new Stats();
+	  	Credentials c1 = new Credentials("a", "b", "c");
+	  	Credentials c2 = new Credentials("d", "e", "f");
+		User u1 = new User(c1, s1, f1, pr1);
+		User u2 = new User(c2, s1, f1, pr1);
+		Player p1 = new Player(u1, 0);
+		Player p2 = new Player(u2, 1);
+		Game game = new Game(p1, p2);
+		
 		System.out.println("ChessGame Servlet: doGet");
 		
 		req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
+		
+		
 		
 	}
 	
@@ -69,7 +80,8 @@ public class ChessGameServlet extends HttpServlet {
 
 
 
-//My attempt at passing model into the view
+//My attempt at passing model into the view, Use to reference later
+
 /*
 package edu.ycp.cs320.Group_Project_Chess.servlet;
 

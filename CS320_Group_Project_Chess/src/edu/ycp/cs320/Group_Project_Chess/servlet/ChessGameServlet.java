@@ -31,6 +31,7 @@ public class ChessGameServlet extends HttpServlet {
 		Player p2 = new Player(u2, 1);
 		Game game = new Game(p1, p2);
 		
+		req.setAttribute("model", game);
 		System.out.println("ChessGame Servlet: doGet");
 		
 		req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);

@@ -18,6 +18,17 @@
 			<input name="profile" type="submit" value="Profile" />
 			<input name="friends" type="submit" value="Friends" />
 		</div>
+		<table class="board">
+			<tr>
+				
+			</tr>
+		
+		
+		
+		
+		
+		
+		</table>
 	</form>
 </body>
 

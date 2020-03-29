@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.ycp.cs320.Group_Project_Chess.controller.GameController;
 import edu.ycp.cs320.Group_Project_Chess.model.*;
 
 
@@ -24,7 +25,18 @@ public class ChessGameServlet extends HttpServlet {
 	Player p1 = new Player(u1, 0);
 	Player p2 = new Player(u2, 1);
 	Game game = new Game(p1, p2);
+	
+	GameController controller = new GameController(game);
+	
+	//TEMP MOVE DATA
 	Boolean pos1Recieved = false;
+	int sourceX;
+	int sourceY;
+	int destX;
+	int destY;
+
+	
+	
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -65,8 +77,12 @@ public class ChessGameServlet extends HttpServlet {
 		if(req.getParameter("x1") != null && pos1Recieved == false) {
 			pos1Recieved = true;
 			System.out.println("Recieved Position 1");
-			System.out.println(req.getParameter("x1"));
-			System.out.println(req.getParameter("y1"));
+			
+			sourceX = Integer.parseInt(req.getParameter("x1"));
+			sourceY = Integer.parseInt(req.getParameter("y1"));
+			
+			System.out.println(sourceX);
+			System.out.println(sourceY);
 			
 			req.setAttribute("model", game);
 			System.out.println("ChessGame Servlet: doGet");
@@ -77,12 +93,17 @@ public class ChessGameServlet extends HttpServlet {
 		else if(req.getParameter("x1") != null && pos1Recieved == true) {
 			pos1Recieved = false;
 			System.out.println("Recieved Position 2");
-			System.out.println(req.getParameter("x1"));
-			System.out.println(req.getParameter("y1"));
+			
+			destX = Integer.parseInt(req.getParameter("x1"));
+			destY = Integer.parseInt(req.getParameter("y1"));
+			
+			System.out.println(destX);
+			System.out.println(destY);
+				
+			controller.movePiece(game.getBoard().getSpace(sourceX, sourceY), game.getBoard().getSpace(destX, destY));
 			
 			req.setAttribute("model", game);
 			System.out.println("ChessGame Servlet: doGet");
-			
 			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
 		}
 	}

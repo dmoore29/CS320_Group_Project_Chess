@@ -3,7 +3,8 @@ package edu.ycp.cs320.Group_Project_Chess.model;
 import java.awt.Point;
 
 public class Game {
-	
+	private int gameId;
+	private int userId;
 	private Board board;
 	private Player player1;
 	private Player player2;
@@ -63,6 +64,20 @@ public class Game {
 		return board;
 	}
 	
+	public void setUserId(int id) {
+		this.userId = id;
+	}
 	
+	public void setGameId(int id) {
+		this.gameId = id;
+	}
+	
+	public int getUserId() {
+		return userId;
+	}
+	
+	public int getGameId() {
+		return gameId;
+	}
 	
 }

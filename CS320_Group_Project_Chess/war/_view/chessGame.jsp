@@ -7,6 +7,9 @@
 
 <head>
 	<title>Chess Game</title>
+	<style type="text/css">
+	<%@include file="/chessGame.css" %>
+	</style>
 </head>
 
 <body>

@@ -10,8 +10,14 @@ import java.awt.image.BufferedImage;
 public class Profile {
 	private String bio;
 	private BufferedImage picture;
+	private int pictureNumber;
 	
 	public Profile() {
+	}
+	
+	public Profile(String bio, int pictureNumber) {
+		this.bio = bio;
+		this.pictureNumber = pictureNumber;
 	}
 	
 	public void setBio(String bio) {

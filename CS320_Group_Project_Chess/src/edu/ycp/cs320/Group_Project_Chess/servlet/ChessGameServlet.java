@@ -12,31 +12,28 @@ import edu.ycp.cs320.Group_Project_Chess.model.*;
 
 public class ChessGameServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	User u1;
-	User u2;
+	
+	//TEMPORARY PERSISTANT MEMORY
+  	Profile pr1 = new Profile();
+  	FriendsList f1 = new FriendsList();
+  	Stats s1 = new Stats();
+  	Credentials c1 = new Credentials("a", "b", "c");
+  	Credentials c2 = new Credentials("d", "e", "f");
+	User u1 = new User(c1, s1, f1, pr1);
+	User u2 = new User(c2, s1, f1, pr1);
+	Player p1 = new Player(u1, 0);
+	Player p2 = new Player(u2, 1);
+	Game game = new Game(p1, p2);
+	Boolean pos1Recieved = false;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		//TEMPORARY PERSISTANT MEMORY
-	  	Profile pr1 = new Profile();
-	  	FriendsList f1 = new FriendsList();
-	  	Stats s1 = new Stats();
-	  	Credentials c1 = new Credentials("a", "b", "c");
-	  	Credentials c2 = new Credentials("d", "e", "f");
-		User u1 = new User(c1, s1, f1, pr1);
-		User u2 = new User(c2, s1, f1, pr1);
-		Player p1 = new Player(u1, 0);
-		Player p2 = new Player(u2, 1);
-		Game game = new Game(p1, p2);
-		
 		req.setAttribute("model", game);
 		System.out.println("ChessGame Servlet: doGet");
 		
 		req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
-		
-		
 		
 	}
 	
@@ -64,6 +61,29 @@ public class ChessGameServlet extends HttpServlet {
 		if (req.getParameter("friends") != null) {
 			System.out.println("ChessGame Servlet: forwarding to friends");
 			req.getRequestDispatcher("/_view/friends.jsp").forward(req, resp);
+		}
+		if(req.getParameter("x1") != null && pos1Recieved == false) {
+			pos1Recieved = true;
+			System.out.println("Recieved Position 1");
+			System.out.println(req.getParameter("x1"));
+			System.out.println(req.getParameter("y1"));
+			
+			req.setAttribute("model", game);
+			System.out.println("ChessGame Servlet: doGet");
+			
+			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
+		} 
+		
+		else if(req.getParameter("x1") != null && pos1Recieved == true) {
+			pos1Recieved = false;
+			System.out.println("Recieved Position 2");
+			System.out.println(req.getParameter("x1"));
+			System.out.println(req.getParameter("y1"));
+			
+			req.setAttribute("model", game);
+			System.out.println("ChessGame Servlet: doGet");
+			
+			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
 		}
 	}
 }

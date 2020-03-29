@@ -3,10 +3,15 @@ package edu.ycp.cs320.Group_Project_Chess.model;
 import java.util.ArrayList;
 
 public class FriendsList {
+	private int friendsId;
 	private ArrayList<String> friendsList = new ArrayList<String>();
 	
 	public FriendsList() {
 		
+	}
+	
+	public FriendsList(int friendsId) {
+		this.friendsId = friendsId;
 	}
 	
 	public ArrayList<String> getFriendsList() {

@@ -12,6 +12,12 @@ public class Stats {
 	public Stats() {
 	}
 	
+	public Stats(int wins, int losses, int elo) {
+		this.wins = wins;
+		this.losses = losses;
+		this.elo = elo;
+	}
+	
 	public void setWins(int wins) {
 		this.wins = wins;
 	}

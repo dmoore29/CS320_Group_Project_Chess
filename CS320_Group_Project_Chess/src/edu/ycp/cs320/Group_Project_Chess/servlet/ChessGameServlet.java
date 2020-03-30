@@ -1,5 +1,6 @@
 package edu.ycp.cs320.Group_Project_Chess.servlet;
 
+import java.awt.Point;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -99,8 +100,15 @@ public class ChessGameServlet extends HttpServlet {
 			
 			System.out.println(destX);
 			System.out.println(destY);
-				
-			controller.movePiece(game.getBoard().getSpace(sourceX, sourceY), game.getBoard().getSpace(destX, destY));
+			
+			if(game.getBoard().getSpace(sourceX, sourceY).getPiece() != null) {
+				if(game.getBoard().getSpace(sourceX, sourceY).getPiece().validMove(new Point(destX, destY), game.getBoard()) == true) {				
+					controller.movePiece(game.getBoard().getSpace(sourceX, sourceY), game.getBoard().getSpace(destX, destY));
+					System.out.println("VALID");
+				} else {
+					System.out.println("NOT VALID");
+				}
+			}
 			
 			req.setAttribute("model", game);
 			System.out.println("ChessGame Servlet: doGet");

@@ -100,7 +100,7 @@ public class InitialData {
 		}
 	}
 	
-	public static List<Game> getGames() throws IOException {
+	public static List<Game> getGames(ArrayList<Board> boardList) throws IOException {
 		List<Game> gameList = new ArrayList<Game>();
 		ReadCSV readGames = new ReadCSV("games.csv");
 		try {
@@ -112,7 +112,14 @@ public class InitialData {
 					break;
 				}
 				Iterator<String> i = tuple.iterator();
-				Game game = new Game(new Player(Integer.parseInt(i.next())), new Player(Integer.parseInt(i.next())), new Board(Integer.parseInt(i.next())));
+				int boardId = Integer.parseInt(i.next());
+				Board fillBoard = new Board();
+				for (Board board: boardList) {
+					if (board.getBoardId() == boardId) {
+						fillBoard = board;
+					}
+				}
+				Game game = new Game(new Player(Integer.parseInt(i.next())), new Player(Integer.parseInt(i.next())), fillBoard);
 				game.setGameId(gameId++);
 				gameList.add(game);
 			}

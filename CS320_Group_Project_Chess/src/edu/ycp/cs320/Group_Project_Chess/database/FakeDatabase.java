@@ -26,7 +26,7 @@ public class FakeDatabase{
 		try {
 			userList.addAll(InitialData.getUsers());
 			boardList.addAll(InitialData.getBoards());
-			gameList.addAll(InitialData.getGames());
+			gameList.addAll(InitialData.getGames(boardList));
 		} catch (IOException e) {
 			throw new IllegalStateException("Couldn't read initial data", e);
 		}

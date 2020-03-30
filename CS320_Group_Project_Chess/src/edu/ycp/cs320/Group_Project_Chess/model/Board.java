@@ -10,6 +10,7 @@ public class Board {
 	
 	public Board(int boardId) {
 		this.boardId = boardId;
+		
 	}
 	
 	// Sets the board to be completely empty. The board will
@@ -45,6 +46,10 @@ public class Board {
 	// Returns the value of the piece occupying a specific space.
 	public Piece getPiece(int x, int y) {
 		return this.board[x][y].getPiece();
+	}
+	
+	public void setBoardId(int boardId) {
+		this.boardId = boardId;
 	}
 	
 	public int getBoardId() {

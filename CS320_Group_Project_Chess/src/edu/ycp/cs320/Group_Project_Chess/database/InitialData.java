@@ -1,5 +1,6 @@
 package edu.ycp.cs320.Group_Project_Chess.database;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,8 +10,13 @@ import edu.ycp.cs320.Group_Project_Chess.model.Board;
 import edu.ycp.cs320.Group_Project_Chess.model.Credentials;
 import edu.ycp.cs320.Group_Project_Chess.model.FriendsList;
 import edu.ycp.cs320.Group_Project_Chess.model.Game;
+import edu.ycp.cs320.Group_Project_Chess.model.Pawn;
+import edu.ycp.cs320.Group_Project_Chess.model.Piece;
 import edu.ycp.cs320.Group_Project_Chess.model.Player;
 import edu.ycp.cs320.Group_Project_Chess.model.Profile;
+import edu.ycp.cs320.Group_Project_Chess.model.Rank;
+import edu.ycp.cs320.Group_Project_Chess.model.Rook;
+import edu.ycp.cs320.Group_Project_Chess.model.Space;
 import edu.ycp.cs320.Group_Project_Chess.model.Stats;
 import edu.ycp.cs320.Group_Project_Chess.model.User;
 
@@ -34,6 +40,45 @@ public class InitialData {
 			return userList;
 		} finally {
 			readUsers.close();
+		}
+	}
+	
+	public static List<Board> getBoards() throws IOException {
+		List<Board> boardList = new ArrayList<Board>();
+		ReadCSV readBoards = new ReadCSV("boards.csv");
+		try {
+			// auto-generated primary key for games table
+			int boardId = 1;
+			while (true) {
+				List<String> tuple = readBoards.next();
+				if (tuple == null) {
+					break;
+				}
+				
+				Iterator<String> i = tuple.iterator();
+				Space[][] space = new Space[8][8];
+				for (int y = 0; y < 8; y++) {
+					for (int x = 0; x < 8; x++) {
+						Point location = new Point(x, y);
+						int rank = Integer.parseInt(i.next());
+						switch(rank) {
+						case(0):
+							space[x][y] = new Space(new Pawn(Rank.PAWN, Integer.parseInt(i.next()), location), location);
+							break;
+						case(1):
+							
+						}
+						space[x][y] = new Space(new Rook(Rank.ROOK, Integer.parseInt(i.next()), location), location);
+					}
+				}
+				
+				Board board = new Board(boardId++);
+				board.setBoard(space);
+				boardList.add(board);
+			}
+			return boardList;
+		} finally {
+			readBoards.close();
 		}
 	}
 	

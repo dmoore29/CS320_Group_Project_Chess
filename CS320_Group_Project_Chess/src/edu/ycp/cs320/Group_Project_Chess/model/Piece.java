@@ -3,9 +3,9 @@ package edu.ycp.cs320.Group_Project_Chess.model;
 import java.awt.Point;
 
 public abstract class Piece {
-	private Rank rank;
-	private int color; //1 for black, 0 for white
-	private Point location; //x , y; 0-7 , 0-7
+	protected Rank rank;
+	protected int color; //1 for black, 0 for white
+	protected Point location; //x , y; 0-7 , 0-7
 	
 	// Each piece will contain a rank and a player value. Higher 
 	// ranking pieces will be able to over take lower ranking pieces

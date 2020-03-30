@@ -67,11 +67,17 @@ public class PawnTest {
 		//check move 1 space backwards 
 		assertFalse(board.getPiece(3, 6).validMove(new Point(3, 7), board));
 		
-		//check move diagonally +x -y
+		//check move forward diagonally +x -y
 		assertFalse(board.getPiece(3, 6).validMove(new Point(4, 5), board));
 		
-		//check move diagonally -x -y
+		//check move forward diagonally -x -y
 		assertFalse(board.getPiece(3, 6).validMove(new Point(2, 5), board));
+		
+		//check move backward diagonally +x +y
+		assertFalse(board.getPiece(3, 6).validMove(new Point(4, 7), board));
+		
+		//check move backward diagonally -x +y
+		assertFalse(board.getPiece(3, 6).validMove(new Point(2, 7), board));
 		
 		//check capture +x -y
 		board.setPiece(new Pawn(Rank.PAWN, 1, new Point(4, 5)));

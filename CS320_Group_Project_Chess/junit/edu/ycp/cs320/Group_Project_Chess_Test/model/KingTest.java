@@ -36,4 +36,9 @@ public class KingTest {
 	public void TestGetLocation() {
 		assertEquals(king.getLocation(), new Point(4, 0));
 	}
+	
+	@Test
+	public void TestValidMove() {
+		
+	}
 }

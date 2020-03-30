@@ -36,4 +36,9 @@ public class BishopTest {
 	public void TestGetLocation() {
 		assertEquals(bishop.getLocation(), new Point(4, 0));
 	}
+	
+	@Test
+	public void TestValidMove() {
+		
+	}
 }

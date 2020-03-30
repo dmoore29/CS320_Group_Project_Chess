@@ -36,4 +36,9 @@ public class RookTest {
 	public void TestGetLocation() {
 		assertEquals(rook.getLocation(), new Point(4, 0));
 	}
+	
+	@Test
+	public void TestValidMove() {
+		
+	}
 }

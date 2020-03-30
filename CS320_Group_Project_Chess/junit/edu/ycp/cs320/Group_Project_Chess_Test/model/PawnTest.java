@@ -37,4 +37,9 @@ public class PawnTest {
 	public void TestGetLocation() {
 		assertEquals(pawn.getLocation(), new Point(4, 0));
 	}
+	
+	@Test
+	public void TestValidMove() {
+		
+	}
 }

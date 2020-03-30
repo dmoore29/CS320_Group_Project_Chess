@@ -33,11 +33,15 @@ public class Pawn extends Piece {
 			return true;			
 		} else if (color == 1 //piece is black, captures piece down 1 and 1 to either side
 				&& (dest.x == location.x+1 || dest.x == location.x-1)
-				&& dest.y == location.y+1){
+				&& dest.y == location.y+1
+				&& board.getSpace(dest.x, dest.y).getPiece().getColor() != color
+				&& board.getSpace((int)dest.getX(), (int)dest.getY()).getPiece() != null ){
 			return true;
 		} else if (color == 0 //piece is white, captures piece up 1 and 1 to either side
 				&& (dest.x == location.x+1 || dest.x == location.x-1)
-				&& dest.y == location.y-1){
+				&& dest.y == location.y-1
+				&& board.getSpace(dest.x, dest.y).getPiece().getColor() != color
+				&& board.getSpace((int)dest.getX(), (int)dest.getY()).getPiece() != null ){
 			return true;
 		} else {
 		return false;

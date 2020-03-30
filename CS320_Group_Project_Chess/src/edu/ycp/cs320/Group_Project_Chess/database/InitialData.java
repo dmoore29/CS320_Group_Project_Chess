@@ -41,7 +41,7 @@ public class InitialData {
 		List<Game> gameList = new ArrayList<Game>();
 		ReadCSV readGames = new ReadCSV("games.csv");
 		try {
-			// auto-generated primary key for books table
+			// auto-generated primary key for games table
 			int gameId = 1;
 			while (true) {
 				List<String> tuple = readGames.next();

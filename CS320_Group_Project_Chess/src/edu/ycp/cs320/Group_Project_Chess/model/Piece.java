@@ -40,5 +40,5 @@ public abstract class Piece {
 		return location;
 	}
 	
-	public abstract Boolean validMove(Point location);
+	public abstract Boolean validMove(Point location, Board board);
 }

@@ -6,14 +6,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import edu.ycp.cs320.Group_Project_Chess.model.Bishop;
 import edu.ycp.cs320.Group_Project_Chess.model.Board;
 import edu.ycp.cs320.Group_Project_Chess.model.Credentials;
 import edu.ycp.cs320.Group_Project_Chess.model.FriendsList;
 import edu.ycp.cs320.Group_Project_Chess.model.Game;
+import edu.ycp.cs320.Group_Project_Chess.model.King;
+import edu.ycp.cs320.Group_Project_Chess.model.Knight;
 import edu.ycp.cs320.Group_Project_Chess.model.Pawn;
-import edu.ycp.cs320.Group_Project_Chess.model.Piece;
 import edu.ycp.cs320.Group_Project_Chess.model.Player;
 import edu.ycp.cs320.Group_Project_Chess.model.Profile;
+import edu.ycp.cs320.Group_Project_Chess.model.Queen;
 import edu.ycp.cs320.Group_Project_Chess.model.Rank;
 import edu.ycp.cs320.Group_Project_Chess.model.Rook;
 import edu.ycp.cs320.Group_Project_Chess.model.Space;
@@ -61,14 +64,29 @@ public class InitialData {
 					for (int x = 0; x < 8; x++) {
 						Point location = new Point(x, y);
 						int rank = Integer.parseInt(i.next());
+						int color = Integer.parseInt(i.next());
 						switch(rank) {
-						case(0):
-							space[x][y] = new Space(new Pawn(Rank.PAWN, Integer.parseInt(i.next()), location), location);
+						case 0:
+							space[x][y] = new Space(new Pawn(Rank.PAWN, color, location), location);
 							break;
-						case(1):
-							
+						case 1:
+							space[x][y] = new Space(new Rook(Rank.ROOK, color, location), location);
+							break;
+						case 2:
+							space[x][y] = new Space(new Knight(Rank.KNIGHT, color, location), location);
+							break;
+						case 3:
+							space[x][y] = new Space(new Bishop(Rank.BISHOP, color, location), location);
+							break;
+						case 4:
+							space[x][y] = new Space(new Queen(Rank.QUEEN, color, location), location);
+							break;
+						case 5:
+							space[x][y] = new Space(new King(Rank.KING, color, location), location);
+							break;
+						default:
+							space[x][y] = new Space(null, location);
 						}
-						space[x][y] = new Space(new Rook(Rank.ROOK, Integer.parseInt(i.next()), location), location);
 					}
 				}
 				

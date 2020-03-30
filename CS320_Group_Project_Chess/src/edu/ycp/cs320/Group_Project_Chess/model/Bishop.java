@@ -9,7 +9,7 @@ public class Bishop extends Piece {
 	}
 
 	@Override
-	public  Boolean validMove(Point location, Board board) {
+	public  Boolean validMove(Point dest, Board board) {
 		return false; //FINISH IMPLEMENTING
 	}
 }

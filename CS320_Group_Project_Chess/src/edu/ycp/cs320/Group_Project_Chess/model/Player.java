@@ -1,6 +1,7 @@
 package edu.ycp.cs320.Group_Project_Chess.model;
 
 public class Player{
+	private int playerId;
 	private int color;
 	private User user;
 	
@@ -9,12 +10,19 @@ public class Player{
 		this.color = color;
 	}
 	
+	public Player(int playerId) {
+		this.playerId = playerId;
+	}
+	
 	public int getColor() {
 		return color;
 	}
 	
 	public User getUser() {
 		return user;
-		
+	}
+	
+	public int getPlayerId() {
+		return playerId;
 	}
 }

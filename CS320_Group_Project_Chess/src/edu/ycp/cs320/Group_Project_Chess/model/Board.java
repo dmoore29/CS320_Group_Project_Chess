@@ -3,7 +3,14 @@ import java.awt.Point;
 
 public class Board {
 	//Create an 8x8 array of Space objects.
+	private int boardId;
 	private Space[][] board;
+	
+	public Board() {}
+	
+	public Board(int boardId) {
+		this.boardId = boardId;
+	}
 	
 	// Sets the board to be completely empty. The board will
 	// have to be updated to include the starting pieces.
@@ -38,6 +45,10 @@ public class Board {
 	// Returns the value of the piece occupying a specific space.
 	public Piece getPiece(int x, int y) {
 		return this.board[x][y].getPiece();
+	}
+	
+	public int getBoardId() {
+		return boardId;
 	}
 	
 }

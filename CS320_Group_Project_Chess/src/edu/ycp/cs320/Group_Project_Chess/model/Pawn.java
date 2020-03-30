@@ -9,7 +9,7 @@ public class Pawn extends Piece {
 	}
 
 	@Override
-	public  Boolean validMove(Point location) {
+	public  Boolean validMove(Point location, Board board) {
 		return false; //FINISH IMPLEMENTING
 	}
 }

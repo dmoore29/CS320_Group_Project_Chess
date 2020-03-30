@@ -9,7 +9,10 @@ public class Pawn extends Piece {
 	}
 
 	@Override
-	public  Boolean validMove(Point location, Board board) {
+	public  Boolean validMove(Point dest, Board board) {
+//		if(board.getSpace(location.getX(), location.getY())) {
+//			
+//		}
 		return false; //FINISH IMPLEMENTING
 	}
 }

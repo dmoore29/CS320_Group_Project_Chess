@@ -13,11 +13,13 @@ public class Pawn extends Piece {
 	public  Boolean validMove(Point dest, Board board) {
 		if(color == 1 //piece is black, moving 1 down
 				&& board.getSpace((int)dest.getX(), (int)dest.getY()).getPiece() == null 
-				&& dest.getY() == location.getY()+1) {
+				&& dest.getY() == location.getY()+1
+				&& dest.x == location.x) {
 			return true;
 		} else if (color == 0 //piece is white, moving 1 up
 				&& board.getSpace((int)dest.getX(), (int)dest.getY()).getPiece() == null 
-				&& dest.getY() == location.getY()-1) {
+				&& dest.getY() == location.getY()-1
+				&& dest.x == location.x) {
 			return true;
 		} else if (color == 1 //piece is black, moving 2 down from start
 				&& board.getSpace((int)dest.getX(), (int)dest.getY()).getPiece() == null 
@@ -34,17 +36,20 @@ public class Pawn extends Piece {
 		} else if (color == 1 //piece is black, captures piece down 1 and 1 to either side
 				&& (dest.x == location.x+1 || dest.x == location.x-1)
 				&& dest.y == location.y+1
-				&& board.getSpace(dest.x, dest.y).getPiece().getColor() != color
 				&& board.getSpace((int)dest.getX(), (int)dest.getY()).getPiece() != null ){
-			return true;
+			if(board.getSpace(dest.x, dest.y).getPiece().getColor() != color) {
+				return true;
+			}
 		} else if (color == 0 //piece is white, captures piece up 1 and 1 to either side
 				&& (dest.x == location.x+1 || dest.x == location.x-1)
 				&& dest.y == location.y-1
-				&& board.getSpace(dest.x, dest.y).getPiece().getColor() != color
 				&& board.getSpace((int)dest.getX(), (int)dest.getY()).getPiece() != null ){
-			return true;
+			if(board.getSpace(dest.x, dest.y).getPiece().getColor() != color) {
+				return true;
+			}
 		} else {
 		return false;
 		}
+		return null;
 	}
 }

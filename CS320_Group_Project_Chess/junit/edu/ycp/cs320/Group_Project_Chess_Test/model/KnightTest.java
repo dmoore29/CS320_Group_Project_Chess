@@ -36,4 +36,9 @@ public class KnightTest {
 	public void TestGetLocation() {
 		assertEquals(knight.getLocation(), new Point(4, 0));
 	}
+	
+	@Test
+	public void TestValidMove() {
+		
+	}
 }

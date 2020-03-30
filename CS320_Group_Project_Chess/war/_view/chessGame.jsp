@@ -38,6 +38,7 @@
 	<form name="requestForm" method="post">
 		<input type="hidden" name="x1">
 		<input type="hidden" name="y1">
+		<div class='space'>
 		<table class="board">
 			<% for (int y = 0; y < 8; y++ ) { %>
 			<tr>
@@ -80,6 +81,7 @@
 			</tr> 
 			<% } %> 
 		</table> 
+		</div>
 		</input>
 		</form>
 	</body> 

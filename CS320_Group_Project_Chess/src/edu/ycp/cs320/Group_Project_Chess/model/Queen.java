@@ -9,11 +9,7 @@ public class Queen extends Piece {
 	}
 
 	@Override
-	public void move() {
-		// TODO Auto-generated method stub
-		
+	public  Boolean validMove(Point location) {
+		return false; //FINISH IMPLEMENTING
 	}
-	
-	
-	
 }

@@ -9,22 +9,7 @@ public class Rook extends Piece {
 	}
 
 	@Override
-	public void move() {
-		// TODO Auto-generated method stub
-		
+	public  Boolean validMove(Point location) {
+		return false; //FINISH IMPLEMENTING
 	}
-	
-	public boolean isValid(Space origin, Space destination) {
-		
-		// If the origin and destination have the same x or y value. The move is valid.
-		// This would indicate that the piece is moving horizontally or vertically.
-		
-		if((origin.getLocation().x == destination.getLocation().x) || (origin.getLocation().y == destination.getLocation().y)) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	
 }

@@ -45,6 +45,7 @@ public class PawnTest {
 	
 	@Test
 	public void TestValidMove() {
+		/////WHITE PAWN/////
 		//check move 1 space forward 
 		assertTrue(board.getPiece(3, 6).validMove(new Point(3, 5), board));
 		
@@ -63,8 +64,23 @@ public class PawnTest {
 		assertFalse(board.getPiece(3, 5).validMove(new Point(2, 5), board));
 		assertFalse(board.getPiece(3, 5).validMove(new Point(2, 5), board));
 		
+		//check move 1 space backwards 
+		assertFalse(board.getPiece(3, 6).validMove(new Point(3, 7), board));
 		
+		//check move diagonally +x -y
+		assertFalse(board.getPiece(3, 6).validMove(new Point(4, 5), board));
 		
+		//check move diagonally -x -y
+		assertFalse(board.getPiece(3, 6).validMove(new Point(2, 5), board));
 		
+		//check capture +x -y
+		board.setPiece(new Pawn(Rank.PAWN, 1, new Point(4, 5)));
+		assertTrue(board.getPiece(3, 6).validMove(new Point(4, 5), board));
+		
+		//check capture -x -y
+		board.setPiece(new Pawn(Rank.PAWN, 1, new Point(2, 5)));
+		assertTrue(board.getPiece(3, 6).validMove(new Point(2, 5), board));
+		/////WHITE PAWN/////
+				
 	}
 }

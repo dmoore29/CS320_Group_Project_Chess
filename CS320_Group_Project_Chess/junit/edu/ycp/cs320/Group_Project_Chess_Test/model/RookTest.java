@@ -24,8 +24,8 @@ public class RookTest {
 	public void SetUp() {
 		rook = new Rook(Rank.ROOK, 0, new Point(4, 0));
 		board.newGameBoard();
-		board.setPiece(new Pawn(Rank.ROOK, 0, new Point(0, 7)));
-		board.setPiece(new Pawn(Rank.ROOK, 0, new Point(4, 3))); //central piece
+		board.setPiece(new Rook(Rank.ROOK, 0, new Point(0, 7)));
+		board.setPiece(new Rook(Rank.ROOK, 0, new Point(4, 3))); //central piece
 	}
 	
 	@Test

@@ -26,25 +26,38 @@ public class Bishop extends Piece {
 			}
 		}
 		
-		for(int i=0; i< Math.abs(location.x - dest.x); i++) { //in between spaces
-			if(board.getSpace(location.x+i, location.y+i).getPiece() != null) {//down, right
+		for(int i=1; i< Math.abs(location.x - dest.x); i++) { //in between spaces
+			if(location.x < dest.x
+					&& location.y < dest.y) { //prevents crash
+				if(board.getSpace(location.x+i, location.y+i).getPiece() != null) { //down, right
 				System.out.println("A");
 				return false;
+				}
 			}
-			if(board.getSpace(location.x+i, location.y+i).getPiece() != null) {//down, left
+			if(location.x < dest.x
+					&& location.y > dest.y) {
+				if(board.getSpace(location.x+i, location.y-i).getPiece() != null) { //down, left
 				System.out.println("B");
 				return false;
+				}
 			}
-			if(board.getSpace(location.x+i, location.y+i).getPiece() != null) {//up, right
+			if(location.x > dest.x
+					&& location.y < dest.y) {
+				if(board.getSpace(location.x-i, location.y+i).getPiece() != null) { //up, right
 				System.out.println("C");
 				return false;
+				}
 			}
-			if(board.getSpace(location.x+i, location.y+i).getPiece() != null) {//up, left
+			System.out.println("Arrived at D");
+			if(location.x > dest.x
+					&& location.y > dest.y) {
+				System.out.println("Testing D");
+				if(board.getSpace(location.x-i, location.y-i).getPiece() != null) { //up, left
 				System.out.println("D");
 				return false;
+				}
 			}
 		}
-		
 		return true; //FINISH IMPLEMENTING
 	}
 }

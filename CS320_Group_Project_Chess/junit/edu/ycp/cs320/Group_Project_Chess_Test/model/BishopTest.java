@@ -24,8 +24,8 @@ public class BishopTest {
 	public void SetUp() {
 		bishop = new Bishop(Rank.BISHOP, 0, new Point(4, 0));
 		board.newGameBoard();
-		board.setPiece(new Pawn(Rank.BISHOP, 0, new Point(2, 7)));
-		board.setPiece(new Pawn(Rank.BISHOP, 0, new Point(4, 3))); //central piece
+		board.setPiece(new Bishop(Rank.BISHOP, 0, new Point(2, 7)));
+		board.setPiece(new Bishop(Rank.BISHOP, 0, new Point(4, 3))); //central piece
 	}
 	
 	@Test

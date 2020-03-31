@@ -12,7 +12,7 @@ public class Rook extends Piece {
 	@Override
 	public  Boolean validMove(Point dest, Board board) {
 		
-		if(location.x == dest.x && location.y == dest.y) {
+		if(location.x == dest.x && location.y == dest.y) { //if same place
 			return false;
 		}
 		
@@ -22,7 +22,7 @@ public class Rook extends Piece {
 		
 		if(location.x < dest.x) { //if there is a piece in between source and destination on x axis
 			for(int i = location.x+1; i< dest.x; i++) {
-				if(board.getSpace((int)dest.getX(), (int)dest.getY()).getPiece() != null) {
+				if(board.getSpace(i, dest.y).getPiece() != null) {
 					return false;
 				}
 			}
@@ -30,7 +30,7 @@ public class Rook extends Piece {
 		
 		if(location.x > dest.x) { //if there is a piece in between source and destination on x axis
 			for(int i = dest.x+1; i < location.x; i++) {
-				if(board.getSpace((int)dest.getX(), (int)dest.getY()).getPiece() != null) {
+				if(board.getSpace(i, dest.y).getPiece() != null) {
 					return false;
 				}
 			}
@@ -38,7 +38,7 @@ public class Rook extends Piece {
 		
 		if(location.y < dest.y) { //if there is a piece in between source and destination on y axis
 			for(int i = location.y+1; i< dest.y; i++) {
-				if(board.getSpace((int)dest.getX(), (int)dest.getY()).getPiece() != null) {
+				if(board.getSpace(dest.x, i).getPiece() != null) {
 					return false;
 				}
 			}
@@ -46,13 +46,13 @@ public class Rook extends Piece {
 		
 		if(location.y > dest.y) { //if there is a piece in between source and destination on y axis
 			for(int i = dest.y+1; i < location.y; i++) {
-				if(board.getSpace((int)dest.getX(), (int)dest.getY()).getPiece() != null) {
+				if(board.getSpace(dest.x, i).getPiece() != null) {
 					return false;
 				}
 			}
 		}
 		
-		if(board.getSpace(dest.x, dest.y).getPiece() != null) {
+		if(board.getSpace(dest.x, dest.y).getPiece() != null) { //if trying to capture piece of same color
 			if(board.getSpace(dest.x, dest.y).getPiece().getColor() == color) {
 				return false;
 			}

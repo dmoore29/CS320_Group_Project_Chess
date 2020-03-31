@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import edu.ycp.cs320.Group_Project_Chess.model.Rook;
 import edu.ycp.cs320.Group_Project_Chess.model.Board;
-import edu.ycp.cs320.Group_Project_Chess.model.Pawn;
 import edu.ycp.cs320.Group_Project_Chess.model.Rank;
 
 

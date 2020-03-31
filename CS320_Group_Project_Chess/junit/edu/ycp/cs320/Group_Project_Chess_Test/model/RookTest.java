@@ -52,29 +52,26 @@ public class RookTest {
 		//check move 1 space backward vertically -y 
 		assertTrue(board.getPiece(4, 3).validMove(new Point(4, 4), board));
 		
-		/*
-		 * //check move 1 space forward horizontally +x assertTrue(board.getPiece(4,
-		 * 3).validMove(new Point(5, 3), board));
-		 * 
-		 * //check move 1 space backward horizontally -x assertTrue(board.getPiece(4,
-		 * 3).validMove(new Point(3, 3), board));
-		 * 
-		 * //check move entirety of the board +y assertTrue(board.getPiece(0,
-		 * 7).validMove(new Point(0, 0), board));
-		 * 
-		 * //check move entirety of the board -y board.setPiece(new Pawn(Rank.ROOK, 0,
-		 * new Point(0, 0))); assertTrue(board.getPiece(0, 0).validMove(new Point(0, 7),
-		 * board));
-		 * 
-		 * //check move entirety of the board +x assertTrue(board.getPiece(0,
-		 * 7).validMove(new Point(7, 7), board));
-		 * 
-		 * //check move entirety of the board -x board.setPiece(new Pawn(Rank.ROOK, 0,
-		 * new Point(7, 7))); assertTrue(board.getPiece(7, 7).validMove(new Point(0, 7),
-		 * board));
-		 */
-		
-		
+		//check move 1 space forward horizontally +x 
+		assertTrue(board.getPiece(4, 3).validMove(new Point(5, 3), board));
+		  
+		//check move 1 space backward horizontally -x 
+		assertTrue(board.getPiece(4, 3).validMove(new Point(3, 3), board));
+		  
+		//check move entirety of the board +y 
+		assertTrue(board.getPiece(0, 7).validMove(new Point(0, 0), board));
+		  
+		//check move entirety of the board -y 
+		board.setPiece(new Rook(Rank.ROOK, 0, new Point(7, 0))); 
+		assertTrue(board.getPiece(7, 0).validMove(new Point(7, 7), board));
+		  
+		//check move entirety of the board +x 
+		assertTrue(board.getPiece(0, 7).validMove(new Point(7, 7), board));
+		  
+		//check move entirety of the board -x 
+		board.setPiece(new Rook(Rank.ROOK, 0, new Point(7, 4))); 
+		assertTrue(board.getPiece(7, 4).validMove(new Point(0, 4), board));
+		 		
 		/////END ROOK/////
 		
 		

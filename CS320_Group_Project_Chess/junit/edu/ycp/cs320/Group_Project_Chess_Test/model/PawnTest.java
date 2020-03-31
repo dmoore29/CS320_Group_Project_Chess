@@ -26,6 +26,7 @@ public class PawnTest {
 		pawn = new Pawn(Rank.PAWN, 0, new Point(4, 0));
 		board.newGameBoard();
 		board.setPiece(new Pawn(Rank.PAWN, 0, new Point(3, 6)));
+		board.setPiece(new Pawn(Rank.PAWN, 1, new Point(3, 1)));
 	}
 	
 	@Test
@@ -61,8 +62,8 @@ public class PawnTest {
 		assertFalse(board.getPiece(3, 6).validMove(new Point(3, 4), board));
 		
 		//check move on the x-axis
-		assertFalse(board.getPiece(3, 5).validMove(new Point(2, 5), board));
-		assertFalse(board.getPiece(3, 5).validMove(new Point(2, 5), board));
+		assertFalse(board.getPiece(3, 6).validMove(new Point(2, 6), board));
+		assertFalse(board.getPiece(3, 6).validMove(new Point(2, 6), board));
 		
 		//check move 1 space backwards 
 		assertFalse(board.getPiece(3, 6).validMove(new Point(3, 7), board));
@@ -87,6 +88,49 @@ public class PawnTest {
 		board.setPiece(new Pawn(Rank.PAWN, 1, new Point(2, 5)));
 		assertTrue(board.getPiece(3, 6).validMove(new Point(2, 5), board));
 		/////WHITE PAWN/////
+		
+		/////BLACK PAWN/////
+		//check move 1 space forward 
+		assertTrue(board.getPiece(3, 1).validMove(new Point(3, 2), board));
+		
+		//check move 2 spaces forwards from starting location
+		assertTrue(board.getPiece(3, 1).validMove(new Point(3, 3), board));
+		
+		//check move if another piece is in front of it
+		board.setPiece(new Pawn(Rank.PAWN, 1, new Point(3, 2)));
+		assertFalse(board.getPiece(3, 1).validMove(new Point(3, 2), board));
+		
+		//check move 2 spaces if another piece is in front of it
+		board.setPiece(new Pawn(Rank.PAWN, 1, new Point(3, 2)));
+		assertFalse(board.getPiece(3, 1).validMove(new Point(3, 3), board));
+		
+		//check move on the x-axis
+		assertFalse(board.getPiece(3, 1).validMove(new Point(2, 1), board));
+		assertFalse(board.getPiece(3, 1).validMove(new Point(2, 1), board));
+		
+		//check move 1 space backwards 
+		assertFalse(board.getPiece(3, 1).validMove(new Point(3, 0), board));
+		
+		//check move forward diagonally +x -y
+		assertFalse(board.getPiece(3, 1).validMove(new Point(4, 2), board));
+		
+		//check move forward diagonally -x -y
+		assertFalse(board.getPiece(3, 1).validMove(new Point(2, 2), board));
+		
+		//check move backward diagonally +x +y
+		assertFalse(board.getPiece(3, 1).validMove(new Point(4, 0), board));
+		
+		//check move backward diagonally -x +y
+		assertFalse(board.getPiece(3, 1).validMove(new Point(2, 0), board));
+		
+		//check capture +x -y
+		board.setPiece(new Pawn(Rank.PAWN, 0, new Point(4, 2)));
+		assertTrue(board.getPiece(3, 1).validMove(new Point(4, 2), board));
+		
+		//check capture -x -y
+		board.setPiece(new Pawn(Rank.PAWN, 0, new Point(2, 2)));
+		assertTrue(board.getPiece(3, 1).validMove(new Point(2, 2), board));
+		/////BLACK PAWN/////
 				
 	}
 }

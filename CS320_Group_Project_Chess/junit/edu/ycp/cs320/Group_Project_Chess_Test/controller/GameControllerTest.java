@@ -82,11 +82,6 @@ public class GameControllerTest {
 	}
 	
 	@Test
-	public void testValidMove() {
-		throw new UnsupportedOperationException("TODO - implement");
-	}
-	
-	@Test
 	public void testCheckMate() {
 		throw new UnsupportedOperationException("TODO - implement");
 	}

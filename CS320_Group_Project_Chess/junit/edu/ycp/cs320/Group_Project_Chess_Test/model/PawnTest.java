@@ -46,7 +46,8 @@ public class PawnTest {
 	
 	@Test
 	public void TestValidMove() {
-		/////WHITE PAWN/////
+		/////START WHITE PAWN/////
+		
 		//check move 1 space forward 
 		assertTrue(board.getPiece(3, 6).validMove(new Point(3, 5), board));
 		
@@ -87,9 +88,11 @@ public class PawnTest {
 		//check capture -x -y
 		board.setPiece(new Pawn(Rank.PAWN, 1, new Point(2, 5)));
 		assertTrue(board.getPiece(3, 6).validMove(new Point(2, 5), board));
-		/////WHITE PAWN/////
 		
-		/////BLACK PAWN/////
+		/////END WHITE PAWN/////
+		
+		/////START BLACK PAWN/////
+		
 		//check move 1 space forward 
 		assertTrue(board.getPiece(3, 1).validMove(new Point(3, 2), board));
 		
@@ -130,7 +133,8 @@ public class PawnTest {
 		//check capture -x -y
 		board.setPiece(new Pawn(Rank.PAWN, 0, new Point(2, 2)));
 		assertTrue(board.getPiece(3, 1).validMove(new Point(2, 2), board));
-		/////BLACK PAWN/////
+		
+		/////END BLACK PAWN/////
 				
 	}
 }

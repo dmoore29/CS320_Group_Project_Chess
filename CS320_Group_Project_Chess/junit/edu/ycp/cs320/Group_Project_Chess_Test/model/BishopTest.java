@@ -24,7 +24,7 @@ public class BishopTest {
 		bishop = new Bishop(Rank.BISHOP, 0, new Point(4, 0));
 		board.newGameBoard();
 		board.setPiece(new Bishop(Rank.BISHOP, 0, new Point(2, 7)));
-		board.setPiece(new Bishop(Rank.BISHOP, 0, new Point(4, 3))); //central piece
+		board.setPiece(new Bishop(Rank.BISHOP, 0, new Point(3, 4))); //central piece
 	}
 	
 	@Test
@@ -85,66 +85,82 @@ public class BishopTest {
 		//check move 1 space forward diagonally +x with piece in the way
 		board.setPiece(new Bishop(Rank.BISHOP, 0, new Point(3, 6)));
 		assertFalse(board.getPiece(2, 7).validMove(new Point(3, 6), board));
+		board.getSpace(3, 6).setPiece(null);
 		
 		//check move 1 space forward diagonally -x with piece in the way
 		board.setPiece(new Bishop(Rank.BISHOP, 0, new Point(1, 6)));
 		assertFalse(board.getPiece(2, 7).validMove(new Point(1, 6), board));
+		board.getSpace(1, 6).setPiece(null);
 		
 		//check move 1 space backward diagonally +x with piece in the way 
 		board.setPiece(new Bishop(Rank.BISHOP, 0, new Point(4, 5)));
 		assertFalse(board.getPiece(3, 4).validMove(new Point(4, 5), board));
+		board.getSpace(4, 5).setPiece(null);
 		
 		//check move 1 space backward diagonally -x with piece in the way 
 		board.setPiece(new Bishop(Rank.BISHOP, 0, new Point(2, 5)));
 		assertFalse(board.getPiece(3, 4).validMove(new Point(2, 5), board));
+		board.getSpace(2, 5).setPiece(null);
 		
 		//check move 2 spaces forward diagonally +x with piece in the way
 		board.setPiece(new Bishop(Rank.BISHOP, 0, new Point(3, 6)));
 		assertFalse(board.getPiece(2, 7).validMove(new Point(4, 5), board));
+		board.getSpace(3, 6).setPiece(null);
 		
 		//check move 2 spaces forward diagonally -x with piece in the way
 		board.setPiece(new Bishop(Rank.BISHOP, 0, new Point(1, 6)));
 		assertFalse(board.getPiece(2, 7).validMove(new Point(0, 5), board));
+		board.getSpace(1, 6).setPiece(null);
 		
 		//check move 2 spaces backward diagonally +x with piece in the way 
 		board.setPiece(new Bishop(Rank.BISHOP, 0, new Point(4, 5)));
 		assertFalse(board.getPiece(3, 4).validMove(new Point(5, 6), board));
+		board.getSpace(4, 5).setPiece(null);
 		
 		//check move 2 spaces backward diagonally -x with piece in the way 
 		board.setPiece(new Bishop(Rank.BISHOP, 0, new Point(2, 5)));
 		assertFalse(board.getPiece(3, 4).validMove(new Point(1, 6), board));
+		board.getSpace(2, 5).setPiece(null);
 		
 		//check capture forward 1 space diagonally +x
 		board.setPiece(new Bishop(Rank.BISHOP, 1, new Point(3, 6)));
 		assertTrue(board.getPiece(2, 7).validMove(new Point(3, 6), board));
+		board.getSpace(3, 6).setPiece(null);
 		
 		//check capture forward 1 space diagonally -x
 		board.setPiece(new Bishop(Rank.BISHOP, 1, new Point(1, 6)));
 		assertTrue(board.getPiece(2, 7).validMove(new Point(1, 6), board));
+		board.getSpace(1, 6).setPiece(null);
 		
 		//check capture backward 1 space diagonally +x
 		board.setPiece(new Bishop(Rank.BISHOP, 1, new Point(4, 5)));
 		assertTrue(board.getPiece(3, 4).validMove(new Point(4, 5), board));
+		board.getSpace(4, 5).setPiece(null);
 		
 		//check capture backward 1 space diagonally -x
 		board.setPiece(new Bishop(Rank.BISHOP, 1, new Point(2, 5)));
 		assertTrue(board.getPiece(3, 4).validMove(new Point(2, 5), board));
+		board.getSpace(2, 5).setPiece(null);
 		
 		//check capture forward 3 spaces diagonally +x
 		board.setPiece(new Bishop(Rank.BISHOP, 1, new Point(5, 4)));
 		assertTrue(board.getPiece(2, 7).validMove(new Point(5, 4), board));
+		board.getSpace(5, 4).setPiece(null);
 		
 		//check capture forward 3 spaces diagonally -x
 		board.setPiece(new Bishop(Rank.BISHOP, 1, new Point(0, 1)));
 		assertTrue(board.getPiece(3, 4).validMove(new Point(0, 1), board));
+		board.getSpace(0, 1).setPiece(null);
 		
 		//check capture backward 3 spaces diagonally +x
 		board.setPiece(new Bishop(Rank.BISHOP, 1, new Point(6, 7)));
 		assertTrue(board.getPiece(3, 4).validMove(new Point(6, 7), board));
+		board.getSpace(6, 7).setPiece(null);
 		
 		//check capture backward 3 spaces diagonally -x
 		board.setPiece(new Bishop(Rank.BISHOP, 1, new Point(0, 7)));
 		assertTrue(board.getPiece(3, 4).validMove(new Point(0, 7), board));
+		board.getSpace(0, 7).setPiece(null);
 		
 				
 		/////END BISHOP/////

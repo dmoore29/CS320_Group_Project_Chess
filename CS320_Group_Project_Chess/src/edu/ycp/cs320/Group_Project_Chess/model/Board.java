@@ -42,7 +42,6 @@ public class Board {
 		this.board[piece.getLocation().x][piece.getLocation().y].setPiece(piece);
 	}
 	
-	
 	// Returns the value of the piece occupying a specific space.
 	public Piece getPiece(int x, int y) {
 		return this.board[x][y].getPiece();

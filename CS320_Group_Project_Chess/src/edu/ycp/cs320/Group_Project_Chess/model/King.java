@@ -23,12 +23,11 @@ public class King extends Piece {
 				return false;
 			}
 		}
-		else if((Math.abs(yDifference) == 1 && Math.abs(xDifference) == 0) || (Math.abs(yDifference) == 0 && Math.abs(xDifference) == 1) || (Math.abs(yDifference) == 1 && Math.abs(xDifference) == 1) ) {
+		if((Math.abs(yDifference) == 1 && Math.abs(xDifference) == 0) || (Math.abs(yDifference) == 0 && Math.abs(xDifference) == 1) || (Math.abs(yDifference) == 1 && Math.abs(xDifference) == 1) ) {
 			return true;
 		}
 		else {
 			return false;
 		}
-		return true;
 	}
 }

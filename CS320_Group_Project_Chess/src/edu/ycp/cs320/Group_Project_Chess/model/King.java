@@ -10,6 +10,21 @@ public class King extends Piece {
 
 	@Override
 	public  Boolean validMove(Point dest, Board board) {
-		return false; //FINISH IMPLEMENTING
+		int xDifference = location.x - dest.x;
+		int yDifference = location.y - dest.y;
+		
+		
+		// These statements are written separately because it is checking for the Y difference 
+		// and THEN checking for the X difference. This can't be done in an OR statement.
+		
+		if(Math.abs(yDifference) == 1) {
+			return true;
+		}
+		else if(Math.abs(xDifference) == 1) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }

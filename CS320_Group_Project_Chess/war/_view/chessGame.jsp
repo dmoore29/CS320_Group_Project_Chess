@@ -49,7 +49,7 @@
 			<% for (int y = 0; y < 8; y++ ) { %>
 			<tr>
 				<% for (int x = 0; x < 8; x++) { %>
-				<td onclick="transferCallToServlet(<%=x%> , <%=y%>)">
+				<td onclick="transferCallToServlet(<%=x%> , <%=y%>)" class="test<%=(x+y)%2 %>">
 					<% if (model.getBoard().getSpace(x, y).getPiece() != null) {
 						String color = null;
 						if (model.getBoard().getPiece(x, y).getColor() == 1) {

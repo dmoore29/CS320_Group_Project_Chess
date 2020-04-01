@@ -7,7 +7,6 @@ import java.awt.Point;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.Group_Project_Chess.model.Bishop;
 import edu.ycp.cs320.Group_Project_Chess.model.Board;
 import edu.ycp.cs320.Group_Project_Chess.model.Knight;
 import edu.ycp.cs320.Group_Project_Chess.model.Rank;

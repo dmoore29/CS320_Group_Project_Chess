@@ -128,9 +128,6 @@ public class KnightTest {
 		//check capture piece left -y
 		board.setPiece(new Knight(Rank.KNIGHT, 1, new Point(1, 5)));
 		assertTrue(board.getPiece(3, 4).validMove(new Point(1, 5), board));
-		board.getSpace(1, 5).setPiece(null);
-		
-		
 		
 		/////END KNIGHT/////
 		

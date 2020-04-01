@@ -62,6 +62,8 @@ public class LoginServlet extends HttpServlet {
 			req.setAttribute("user", user);
 			req.setAttribute("username", username);
 			req.setAttribute("email", email);
+			
+			req.getSession().setAttribute("name", username);
 						
 			System.out.println("Login Servlet: reposting login.jsp");
 			req.getRequestDispatcher(destination).forward(req, resp);

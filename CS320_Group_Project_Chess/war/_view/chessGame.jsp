@@ -26,7 +26,9 @@
 	<form action="${pageContext.servletContext.contextPath}/chessGame" method="post">
 		<% Game model = (Game)request.getAttribute("model"); %>
 
-		This is a chess game
+		<div class='turn'>
+			Chess Game
+		</div>
 		<div>
 			<input name="home" type="submit" value="Home Page" />
 			<input name="chessHome" type="submit" value="Chess Home" />

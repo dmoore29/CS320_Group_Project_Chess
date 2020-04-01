@@ -129,7 +129,7 @@ public class ChessGameServlet extends HttpServlet {
 					System.out.println("VALID");
 					game.setTurn(game.getTurn()+1);
 				} else {
-					System.out.println("NOT VALID");
+					System.out.println("NOT VALID ");
 				}
 			}
 			

@@ -136,7 +136,7 @@ public class KingTest {
 		board.getSpace(2, 5).setPiece(null);
 		
 		//check capture forward
-		board.setPiece(new King(Rank.KING, 0, new Point(3, 3)));
+		board.setPiece(new King(Rank.KING, 1, new Point(3, 3)));
 		assertTrue(board.getPiece(3, 4).validMove(new Point(3, 3), board));
 		board.getSpace(3, 3).setPiece(null);
 		

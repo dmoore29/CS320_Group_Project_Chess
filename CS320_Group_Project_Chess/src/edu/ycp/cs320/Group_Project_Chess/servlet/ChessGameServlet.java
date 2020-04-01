@@ -46,6 +46,21 @@ public class ChessGameServlet extends HttpServlet {
 		req.setAttribute("model", game);
 		System.out.println("ChessGame Servlet: doGet");
 		
+//-- structure taken from the library example
+		String name = (String) req.getSession().getAttribute("name");
+		if (name == null) {
+			System.out.println("   User: <" + name + "> not logged in or session timed out");
+			
+			// user is not logged in, or the session expired
+			resp.sendRedirect(req.getContextPath() + "/login");
+			return;
+		}
+
+		// now we have the user's User object,
+		// proceed to handle request...
+		System.out.println("   User: <" + name + "> logged in");
+//-- structure taken from the library example
+		
 		req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
 		
 	}

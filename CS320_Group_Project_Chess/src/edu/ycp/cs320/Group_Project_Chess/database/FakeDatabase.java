@@ -32,4 +32,8 @@ public class FakeDatabase{
 		}
 		
 	}
+	
+	public ArrayList<User> getUserList(){
+		return userList;
+	}
 }

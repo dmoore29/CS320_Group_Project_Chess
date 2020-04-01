@@ -29,14 +29,14 @@ public class InitialData {
 		ReadCSV readUsers = new ReadCSV("users.csv");
 		try {
 			// auto-generated primary key for users table
-			int userId = 1;
+			Integer userId = 1;
 			while (true) {
 				List<String> tuple = readUsers.next();
 				if (tuple == null) {
 					break;
 				}
 				Iterator<String> i = tuple.iterator();
-				int friendsId = Integer.parseInt(i.next());
+				Integer friendsId = Integer.parseInt(i.next());
 				User user = new User(userId++, friendsId, new Credentials(i.next(), i.next(), i.next()), new Stats(Integer.parseInt(i.next()), Integer.parseInt(i.next()), Integer.parseInt(i.next())), new FriendsList(friendsId), new Profile(i.next(), Integer.parseInt(i.next())));
 				userList.add(user);
 			}

@@ -17,7 +17,7 @@ public class ReadCSV implements Closeable {
 		if (in == null) {
 			throw new IOException("Couldn't open " + resourceName);
 		}
-		this.reader = new BufferedReader(new InputStreamReader(in));
+		this.reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
 	}
 	
 	public List<String> next() throws IOException {

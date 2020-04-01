@@ -14,21 +14,17 @@ public class King extends Piece {
 		int yDifference = location.y - dest.y;
 		
 		
-		// These statements are written separately because it is checking for the Y difference 
-		// and THEN checking for the X difference. This can't be done in an OR statement.
-		//
-		// These check the amount of spaces being moved in each direction.
-		
-		if(Math.abs(yDifference) == 1) {
-			return true;
-		}
-		else if(Math.abs(xDifference) == 1) {
-			return true;
-		}
+
 		
 		// Check to see if the destination contains a piece of the same color.
-		else if(board.getSpace(dest.x, dest.y).getPiece().getColor() == color) {
-			return false;
+		// Check to see if the space is empty or not.
+		if(board.getSpace(dest.x, dest.y).getPiece() != null) {	
+			if(board.getSpace(dest.x, dest.y).getPiece().getColor() == color) {
+				return false;
+			}
+		}
+		else if((Math.abs(yDifference) == 1 && Math.abs(yDifference) == 0) || (Math.abs(yDifference) == 0 && Math.abs(yDifference) == 1) || (Math.abs(yDifference) == 1 && Math.abs(yDifference) == 1) ) {
+			return true;
 		}
 		else {
 			return false;

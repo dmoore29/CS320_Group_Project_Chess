@@ -6,6 +6,9 @@
 
 <head>
 	<title>Login</title>
+	<style type="text/css">
+	<%@include file="/login.css" %>
+	</style>
 </head>
 
 <body>

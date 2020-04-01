@@ -137,42 +137,42 @@ public class KingTest {
 		
 		//check capture forward
 		board.setPiece(new King(Rank.KING, 0, new Point(3, 3)));
-		assertFalse(board.getPiece(3, 4).validMove(new Point(3, 3), board));
+		assertTrue(board.getPiece(3, 4).validMove(new Point(3, 3), board));
 		board.getSpace(3, 3).setPiece(null);
 		
 		//check capture backward
 		board.setPiece(new King(Rank.KING, 1, new Point(3, 5)));
-		assertFalse(board.getPiece(3, 4).validMove(new Point(3, 5), board));
+		assertTrue(board.getPiece(3, 4).validMove(new Point(3, 5), board));
 		board.getSpace(3, 5).setPiece(null);
 		
 		//check capture right
 		board.setPiece(new King(Rank.KING, 1, new Point(4, 4)));
-		assertFalse(board.getPiece(3, 4).validMove(new Point(4, 4), board));
+		assertTrue(board.getPiece(3, 4).validMove(new Point(4, 4), board));
 		board.getSpace(4, 4).setPiece(null);
 		
 		//check capture left
 		board.setPiece(new King(Rank.KING, 1, new Point(2, 4)));
-		assertFalse(board.getPiece(3, 4).validMove(new Point(2, 4), board));
+		assertTrue(board.getPiece(3, 4).validMove(new Point(2, 4), board));
 		board.getSpace(2, 4).setPiece(null);
 		
 		//check capture forward diagonally +x 
 		board.setPiece(new King(Rank.KING, 1, new Point(4, 3)));
-		assertFalse(board.getPiece(3, 4).validMove(new Point(4, 3), board));
+		assertTrue(board.getPiece(3, 4).validMove(new Point(4, 3), board));
 		board.getSpace(4, 3).setPiece(null);
 		
 		//check capture forward diagonally -x
 		board.setPiece(new King(Rank.KING, 1, new Point(2, 3)));
-		assertFalse(board.getPiece(3, 4).validMove(new Point(2, 3), board));
+		assertTrue(board.getPiece(3, 4).validMove(new Point(2, 3), board));
 		board.getSpace(2, 3).setPiece(null);
 		
 		//check capture backward diagonally +x
 		board.setPiece(new King(Rank.KING, 1, new Point(4, 5)));
-		assertFalse(board.getPiece(3, 4).validMove(new Point(4, 5), board));
+		assertTrue(board.getPiece(3, 4).validMove(new Point(4, 5), board));
 		board.getSpace(4, 5).setPiece(null);
 		
 		//check capture backward diagonally -x
 		board.setPiece(new King(Rank.KING, 1, new Point(2, 5)));
-		assertFalse(board.getPiece(3, 4).validMove(new Point(2, 5), board));
+		assertTrue(board.getPiece(3, 4).validMove(new Point(2, 5), board));
 		board.getSpace(2, 5).setPiece(null);
 		
 		/////END KING/////

@@ -46,10 +46,10 @@ public class Pawn extends Piece {
 				&& board.getSpace((int)dest.getX(), (int)dest.getY()).getPiece() != null ){
 			if(board.getSpace(dest.x, dest.y).getPiece().getColor() != color) {
 				return true;
+			} else {
+				return false;
 			}
-		} else {
-		return false;
 		}
-		return null;
+		return false;
 	}
 }

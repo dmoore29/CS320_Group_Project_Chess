@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
 		
 		if (req.getParameter("login") != null) {
 			System.out.println("Login Servlet: forwarding to home");
-			req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);
+			resp.sendRedirect(req.getContextPath() + "/home");
 		}
 		
 		if (req.getParameter("newUser") != null) {

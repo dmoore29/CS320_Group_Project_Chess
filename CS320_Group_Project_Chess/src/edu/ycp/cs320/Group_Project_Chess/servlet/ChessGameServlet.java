@@ -58,22 +58,22 @@ public class ChessGameServlet extends HttpServlet {
 		
 		if (req.getParameter("home") != null) {
 			System.out.println("ChessGame Servlet: forwarding to hHome");
-			req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);
+			resp.sendRedirect(req.getContextPath() + "/home");
 		}
 		
 		if (req.getParameter("chessHome") != null) {
 			System.out.println("ChessGame Servlet: forwarding to chessHome");
-			req.getRequestDispatcher("/_view/chessHome.jsp").forward(req, resp);
+			resp.sendRedirect(req.getContextPath() + "/chessHome");
 		}
 		
 		if (req.getParameter("profile") != null) {
 			System.out.println("ChessGame Servlet: forwarding to profile");
-			req.getRequestDispatcher("/_view/profile.jsp").forward(req, resp);
+			resp.sendRedirect(req.getContextPath() + "/profile");
 		}
 		
 		if (req.getParameter("friends") != null) {
 			System.out.println("ChessGame Servlet: forwarding to friends");
-			req.getRequestDispatcher("/_view/friends.jsp").forward(req, resp);
+			resp.sendRedirect(req.getContextPath() + "/friends");
 		}
 		if(req.getParameter("x1") != null && pos1Recieved == false) {
 			pos1Recieved = true;

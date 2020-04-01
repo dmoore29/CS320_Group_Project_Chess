@@ -31,29 +31,18 @@ public class ChessHomeServlet extends HttpServlet {
 
 		if (req.getParameter("home") != null) {
 			System.out.println("ChessHome Servlet: forwarding to home");
-			req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);
+			resp.sendRedirect(req.getContextPath() + "/home");
 		}
 		
 		if (req.getParameter("chessGame") != null) {
 			System.out.println("ChessHome Servlet: forwarding to chessGame");
-			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
+			resp.sendRedirect(req.getContextPath() + "/chessGame");
 		}
 		
 		if (req.getParameter("profile") != null) {
 			System.out.println("ChessHome Servlet: forwarding to profile");
-			req.getRequestDispatcher("/_view/profile.jsp").forward(req, resp);
+			resp.sendRedirect(req.getContextPath() + "/profile");
 		}
-		
-		//initiate a board, game, and controller
-		/*BoardModel board = new BoardModel();
-		Game game = new Game();
-		GameController controller = new GameController();
-		
-		//fill the board, and pass the models as parameters to their higher-ups
-		board.populateBoard();
-		game.setBoard(board);
-		controller.setModel(game);
-		*/
 	}
 }
 

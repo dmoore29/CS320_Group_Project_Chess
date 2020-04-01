@@ -68,8 +68,7 @@ public class ChessGameServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		System.out.println("ChessGame Servlet: doPost");
-		
+		System.out.println("ChessGame Servlet: doPost");		
 		
 		if (req.getParameter("home") != null) {
 			System.out.println("ChessGame Servlet: forwarding to hHome");
@@ -92,34 +91,43 @@ public class ChessGameServlet extends HttpServlet {
 		}
 		if(req.getParameter("x1") != null && pos1Recieved == false) {
 			pos1Recieved = true;
-			System.out.println("Recieved Position 1");
+			System.out.println("Recieved Source");
 			
 			sourceX = Integer.parseInt(req.getParameter("x1"));
 			sourceY = Integer.parseInt(req.getParameter("y1"));
 			
-			System.out.println(sourceX);
-			System.out.println(sourceY);
+			System.err.println("TURN: " + game.getTurn()%2);
+
+			
+			if(game.getBoard().getSpace(sourceX, sourceY).getPiece() != null) {
+				if(game.getTurn()%2 != game.getBoard().getSpace(sourceX, sourceY).getPiece().getColor()) {
+					pos1Recieved = false;
+				}
+			} else {
+				pos1Recieved = false;
+			}
+			
 			
 			req.setAttribute("model", game);
-			System.out.println("ChessGame Servlet: doGet");
 			
 			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
 		} 
 		
 		else if(req.getParameter("x1") != null && pos1Recieved == true) {
 			pos1Recieved = false;
-			System.out.println("Recieved Position 2");
+			System.out.println("Recieved Destination");
 			
 			destX = Integer.parseInt(req.getParameter("x1"));
 			destY = Integer.parseInt(req.getParameter("y1"));
 			
-			System.out.println(destX);
-			System.out.println(destY);
-			
 			if(game.getBoard().getSpace(sourceX, sourceY).getPiece() != null) {
+				if(sourceX == destX && sourceY == destY) {
+					System.out.println("NOT VALID");
+				}
 				if(game.getBoard().getSpace(sourceX, sourceY).getPiece().validMove(new Point(destX, destY), game.getBoard()) == true) {				
 					controller.movePiece(game.getBoard().getSpace(sourceX, sourceY), game.getBoard().getSpace(destX, destY));
 					System.out.println("VALID");
+					game.setTurn(game.getTurn()+1);
 				} else {
 					System.out.println("NOT VALID");
 				}

@@ -8,6 +8,7 @@ public class Game {
 	private Board board;
 	private Player player1;
 	private Player player2;
+	private int turn;
 	
 	//constructor for a new game of chess
 	public Game(Player player1, Player player2) {
@@ -15,6 +16,7 @@ public class Game {
 		board.newGameBoard();
 		this.player1 = player1;
 		this.player2 = player2;
+		turn = 0;
 		
 		//pieces need rank, color, location
 		//white = 0 black = 1
@@ -80,4 +82,11 @@ public class Game {
 		return gameId;
 	}
 	
+	public void setTurn(int turn) {
+		this.turn = turn;
+	}
+	
+	public int getTurn() {
+		return turn;
+	}
 }

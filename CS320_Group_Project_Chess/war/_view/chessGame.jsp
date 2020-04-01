@@ -39,6 +39,12 @@
 		<input type="hidden" name="x1">
 		<input type="hidden" name="y1">
 		<div class='space'>
+		<div class='turn'>
+			Turn: <%=model.getTurn() %>
+		</div>
+		<div class='player'>
+			Player: <%=model.getTurn()%2 +1 %>
+		</div>
 		<table class="board">
 			<% for (int y = 0; y < 8; y++ ) { %>
 			<tr>

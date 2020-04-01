@@ -8,7 +8,7 @@ td:hover{
 	width: 60px;
 	height: 60px;
 	border-style: solid;
-	background:gray;
+	background:red;
 }
 
 tr{
@@ -28,4 +28,8 @@ img {
 	/* background-color: #00FF00; */
 	top: 100px;
 	left: 30%;
+}
+
+.test0{
+	background-color: #222222;
 }

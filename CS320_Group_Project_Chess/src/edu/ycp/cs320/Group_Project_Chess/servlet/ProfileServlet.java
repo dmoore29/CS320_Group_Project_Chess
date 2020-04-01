@@ -27,17 +27,17 @@ public class ProfileServlet extends HttpServlet {
 		
 		if (req.getParameter("home") != null) {
 			System.out.println("Profile Servlet: forwarding to home");
-			req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);
+			resp.sendRedirect(req.getContextPath() + "/home");
 		}
 		
 		if (req.getParameter("chessHome") != null) {
 			System.out.println("Profile Servlet: forwarding to chessHome");
-			req.getRequestDispatcher("/_view/chessHome.jsp").forward(req, resp);
+			resp.sendRedirect(req.getContextPath() + "/chessHome");
 		}
 		
 		if (req.getParameter("friends") != null) {
 			System.out.println("Profile Servlet: forwarding to friends");
-			req.getRequestDispatcher("/_view/friends.jsp").forward(req, resp);
+			resp.sendRedirect(req.getContextPath() + "/friends");
 		}
 	}
 }

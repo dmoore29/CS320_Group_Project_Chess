@@ -30,30 +30,24 @@ public class Bishop extends Piece {
 			if(location.x < dest.x
 					&& location.y < dest.y) { //prevents crash
 				if(board.getSpace(location.x+i, location.y+i).getPiece() != null) { //down, right
-				System.out.println("A");
 				return false;
 				}
 			}
 			if(location.x < dest.x
 					&& location.y > dest.y) {
 				if(board.getSpace(location.x+i, location.y-i).getPiece() != null) { //down, left
-				System.out.println("B");
 				return false;
 				}
 			}
 			if(location.x > dest.x
 					&& location.y < dest.y) {
 				if(board.getSpace(location.x-i, location.y+i).getPiece() != null) { //up, right
-				System.out.println("C");
 				return false;
 				}
 			}
-			System.out.println("Arrived at D");
 			if(location.x > dest.x
 					&& location.y > dest.y) {
-				System.out.println("Testing D");
 				if(board.getSpace(location.x-i, location.y-i).getPiece() != null) { //up, left
-				System.out.println("D");
 				return false;
 				}
 			}

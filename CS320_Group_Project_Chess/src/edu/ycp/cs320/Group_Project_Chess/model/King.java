@@ -29,6 +29,6 @@ public class King extends Piece {
 		else {
 			return false;
 		}
-		return false;
+		return true;
 	}
 }

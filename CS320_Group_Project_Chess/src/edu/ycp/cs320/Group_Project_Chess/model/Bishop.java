@@ -1,5 +1,7 @@
 package edu.ycp.cs320.Group_Project_Chess.model;
 
+//this is the worst piece
+
 import java.awt.Point;
 import java.lang.Math;
 

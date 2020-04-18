@@ -170,21 +170,26 @@ public class DerbyDatabase{
 						"	losses integer," +
 						"	elo integer," +
 						"	bio varchar(100)," +
-						"	pictureNumber integer," +
+						"	pictureNumber integer" +
 						")"
 					);	
 					stmt1.executeUpdate();
 					
 					System.out.println("Users table created");
 					
+					String boardStatement = null;
+					
+					for (int y = 0; y < 8; y++) {
+						for (int x = 0; x < 8; x++) {
+							boardStatement = boardStatement.concat(", rank" + x + y + " integer, color" + x + y + " integer");
+						}
+					}
+					
 					stmt2 = conn.prepareStatement(
 							"create table boards (" +
 							"	boards_id integer primary key " +
-							"		generated always as identity (start with 1, increment by 1), " +
-//							"	author_id integer constraint author_id references authors, " +  	// this is now in the BookAuthors table
-							"	title varchar(70)," +
-							"	isbn varchar(15)," +
-							"   published integer" +
+							"		generated always as identity (start with 1, increment by 1) " +
+							boardStatement +
 							")"
 					);
 					stmt2.executeUpdate();

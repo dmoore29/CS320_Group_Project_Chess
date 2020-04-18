@@ -38,4 +38,7 @@ public class User {
 		return this.profile;
 	}
 	
+	public void setUserId(int id) {
+		userId = id;
+	}
 }

@@ -11,3 +11,5 @@ public class PersistenceException extends RuntimeException {
 		super(msg, cause);
 	}
 }
+
+//from library example

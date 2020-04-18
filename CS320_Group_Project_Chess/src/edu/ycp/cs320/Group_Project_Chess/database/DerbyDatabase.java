@@ -12,6 +12,7 @@ import java.util.List;
 import edu.ycp.cs320.Group_Project_Chess.model.Board;
 import edu.ycp.cs320.Group_Project_Chess.model.Game;
 import edu.ycp.cs320.Group_Project_Chess.model.User;
+import edu.ycp.cs320.booksdb.model.Author;
 
 public class DerbyDatabase{
 	
@@ -29,51 +30,65 @@ public class DerbyDatabase{
 	}
 
 	private static final int MAX_ATTEMPTS = 10;
-// from library example
 	
 	// wrapper SQL transaction function that calls actual transaction function (which has retries)
-		public<ResultType> ResultType executeTransaction(Transaction<ResultType> txn) {
-			try {
-				return doExecuteTransaction(txn);
-			} catch (SQLException e) {
-				throw new PersistenceException("Transaction failed", e);
-			}
+	public<ResultType> ResultType executeTransaction(Transaction<ResultType> txn) {
+		try {
+			return doExecuteTransaction(txn);
+		} catch (SQLException e) {
+			throw new PersistenceException("Transaction failed", e);
 		}
+	}
 		
-		// SQL transaction function which retries the transaction MAX_ATTEMPTS times before failing
-		public<ResultType> ResultType doExecuteTransaction(Transaction<ResultType> txn) throws SQLException {
-			Connection conn = connect();
+	// SQL transaction function which retries the transaction MAX_ATTEMPTS times before failing
+	public<ResultType> ResultType doExecuteTransaction(Transaction<ResultType> txn) throws SQLException {
+		Connection conn = connect();
+		
+		try {
+			int numAttempts = 0;
+			boolean success = false;
+			ResultType result = null;
 			
-			try {
-				int numAttempts = 0;
-				boolean success = false;
-				ResultType result = null;
-				
-				while (!success && numAttempts < MAX_ATTEMPTS) {
-					try {
-						result = txn.execute(conn);
-						conn.commit();
-						success = true;
-					} catch (SQLException e) {
-						if (e.getSQLState() != null && e.getSQLState().equals("41000")) {
-							// Deadlock: retry (unless max retry count has been reached)
-							numAttempts++;
-						} else {
-							// Some other kind of SQLException
-							throw e;
-						}
+			while (!success && numAttempts < MAX_ATTEMPTS) {
+				try {
+					result = txn.execute(conn);
+					conn.commit();
+					success = true;
+				} catch (SQLException e) {
+					if (e.getSQLState() != null && e.getSQLState().equals("41000")) {
+						// Deadlock: retry (unless max retry count has been reached)
+						numAttempts++;
+					} else {
+						// Some other kind of SQLException
+						throw e;
 					}
 				}
-				
-				if (!success) {
-					throw new SQLException("Transaction failed (too many retries)");
-				}
-				
-				// Success!
-				return result;
-			} finally {
-				DBUtil.closeQuietly(conn);
 			}
+			
+			if (!success) {
+				throw new SQLException("Transaction failed (too many retries)");
+			}
+			
+			// Success!
+			return result;
+		} finally {
+			DBUtil.closeQuietly(conn);
 		}
+	}
+	
+	private Connection connect() throws SQLException {
+		Connection conn = DriverManager.getConnection("jdbc:derby:C:/CS320-Group_Project_Chess/chess.db;create=true");		
+		
+		// Set autocommit() to false to allow the execution of
+		// multiple queries/statements as part of the same transaction.
+		conn.setAutoCommit(false);
+		
+		return conn;
+	}
+// from library example
+	
+	private void loadUser(User user, ResultSet resultSet, int index) throws SQLException {
+		
+	}
 	
 }

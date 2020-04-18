@@ -332,7 +332,7 @@ public class DerbyDatabase{
 		System.out.println("Loading initial data...");
 		db.loadInitialData();
 		
-		System.out.println("Library DB successfully initialized!");
+		System.out.println("Chess DB successfully initialized!");
 	}
 // from library example
 }

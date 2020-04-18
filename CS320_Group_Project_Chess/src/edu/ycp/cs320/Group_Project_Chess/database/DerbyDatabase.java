@@ -177,7 +177,7 @@ public class DerbyDatabase{
 					
 					System.out.println("Users table created");
 					
-					String boardStatement = null;
+					String boardStatement = "";
 					
 					for (int y = 0; y < 8; y++) {
 						for (int x = 0; x < 8; x++) {
@@ -250,20 +250,58 @@ public class DerbyDatabase{
 					
 					System.out.println("Users table populated");
 					
-					insertBoard = conn.prepareStatement("insert into boards (title, isbn, published) values (?, ?, ?)");
-/*		need some fancy code for this bit			
- * 					for (Book book : bookList) {
-						insertBook.setString(1, book.getTitle());
-						insertBook.setString(2, book.getIsbn());
-						insertBook.setInt(3, book.getPublished());
-						insertBook.addBatch();
-					}
-					insertBook.executeBatch();
+					String boardStatement = "";
+					String valueStatement = "";
 					
-					System.out.println("Books table populated");					
-*/					
-					// must wait until all Books and all Authors are inserted into tables before creating BookAuthor table
-					// since this table consists entirely of foreign keys, with constraints applied
+					for (int y = 0; y < 8; y++) {
+						for (int x = 0; x < 8; x++) {
+							boardStatement = boardStatement.concat(", rank" + x + y + ", color" + x + y);
+							valueStatement = valueStatement.concat(", ?, ?");
+						}
+					}
+					
+					insertBoard = conn.prepareStatement("insert into boards (" + boardStatement.substring(2) + ") values (" + valueStatement.substring(2) + ")");
+			
+ 					for (Board board : boardList) {
+ 						for (int y = 0; y < 8; y++) {
+ 							for (int x = 0; x < 8; x++) {
+ 								if (board.getPiece(x, y) == null) {
+ 									// setting the piece's rank and color to 10 will trigger the default case of the loadBoard switch statement, rendering the piece as null
+ 									insertBoard.setInt(1, 10);
+ 									insertBoard.setInt(2, 10);
+ 								} else {
+	 								switch(board.getPiece(x, y).getRank()) {
+	 								case PAWN:
+	 									insertBoard.setInt(1, 0);
+	 									break;
+	 								case ROOK:
+	 									insertBoard.setInt(1, 1);
+	 									break;
+	 								case KNIGHT:
+	 									insertBoard.setInt(1, 2);
+	 									break;
+	 								case BISHOP:
+	 									insertBoard.setInt(1, 3);
+	 									break;
+	 								case QUEEN:
+	 									insertBoard.setInt(1, 4);
+	 									break;
+	 								case KING:
+	 									insertBoard.setInt(1, 5);
+	 									break;
+	 								}
+	 								
+	 								insertBoard.setInt(2, board.getPiece(x, y).getColor());
+ 								}
+ 							}
+ 						}
+ 						
+						insertBoard.addBatch();
+					}
+					insertBoard.executeBatch();
+					
+					System.out.println("Boards table populated");					
+					
 					insertGame = conn.prepareStatement("insert into games (boardId, player1Id, player2Id, turn) values (?, ?, ?, ?)");
 					for (Game game : gameList) {
 						insertGame.setInt(1, game.getBoard().getBoardId());

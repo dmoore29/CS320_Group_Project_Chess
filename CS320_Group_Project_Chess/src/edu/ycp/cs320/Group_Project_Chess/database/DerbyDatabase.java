@@ -88,7 +88,16 @@ public class DerbyDatabase{
 // from library example
 	
 	private void loadUser(User user, ResultSet resultSet, int index) throws SQLException {
-		
+		user.setUserId(resultSet.getInt(index++));
+		user.getFriends().setFriendsId(resultSet.getInt(index++));
+		user.getCredentials().setEmail(resultSet.getString(index++));
+		user.getCredentials().setUsername(resultSet.getString(index++));
+		user.getCredentials().setPassword(resultSet.getString(index++));
+		user.getStats().setWins(resultSet.getInt(index++));
+		user.getStats().setLosses(resultSet.getInt(index++));
+		user.getStats().setElo(resultSet.getInt(index++));
+		user.getProfile().setBio(resultSet.getString(index++));
+		user.getProfile().setPictureNumber(resultSet.getInt(index++));
 	}
 	
 }

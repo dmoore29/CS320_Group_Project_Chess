@@ -35,4 +35,12 @@ public class Profile {
 	public BufferedImage getPicture() {
 		return picture;
 	}
+	
+	public void setPictureNumber(int picNum) {
+		pictureNumber = picNum;
+	}
+	
+	public int getPictureNumber() {
+		return pictureNumber;
+	}
 }

@@ -1,5 +1,6 @@
 package edu.ycp.cs320.Group_Project_Chess.database;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,10 +10,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.ycp.cs320.Group_Project_Chess.model.Bishop;
 import edu.ycp.cs320.Group_Project_Chess.model.Board;
 import edu.ycp.cs320.Group_Project_Chess.model.Game;
+import edu.ycp.cs320.Group_Project_Chess.model.King;
+import edu.ycp.cs320.Group_Project_Chess.model.Knight;
+import edu.ycp.cs320.Group_Project_Chess.model.Pawn;
+import edu.ycp.cs320.Group_Project_Chess.model.Queen;
+import edu.ycp.cs320.Group_Project_Chess.model.Rank;
+import edu.ycp.cs320.Group_Project_Chess.model.Rook;
+import edu.ycp.cs320.Group_Project_Chess.model.Space;
 import edu.ycp.cs320.Group_Project_Chess.model.User;
-import edu.ycp.cs320.booksdb.model.Author;
 
 public class DerbyDatabase{
 	
@@ -106,5 +114,38 @@ public class DerbyDatabase{
 		game.getPlayer1().setPlayerId(resultSet.getInt(index++));
 		game.getPlayer1().setPlayerId(resultSet.getInt(index++));
 		game.setTurn(resultSet.getInt(index++));
+	}
+	
+	private void loadBoard(Board board, ResultSet resultSet, int index) throws SQLException {
+		board.setBoardId(resultSet.getInt(index++));
+		for (int y = 0; y < 8; y++) {
+			for (int x = 0; x < 8; x++) {
+				Point location = new Point(x, y);
+				int rank = resultSet.getInt(index++);
+				int color = resultSet.getInt(index++);
+				switch(rank) {
+				case 0:
+					board.getSpace(x, y).setPiece(new Pawn(Rank.PAWN, color, location));
+					break;
+				case 1:
+					board.getSpace(x, y).setPiece(new Rook(Rank.ROOK, color, location));
+					break;
+				case 2:
+					board.getSpace(x, y).setPiece(new Knight(Rank.KNIGHT, color, location));
+					break;
+				case 3:
+					board.getSpace(x, y).setPiece(new Bishop(Rank.BISHOP, color, location));
+					break;
+				case 4:
+					board.getSpace(x, y).setPiece(new Queen(Rank.QUEEN, color, location));
+					break;
+				case 5:
+					board.getSpace(x, y).setPiece(new King(Rank.KING, color, location));
+					break;
+				default:
+					board.getSpace(x, y).setPiece(null);
+				}
+			}
+		}
 	}
 }

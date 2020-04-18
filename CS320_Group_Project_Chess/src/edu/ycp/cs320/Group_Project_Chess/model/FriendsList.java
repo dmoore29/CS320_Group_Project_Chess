@@ -34,5 +34,9 @@ public class FriendsList {
 	public void setFriendsId(int id) {
 		friendsId = id;
 	}
+	
+	public int getFriendsId() {
+		return friendsId;
+	}
 
 }

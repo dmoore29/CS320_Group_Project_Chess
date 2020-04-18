@@ -21,7 +21,13 @@ import edu.ycp.cs320.Group_Project_Chess.model.Rank;
 import edu.ycp.cs320.Group_Project_Chess.model.Rook;
 import edu.ycp.cs320.Group_Project_Chess.model.Space;
 import edu.ycp.cs320.Group_Project_Chess.model.User;
+import edu.ycp.cs320.booksdb.model.Author;
+import edu.ycp.cs320.booksdb.model.Book;
+import edu.ycp.cs320.booksdb.model.BookAuthor;
+import edu.ycp.cs320.booksdb.persist.DBUtil;
 import edu.ycp.cs320.booksdb.persist.DerbyDatabase;
+import edu.ycp.cs320.booksdb.persist.InitialData;
+import edu.ycp.cs320.booksdb.persist.DerbyDatabase.Transaction;
 
 public class DerbyDatabase{
 	
@@ -220,6 +226,72 @@ public class DerbyDatabase{
 		});
 	}
 	
+	public void loadInitialData() {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				ArrayList<User> userList;
+				ArrayList<Board> boardList;
+				ArrayList<Game> gameList;
+				
+				try {
+					userList.addAll(InitialData.getUsers());
+					boardList.addAll(InitialData.getBoards());
+					gameList.addAll(InitialData.getGames(boardList));					
+				} catch (IOException e) {
+					throw new SQLException("Couldn't read initial data", e);
+				}
+
+				PreparedStatement insertUser = null;
+				PreparedStatement insertBoard = null;
+				PreparedStatement insertGame = null;
+
+				try {
+					insertUser = conn.prepareStatement("insert into users (friendsId, email, username, password, wins, losses, elo, bio, pictureNumber) values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					for (User user : userList) {
+						insertUser.setInt(1, user.getFriends().getFriendsId());
+						insertUser.setString(2, user.getCredentials().getEmail());
+						insertUser.addBatch();
+					}
+					insertUser.executeBatch();
+					
+					System.out.println("Users table populated");
+					
+					// must completely populate Books table before populating BookAuthors table because of primary keys
+					insertBook = conn.prepareStatement("insert into books (title, isbn, published) values (?, ?, ?)");
+					for (Book book : bookList) {
+//						insertBook.setInt(1, book.getBookId());		// auto-generated primary key, don't insert this
+//						insertBook.setInt(1, book.getAuthorId());	// this is now in the BookAuthors table
+						insertBook.setString(1, book.getTitle());
+						insertBook.setString(2, book.getIsbn());
+						insertBook.setInt(3, book.getPublished());
+						insertBook.addBatch();
+					}
+					insertBook.executeBatch();
+					
+					System.out.println("Books table populated");					
+					
+					// must wait until all Books and all Authors are inserted into tables before creating BookAuthor table
+					// since this table consists entirely of foreign keys, with constraints applied
+					insertBookAuthor = conn.prepareStatement("insert into bookAuthors (book_id, author_id) values (?, ?)");
+					for (BookAuthor bookAuthor : bookAuthorList) {
+						insertBookAuthor.setInt(1, bookAuthor.getBookId());
+						insertBookAuthor.setInt(2, bookAuthor.getAuthorId());
+						insertBookAuthor.addBatch();
+					}
+					insertBookAuthor.executeBatch();	
+					
+					System.out.println("BookAuthors table populated");					
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(insertBook);
+					DBUtil.closeQuietly(insertAuthor);
+					DBUtil.closeQuietly(insertBookAuthor);					
+				}
+			}
+		});
+	}
 	
 	
 // from library example

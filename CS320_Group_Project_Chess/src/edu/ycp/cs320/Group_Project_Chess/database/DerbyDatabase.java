@@ -21,6 +21,7 @@ import edu.ycp.cs320.Group_Project_Chess.model.Rank;
 import edu.ycp.cs320.Group_Project_Chess.model.Rook;
 import edu.ycp.cs320.Group_Project_Chess.model.Space;
 import edu.ycp.cs320.Group_Project_Chess.model.User;
+import edu.ycp.cs320.booksdb.persist.DerbyDatabase;
 
 public class DerbyDatabase{
 	
@@ -218,4 +219,19 @@ public class DerbyDatabase{
 			}
 		});
 	}
+	
+	
+	
+// from library example
+	public static void main(String[] args) throws IOException {
+		System.out.println("Creating tables...");
+		DerbyDatabase db = new DerbyDatabase();
+		db.createTables();
+		
+		System.out.println("Loading initial data...");
+		db.loadInitialData();
+		
+		System.out.println("Library DB successfully initialized!");
+	}
+// from library example
 }

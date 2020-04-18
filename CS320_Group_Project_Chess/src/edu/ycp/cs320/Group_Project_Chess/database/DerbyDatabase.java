@@ -148,4 +148,69 @@ public class DerbyDatabase{
 			}
 		}
 	}
+	
+	public void createTables() {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				PreparedStatement stmt3 = null;				
+			
+				try {
+					stmt1 = conn.prepareStatement(
+						"create table users (" +
+						"	user_id integer primary key " +
+						"		generated always as identity (start with 1, increment by 1), " +	
+						"	friendsId integer," +
+						"	email varchar(40)," +
+						"	username varchar(40)" +
+						"	password varchar(40)," +
+						"	wins integer," +
+						"	losses integer," +
+						"	elo integer," +
+						"	bio varchar(100)," +
+						"	pictureNumber integer," +
+						")"
+					);	
+					stmt1.executeUpdate();
+					
+					System.out.println("Users table created");
+					
+					stmt2 = conn.prepareStatement(
+							"create table boards (" +
+							"	boards_id integer primary key " +
+							"		generated always as identity (start with 1, increment by 1), " +
+//							"	author_id integer constraint author_id references authors, " +  	// this is now in the BookAuthors table
+							"	title varchar(70)," +
+							"	isbn varchar(15)," +
+							"   published integer" +
+							")"
+					);
+					stmt2.executeUpdate();
+					
+					System.out.println("Boards table created");					
+					
+					stmt3 = conn.prepareStatement(
+							"create table games (" +
+							"	boards_id integer primary key " +
+							"		generated always as identity (start with 1, increment by 1), " +
+							"	board_id integer constraint board_id references boards " +
+							"   player1 integer" +
+							"   player2 integer" +
+							"   turn integer" +
+							")"
+					);
+					stmt3.executeUpdate();
+					
+					System.out.println("Games table created");					
+										
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt2);
+				}
+			}
+		});
+	}
 }

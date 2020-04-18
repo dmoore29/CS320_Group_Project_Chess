@@ -30,5 +30,9 @@ public class FriendsList {
 	public String getIndex(int indexNumber) {
 		return this.friendsList.get(indexNumber);
 	}
+	
+	public void setFriendsId(int id) {
+		friendsId = id;
+	}
 
 }

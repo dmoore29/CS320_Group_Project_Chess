@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import edu.ycp.cs320.Group_Project_Chess.model.Bishop;
 import edu.ycp.cs320.Group_Project_Chess.model.Board;
@@ -19,7 +18,6 @@ import edu.ycp.cs320.Group_Project_Chess.model.Pawn;
 import edu.ycp.cs320.Group_Project_Chess.model.Queen;
 import edu.ycp.cs320.Group_Project_Chess.model.Rank;
 import edu.ycp.cs320.Group_Project_Chess.model.Rook;
-import edu.ycp.cs320.Group_Project_Chess.model.Space;
 import edu.ycp.cs320.Group_Project_Chess.model.User;
 
 public class DerbyDatabase{

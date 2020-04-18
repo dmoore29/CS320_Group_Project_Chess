@@ -25,4 +25,8 @@ public class Player{
 	public int getPlayerId() {
 		return playerId;
 	}
+	
+	public void setPlayerId(int id) {
+		playerId = id;
+	}
 }

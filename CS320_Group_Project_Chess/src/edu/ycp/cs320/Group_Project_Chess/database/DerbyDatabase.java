@@ -100,4 +100,11 @@ public class DerbyDatabase{
 		user.getProfile().setPictureNumber(resultSet.getInt(index++));
 	}
 	
+	private void loadGame(Game game, ResultSet resultSet, int index) throws SQLException {
+		game.setGameId(resultSet.getInt(index++));
+		game.getBoard().setBoardId(resultSet.getInt(index++));
+		game.getPlayer1().setPlayerId(resultSet.getInt(index++));
+		game.getPlayer1().setPlayerId(resultSet.getInt(index++));
+		game.setTurn(resultSet.getInt(index++));
+	}
 }

@@ -31,19 +31,31 @@
 </head>
 
 <body>
+        <header>
+            <img src="images/chess_logo.png" alt="Logo">
+            <section id="title-subtitle">
+                <h2>Welcome to Chess</h2>
+                <h3>Make Your Move!</h3>
+            </section>
+        </header>
+	<main>
+		<form action="${pageContext.servletContext.contextPath}/chessGame" method="post">
+	    	<nav id="menu">
+	        	<ul>
+	            	<li><input name="home" type="submit" value="Home Page" /></li>
+	                <li><input name="chessHome" type="submit" value="Chess Home" /></li>
+	                <li><input name="profile" type="submit" value="Profile" /></li>
+	                <li><input name="friends" type="submit" value="Friends" /></li>
+	            </ul>
+	    	</nav>
+        </form>
 	<form action="${pageContext.servletContext.contextPath}/chessGame" method="post">
 		<% Game model = (Game)request.getAttribute("model"); %>
 		<%Integer sourceX = (Integer)request.getAttribute("pos1x");%>
 		<%Integer sourceY = (Integer)request.getAttribute("pos1y");%>
 
 		<div class='turn'>
-			Chess Game
-		</div>
-		<div>
-			<input name="home" type="submit" value="Home Page" />
-			<input name="chessHome" type="submit" value="Chess Home" />
-			<input name="profile" type="submit" value="Profile" />
-			<input name="friends" type="submit" value="Friends" />
+			
 		</div>
 	</form>
 
@@ -122,6 +134,18 @@
 			<%}%>
 		</div>
 		</input>
+		</form>
+		</main>
+		<aside>
+	    	<h2> VELOCITY </h2>
+	        <h2> VELOCITY </h2>          
+	    </aside>
+	    <aside id="right_aside">
+	           
+	    </aside>
+        <footer>
+            <p>&copy; Velocity Games Inc.</p>
+        </footer>
 </body>
 
 </html>

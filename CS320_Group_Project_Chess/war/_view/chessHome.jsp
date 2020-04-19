@@ -14,8 +14,8 @@
         <header>
             <img src="images/chess_logo.png" alt="Logo">
             <section id="title-subtitle">
-                <h2>Velocity Games</h2>
-                <h3>Welcome To the Future of Board Games</h3>
+                <h2>Play Chess</h2>
+                <h3>Challenge Millions of Players All Over the World</h3>
             </section>
         </header>
         <main>
@@ -32,6 +32,9 @@
         <aside>
 	    	<h2> VELOCITY </h2>
 	        <h2> VELOCITY </h2>          
+	    </aside>
+	    <aside id="right_aside">
+	           
 	    </aside>
         <footer>
             <p>&copy; Velocity Games Inc.</p>

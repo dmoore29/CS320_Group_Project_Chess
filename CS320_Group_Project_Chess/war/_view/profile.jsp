@@ -14,8 +14,8 @@
         <header>
             <img src="images/chess_logo.png" alt="Logo">
             <section id="title-subtitle">
-                <h2>Velocity Games</h2>
-                <h3>Welcome To the Future of Board Games</h3>
+                <h2>Your Profile</h2>
+                <h3>Change How the Community Views Your Page</h3>
             </section>
         </header>
         <main>

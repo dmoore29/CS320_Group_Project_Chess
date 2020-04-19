@@ -89,8 +89,44 @@ public class ChessGameServlet extends HttpServlet {
 			System.out.println("ChessGame Servlet: forwarding to friends");
 			resp.sendRedirect(req.getContextPath() + "/friends");
 		}
-		if(req.getParameter("x1") != null && pos1Recieved == false) {
-			pos1Recieved = true;
+		if(req.getParameter("rank") != null) {
+			System.out.println("Recieved Promotion Piece");
+			String r = (String)req.getParameter("rank");
+			int color;
+			if(destY == 7) { //black pawn
+				color = 1;
+			} else { //white pawn
+				color = 0;
+			}
+			switch(r) { //replaces pawn with relative piece
+				case "Queen":
+				game.getBoard().setPiece(new Queen(Rank.QUEEN, color, new Point(destX, destY)));
+				System.out.println("Setting Piece");
+				break;
+				
+				case "Rook":
+				game.getBoard().setPiece(new Rook(Rank.ROOK, color, new Point(destX, destY)));
+				System.out.println("Setting Piece");
+				break;
+				
+				case "Knight":
+				game.getBoard().setPiece(new Knight(Rank.KNIGHT, color, new Point(destX, destY)));
+				System.out.println("Setting Piece");
+				break;
+				
+				case "Bishop":
+				game.getBoard().setPiece(new Bishop(Rank.BISHOP, color, new Point(destX, destY)));
+				System.out.println("Setting Piece");
+				break;
+			}
+			
+			req.setAttribute("model", game);
+			System.out.println("ChessGame Servlet: doGet");
+			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
+			
+		}
+		if(req.getParameter("x1") != null && pos1Recieved == false) { //if position 1 is received
+			pos1Recieved = true; //sets position 1 received flag to true
 			System.out.println("Recieved Source");
 			
 			sourceX = Integer.parseInt(req.getParameter("x1"));
@@ -99,40 +135,62 @@ public class ChessGameServlet extends HttpServlet {
 			System.err.println("TURN: " + game.getTurn()%2);
 
 			
-			if(game.getBoard().getSpace(sourceX, sourceY).getPiece() != null) {
-				if(game.getTurn()%2 != game.getBoard().getSpace(sourceX, sourceY).getPiece().getColor()) {
+			if(game.getBoard().getSpace(sourceX, sourceY).getPiece() != null) { //if space has a piece
+				if(game.getTurn()%2 != game.getBoard().getSpace(sourceX, sourceY).getPiece().getColor()) { //if not player's turn
+					sourceX = 8;
+					sourceY = 8;
 					pos1Recieved = false;
 				}
 			} else {
+				sourceX = 8;
+				sourceY = 8;
 				pos1Recieved = false;
 			}
 			
-			
+			req.setAttribute("pos1x", sourceX);
+			req.setAttribute("pos1y", sourceY);
 			req.setAttribute("model", game);
-			
 			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
 		} 
 		
-		else if(req.getParameter("x1") != null && pos1Recieved == true) {
-			pos1Recieved = false;
+		else if(req.getParameter("x1") != null && pos1Recieved == true) { //if position 2 is received
+			pos1Recieved = false; //sets position 1 received flag to false
 			System.out.println("Recieved Destination");
 			
 			destX = Integer.parseInt(req.getParameter("x1"));
 			destY = Integer.parseInt(req.getParameter("y1"));
 			
-			if(game.getBoard().getSpace(sourceX, sourceY).getPiece() != null) {
-				if(sourceX == destX && sourceY == destY) {
+			if(game.getBoard().getSpace(sourceX, sourceY).getPiece() != null) { //if space has a piece
+				if(sourceX == destX && sourceY == destY) { //if source is destination
 					System.out.println("NOT VALID");
 				}
-				if(game.getBoard().getSpace(sourceX, sourceY).getPiece().validMove(new Point(destX, destY), game.getBoard()) == true) {				
-					controller.movePiece(game.getBoard().getSpace(sourceX, sourceY), game.getBoard().getSpace(destX, destY));
+				if(game.getBoard().getSpace(sourceX, sourceY).getPiece().validMove(new Point(destX, destY), game.getBoard()) == true) {	//if move is valid			
+					controller.movePiece(game.getBoard().getSpace(sourceX, sourceY), game.getBoard().getSpace(destX, destY)); //moves piece
+					
+					if(game.getBoard().getPiece(destX, destY).getRank() == Rank.PAWN) { //if piece is a pawn
+						Pawn p = (Pawn) game.getBoard().getPiece(destX, destY); //creates temporary pawn to call promotion
+						if(p.promotion(game.getBoard())) { //if pawn is at y0 or y7
+							System.err.println("PROMOTION TIME");
+							Integer promo = 1;
+							req.setAttribute("promotionFlag", promo);
+						} else {							
+							Integer promo = 0;
+							req.setAttribute("promotionFlag", promo);
+						}
+					}
 					System.out.println("VALID");
-					game.setTurn(game.getTurn()+1);
+					game.setTurn(game.getTurn()+1); //increments turn counter
+				//if selecting piece of same color after selecting source (makes moving smoother)
+				} else if(game.getBoard().getPiece(destX, destY) != null && game.getBoard().getPiece(destX, destY).getColor() == game.getBoard().getPiece(sourceX, sourceY).getColor()){
+					sourceX = destX;
+					sourceY = destY;
+					req.setAttribute("pos1x", sourceX);
+					req.setAttribute("pos1y", sourceY);
+					pos1Recieved = true;
 				} else {
 					System.out.println("NOT VALID ");
 				}
 			}
-			
 			req.setAttribute("model", game);
 			System.out.println("ChessGame Servlet: doGet");
 			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);

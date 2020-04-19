@@ -25,12 +25,14 @@ public class Pawn extends Piece {
 				&& board.getSpace((int)dest.getX(), (int)dest.getY()).getPiece() == null 
 				&& dest.getY() == location.getY()+2
 				&& location.getY() == 1
+				&& dest.x == location.x
 				&& board.getSpace((int)dest.getX(), (int)dest.getY()-1).getPiece() == null) {
 			return true;
 		} else if (color == 0 //piece is white, moving 2 up from start
 				&& board.getSpace((int)dest.getX(), (int)dest.getY()).getPiece() == null 
 				&& dest.getY() == location.getY()-2
 				&& location.getY() == 6
+				&& dest.x == location.x
 				&& board.getSpace((int)dest.getX(), (int)dest.getY()+1).getPiece() == null) {
 			return true;			
 		} else if (color == 1 //piece is black, captures piece down 1 and 1 to either side
@@ -49,6 +51,20 @@ public class Pawn extends Piece {
 			} else {
 				return false;
 			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Return true if pawn is in the top or bottom.
+	 * 
+	 * @param board   	the game board
+	 * @return false if pawn is not in top or bottom,
+	 *     true if pawn is in the top or bottom.
+	 */
+	public Boolean promotion(Board board) {
+		if(location.y == 7 || location.y == 0) { //if in top or bottom
+			return true;
 		}
 		return false;
 	}

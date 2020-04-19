@@ -45,5 +45,7 @@ img {
 	position: fixed;
 	top: 150px;
 	right: 20%;
-	color: blue;
+	color: RED;
+    font-family: 'Helvetica Neue', sans-serif; font-size: 30px; font-weight: bold; letter-spacing: -1px; line-height: 1;
+
 }

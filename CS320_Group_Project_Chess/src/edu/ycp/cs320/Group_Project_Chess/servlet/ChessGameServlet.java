@@ -89,6 +89,41 @@ public class ChessGameServlet extends HttpServlet {
 			System.out.println("ChessGame Servlet: forwarding to friends");
 			resp.sendRedirect(req.getContextPath() + "/friends");
 		}
+		if(req.getParameter("rank") != null) {
+			System.out.println("Recieved Promotion Piece");
+			String r = (String)req.getParameter("rank");
+			int color;
+			if(destY == 7) {
+				color = 1;
+			} else {
+				color = 0;
+			}
+			switch(r) {
+				case "Queen":
+				game.getBoard().setPiece(new Queen(Rank.QUEEN, color, new Point(destX, destY)));
+				System.out.println("Setting Piece");
+				break;
+				
+				case "Rook":
+				game.getBoard().setPiece(new Rook(Rank.ROOK, color, new Point(destX, destY)));
+				System.out.println("Setting Piece");
+				break;
+				
+				case "Knight":
+				game.getBoard().setPiece(new Knight(Rank.KNIGHT, color, new Point(destX, destY)));
+				System.out.println("Setting Piece");
+				break;
+				
+				case "Bishop":
+				game.getBoard().setPiece(new Bishop(Rank.BISHOP, color, new Point(destX, destY)));
+				System.out.println("Setting Piece");
+				break;
+			}
+			req.setAttribute("model", game);
+			System.out.println("ChessGame Servlet: doGet");
+			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
+			
+		}
 		if(req.getParameter("x1") != null && pos1Recieved == false) { //if position 1 is received
 			pos1Recieved = true; //sets position 1 received flag to true
 			System.out.println("Recieved Source");

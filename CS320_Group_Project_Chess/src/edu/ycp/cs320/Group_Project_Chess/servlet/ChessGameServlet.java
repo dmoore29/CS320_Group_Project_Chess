@@ -89,8 +89,8 @@ public class ChessGameServlet extends HttpServlet {
 			System.out.println("ChessGame Servlet: forwarding to friends");
 			resp.sendRedirect(req.getContextPath() + "/friends");
 		}
-		if(req.getParameter("x1") != null && pos1Recieved == false) {
-			pos1Recieved = true;
+		if(req.getParameter("x1") != null && pos1Recieved == false) { //if position 1 is received
+			pos1Recieved = true; //sets position 1 received flag to true
 			System.out.println("Recieved Source");
 			
 			sourceX = Integer.parseInt(req.getParameter("x1"));
@@ -99,8 +99,8 @@ public class ChessGameServlet extends HttpServlet {
 			System.err.println("TURN: " + game.getTurn()%2);
 
 			
-			if(game.getBoard().getSpace(sourceX, sourceY).getPiece() != null) {
-				if(game.getTurn()%2 != game.getBoard().getSpace(sourceX, sourceY).getPiece().getColor()) {
+			if(game.getBoard().getSpace(sourceX, sourceY).getPiece() != null) { //if space has a piece
+				if(game.getTurn()%2 != game.getBoard().getSpace(sourceX, sourceY).getPiece().getColor()) { //if not player's turn
 					pos1Recieved = false;
 				}
 			} else {
@@ -113,21 +113,21 @@ public class ChessGameServlet extends HttpServlet {
 			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
 		} 
 		
-		else if(req.getParameter("x1") != null && pos1Recieved == true) {
-			pos1Recieved = false;
+		else if(req.getParameter("x1") != null && pos1Recieved == true) { //if position 2 is received
+			pos1Recieved = false; //sets position 1 received flag to false
 			System.out.println("Recieved Destination");
 			
 			destX = Integer.parseInt(req.getParameter("x1"));
 			destY = Integer.parseInt(req.getParameter("y1"));
 			
-			if(game.getBoard().getSpace(sourceX, sourceY).getPiece() != null) {
-				if(sourceX == destX && sourceY == destY) {
+			if(game.getBoard().getSpace(sourceX, sourceY).getPiece() != null) { //if space has a piece
+				if(sourceX == destX && sourceY == destY) { //if source is destination
 					System.out.println("NOT VALID");
 				}
-				if(game.getBoard().getSpace(sourceX, sourceY).getPiece().validMove(new Point(destX, destY), game.getBoard()) == true) {				
-					controller.movePiece(game.getBoard().getSpace(sourceX, sourceY), game.getBoard().getSpace(destX, destY));
+				if(game.getBoard().getSpace(sourceX, sourceY).getPiece().validMove(new Point(destX, destY), game.getBoard()) == true) {	//if move is valid			
+					controller.movePiece(game.getBoard().getSpace(sourceX, sourceY), game.getBoard().getSpace(destX, destY)); //moves piece
 					System.out.println("VALID");
-					game.setTurn(game.getTurn()+1);
+					game.setTurn(game.getTurn()+1); //increments turn counter
 				} else {
 					System.out.println("NOT VALID ");
 				}

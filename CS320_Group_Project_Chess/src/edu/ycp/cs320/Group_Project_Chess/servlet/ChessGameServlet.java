@@ -93,12 +93,12 @@ public class ChessGameServlet extends HttpServlet {
 			System.out.println("Recieved Promotion Piece");
 			String r = (String)req.getParameter("rank");
 			int color;
-			if(destY == 7) {
+			if(destY == 7) { //black pawn
 				color = 1;
-			} else {
+			} else { //white pawn
 				color = 0;
 			}
-			switch(r) {
+			switch(r) { //replaces pawn with relative piece
 				case "Queen":
 				game.getBoard().setPiece(new Queen(Rank.QUEEN, color, new Point(destX, destY)));
 				System.out.println("Setting Piece");
@@ -119,6 +119,7 @@ public class ChessGameServlet extends HttpServlet {
 				System.out.println("Setting Piece");
 				break;
 			}
+			
 			req.setAttribute("model", game);
 			System.out.println("ChessGame Servlet: doGet");
 			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
@@ -175,6 +176,11 @@ public class ChessGameServlet extends HttpServlet {
 					}
 					System.out.println("VALID");
 					game.setTurn(game.getTurn()+1); //increments turn counter
+				//if selecting piece of same color after selecting source (makes moving smoother)
+				} else if(game.getBoard().getPiece(destX, destY) != null && game.getBoard().getPiece(destX, destY).getColor() == game.getBoard().getPiece(sourceX, sourceY).getColor()){
+					sourceX = destX;
+					sourceY = destY;
+					pos1Recieved = true;
 				} else {
 					System.out.println("NOT VALID ");
 				}

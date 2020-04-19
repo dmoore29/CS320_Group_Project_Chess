@@ -105,14 +105,12 @@
 			<%Integer promotionFlag = (Integer)request.getAttribute("promotionFlag");%>
 			<%if(promotionFlag != null){ %>
 			<%if(promotionFlag == 1){ %>
-			PROMOTION:
+			Select a piece:
 			<ul>
-				<div onclick="promotionCallToServlet('Queen')">
-				<li>Queen</li>
-				</div>
-				<li onclick="promotionCallToServlet('Rook')">Rook</li>
-				<li onclick="promotionCallToServlet('Knight')">Knight</li>
-				<li onclick="promotionCallToServlet('Bishop')">Bishop</li>
+				<li onclick="promotionCallToServlet('Queen')" class="promotionOption">Queen</li>
+				<li onclick="promotionCallToServlet('Rook')" class="promotionOption">Rook</li>
+				<li onclick="promotionCallToServlet('Knight')" class="promotionOption">Knight</li>
+				<li onclick="promotionCallToServlet('Bishop')" class="promotionOption">Bishop</li>
 			</ul>
 			<%}%>
 			<%}%>

@@ -2,25 +2,29 @@ td{
 	width: 60px;
 	height: 60px;
 	border-style: solid;
+	border-width: 5px;
+	border-color: black;
+	background-color:#644BBF;
 }
 
 td:hover{
 	width: 60px;
 	height: 60px;
 	border-style: solid;
-	background:red;
+	background:#E36206;
 }
 
 .selected{
 	width: 60px;
 	height: 60px;
 	border-style: solid;
-	background:red;
+	background:#E36206;
 }
 
 tr{
 	width: 60px;
 	height: 60px;
+	border-width: 5px;
 }
 
 img {
@@ -29,9 +33,11 @@ img {
 }
 
 .space{
+	margin-top: 265px;
+	margin-left: 30px;
 	width:700px;
 	height:700px;
-	position: fixed; 
+	position: absolute; 
 	/* background-color: #00FF00; */
 	top: 100px;
 	left: 30%;
@@ -43,13 +49,19 @@ img {
 
 .turn{
 	color: #111; font-family: 'Helvetica Neue', sans-serif; font-size: 30px; font-weight: bold; letter-spacing: -1px; line-height: 1;
+	margin-bottom: 5px;
+	margin-left: 250px;
 }
 .player{
 	color: #111; font-family: 'Helvetica Neue', sans-serif; font-size: 30px; font-weight: bold; letter-spacing: -1px; line-height: 1;
+	margin-bottom: 5px;
+	margin-left: 250px;
 }
 
 .promotion{
-	position: fixed;
+	margin-top: 265px;
+	margin-left: 30px;
+	position: absolute;
 	top: 150px;
 	right: 20%;
 	color: black;
@@ -64,6 +76,214 @@ img {
 
 .promotionOption:hover{
 	cursor: pointer;
-	color: red;
+	color: #E36206;
     font-family: 'Helvetica Neue', sans-serif; font-size: 30px; font-weight: bold; letter-spacing: -1px; line-height: 1;
+}
+html{
+    background-color: #3A3659;
+}
+body {
+    font-family: "Open Sans", Arial, Helvetica, sans-serif;
+    width: 90%;
+    margin: 0 auto;
+    background-color: #2C2C2C;
+    box-shadow: 0 0 10px 2px black;
+    color: #644BBF;
+}
+header {
+    background-image: linear-gradient(to right, #3A3659, #644BBF);
+    padding: 1.875%;
+    position: relative;
+}
+header > img {
+    height: 25%;
+    width: 20%;
+    float: left;
+    margin-left: 10%;
+}
+#Links{
+    text-decoration: underline;
+}
+#title-subtitle {
+	float: left;
+}
+#title-subtitle > h2 {
+    font-size: 2.5em;
+    margin-left: 200px;
+    color: black;
+    text-align: center;
+}
+#title-subtitle > h3 {
+    font-size: 1em;
+    margin-left: 200px;
+    color: black;
+    text-align: center;
+}
+main, footer {
+    padding: 1.875%;
+}
+h1 {
+    font-size: 1.5em;
+}
+h2 {
+    font-size: 1.25em;
+}
+h1::first-letter {
+    font-size: 150%;
+}
+a:focus, a:hover {
+    text-decoration: none;
+}
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+ul li {
+    line-height: 1.5;
+}
+footer p {
+    text-align: center;
+}
+aside {
+    float: left;
+    width: 21.25%;
+    padding: 0 1.875%;
+    color: #644BBF;
+
+}
+aside > h2{
+    margin-top: 150%;
+    height: 100%;
+    width: 75%;
+    font-size: 85px;
+    padding-top: 5px;
+    transform: rotate(270deg);
+    color:#644BBF;
+}
+#right_aside{
+    float: right;
+    width: 21.25%;
+    padding: 0 1.875%;
+}
+#right_aside > h2{
+    margin-top: 150%;
+    height: 100%;
+    width: 75%;
+}
+#IGN{
+    font-style: italic;
+}
+header {
+    overflow: auto;
+}
+main {
+    float: right;
+    width: 71.25%;
+    padding: 0 1.875%;
+}
+footer {
+    clear: both;
+}
+#hamburger-button {
+    background: #644BBF;
+    color: black;
+    float: right;
+    border-style: none;
+    border-radius: 3px;
+    display: none;
+    position: absolute;
+    top: 1.875%;
+    right: 3.5%;
+}
+#hamburger-button div {
+    width: 20px;
+    height: 2px;
+    background-color: white;
+    margin: 6px 0;
+}
+nav ul {
+    list-style-type: none;
+    text-align: center;
+    padding-left: 0;
+}
+nav ul li {
+    display: inline;
+}
+main section ul li{
+    display: inline;
+    padding-right:20px
+}
+nav ul li + li {
+    padding-left: 20px;
+}
+nav ul li .current {
+    text-decoration: none;
+}
+#planning{
+    background-color:lightblue;
+    width:50%;
+    margin-top:1em;
+    margin-bottom:1em;
+    margin-right:auto;
+    margin-left:auto;
+    box-shadow: 2px 2px grey;
+    border-radius: 10px;
+    text-align:center;
+}
+main a{
+    text-decoration:none;
+}
+main p{
+    margin-right:33%;
+}
+#menu{
+    float:left;
+}
+#menu ul{
+    list-style-type:none;
+    padding-left:0;
+}
+#menu ul li{
+    margin:5px;
+}
+#menu ul li input{
+    display:inline-block;
+    padding:.5em;
+    width:150px;
+    background-color:#644BBF;
+    color:black;
+    text-decoration:none;
+    border-radius:5px;
+    border-color:#644BBF;
+}
+#menu ul li input.current{
+    background-color:lightblue;
+    color:blue;
+}
+@media only screen and (max-width: 959px) {
+    #hamburger-button {
+        display: block;
+    }
+    #top-menu {
+        display: none;
+    }
+}
+@media only screen and (max-width: 767px) {
+    main, aside {
+        float: none;
+        width: 96.25%;
+    }
+}
+@media only screen and (max-width: 497px) {
+    body {
+        width: 100%;
+    }
+    header > img, #title-subtitle {
+        float: none;
+    }
+    header > img {
+        width: 90px;
+        margin: 10px auto;
+        display: block;
+    }
 }

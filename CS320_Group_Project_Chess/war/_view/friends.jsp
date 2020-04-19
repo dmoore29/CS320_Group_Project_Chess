@@ -19,7 +19,7 @@
             </section>
         </header>
         <main>
-        	<form action="${pageContext.servletContext.contextPath}/profile" method="post">
+        	<form action="${pageContext.servletContext.contextPath}/friends" method="post">
 	            <nav id="menu">
 	                <ul>
 	                    <li><input name="home" type="submit" value="Home Page" /></li>

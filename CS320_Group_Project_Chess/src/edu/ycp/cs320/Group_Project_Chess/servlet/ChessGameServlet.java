@@ -126,6 +126,13 @@ public class ChessGameServlet extends HttpServlet {
 				}
 				if(game.getBoard().getSpace(sourceX, sourceY).getPiece().validMove(new Point(destX, destY), game.getBoard()) == true) {	//if move is valid			
 					controller.movePiece(game.getBoard().getSpace(sourceX, sourceY), game.getBoard().getSpace(destX, destY)); //moves piece
+					
+					if(game.getBoard().getPiece(destX, destY).getRank() == Rank.PAWN) { //if piece is a pawn
+						Pawn p = (Pawn) game.getBoard().getPiece(destX, destY);
+						if(p.promotion(game.getBoard())) {
+							System.err.println("PROMOTION TIME");
+						}
+					}
 					System.out.println("VALID");
 					game.setTurn(game.getTurn()+1); //increments turn counter
 				} else {

@@ -90,6 +90,14 @@
 			<% } %> 
 		</table> 
 		</div>
+		<div class="promotion">
+			<%Integer promotionFlag = (Integer)request.getAttribute("promotionFlag");%>
+			<%if(promotionFlag != null){ %>
+			<%if(promotionFlag == 1){ %>
+				PROMOTION TIME
+			<%}%>
+			<%}%>
+		</div>
 		</input>
 		</form>
 	</body> 

@@ -128,9 +128,14 @@ public class ChessGameServlet extends HttpServlet {
 					controller.movePiece(game.getBoard().getSpace(sourceX, sourceY), game.getBoard().getSpace(destX, destY)); //moves piece
 					
 					if(game.getBoard().getPiece(destX, destY).getRank() == Rank.PAWN) { //if piece is a pawn
-						Pawn p = (Pawn) game.getBoard().getPiece(destX, destY);
-						if(p.promotion(game.getBoard())) {
+						Pawn p = (Pawn) game.getBoard().getPiece(destX, destY); //creates temporary pawn to call promotion
+						if(p.promotion(game.getBoard())) { //if pawn is at y0 or y7
 							System.err.println("PROMOTION TIME");
+							Integer promo = 1;
+							req.setAttribute("promotionFlag", promo);
+						} else {							
+							Integer promo = 0;
+							req.setAttribute("promotionFlag", promo);
 						}
 					}
 					System.out.println("VALID");

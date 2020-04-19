@@ -29,9 +29,10 @@
 	            </nav>
             </form>
         </main>
-        <aside id="Velocity">
-            <h2> Velocity </h2>      
-        </aside>
+        <aside>
+	    	<h2> VELOCITY </h2>
+	        <h2> VELOCITY </h2>          
+	    </aside>
         <footer>
             <p>&copy; Velocity Games Inc.</p>
         </footer>

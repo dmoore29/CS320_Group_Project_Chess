@@ -10,7 +10,7 @@ body {
     color: lime;
 }
 header {
-    background-image: linear-gradient(to right, black, lime);
+    background-image: linear-gradient(to right, black, #5D49A6);
     padding: 1.875%;
     position: relative;
 }
@@ -156,11 +156,7 @@ main p{
     margin-right:33%;
 }
 #menu{
-    float:right;
-}
-#menu ul{
-    list-style-type:none;
-    padding-left:0;
+    float:left;
 }
 #menu ul{
     list-style-type:none;
@@ -169,52 +165,13 @@ main p{
 #menu ul li{
     margin:5px;
 }
-#Seth{
-    height: 70%;
-    width: 20%;
-    margin-right: 3%;
-}
-#Names > h2{
-    display: inline;
-    text-decoration: underline;
-    margin-right: 10%;
-}
-#Kelly{
-    height: 70%;
-    width: 20%;
-    margin-right: 5%;
-}
-#Andrew{
-    height: 70%;
-    width: 20%;
-}
-#Bios{
-    column-count: 3;
-    width:70%;
-    text-align:center;
-    display:block;
-    background-color: transparent;
-    border: 1px solid transparent;
-    column-rule-color: lime;
-    column-rule-style: groove;
-    column-rule-width: 1px;
-    margin-right: 10px;
-    margin-bottom: 1px;
-    float:left;
-}
 #Velocity{
     margin-top: 50%;
     height: 150%;
     width: 150%;
     transform: rotate(270deg);
+    color:#5D49A6;
 }
-#Velocity2{
-    margin-top: 75%;
-    height: 150%;
-    width: 150%;
-    transform: rotate(270deg);
-}
-
 table {
     border-collapse: collapse;
     width: 60%;
@@ -232,17 +189,17 @@ table th {
 table > td > a[hdr-beach]{
     text-align: right;
 }
-#menu ul li a{
-    display:block;
+#menu ul li input{
+    display:inline-block;
     padding:.5em;
     width:150px;
-    background-color:lime;
+    background-color:#644BBF;
     color:black;
     text-decoration:none;
     border-radius:5px;
-    box-shadow:2px 2px 2px grey;
+    border-color:#5D49A6;
 }
-#menu ul li a.current{
+#menu ul li input.current{
     background-color:lightblue;
     color:blue;
 }

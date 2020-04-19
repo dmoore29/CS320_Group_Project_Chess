@@ -20,30 +20,17 @@
         </header>
         <main>
         	<form action="${pageContext.servletContext.contextPath}/chessHome" method="post">
-        		<div>
-					<input name="home" type="submit" value="Home Page" />
-					<input name="chessGame" type="submit" value="Play Chess" />
-					<input name="profile" type="submit" value="Profile" />
-				</div>
-			</form>
-            <nav id="menu">
-                <ul>
-                    <li><a href="Home.html"><strong>Home</strong></a></li>
-                    <li><a href="Events&Schedule.html"><strong>Events & Schedule</strong></a></li>
-                    <li><a href="Our_Systems.html"><strong>Our Games</strong></a></li>
-                    <li><a href="Activities.html"><strong>Leaderboards</strong></a></li>
-                    <li><a href="MOS.html">Meet Our Staff</a></li>
-                    <li><a href="HOF.html">Hall of Fame</a></li>
-                    <li><a href="Sponsors.html">Our Sponsors</a></li>
-                    <li><a href="BAM.html"><strong>Become A Gold Member</strong></a></li>
-                    <li><a href="CP.html">Corperate Policy</a></li>
-                    <li><a href="FAQ.html">FAQ</a></li>
-                </ul>
-            </nav>
+	            <nav id="menu">
+	                <ul>
+	                    <li><input name="home" type="submit" value="Home Page" /></li>
+	                    <li><input name="chessGame" type="submit" value="Play Chess" /></li>
+	                    <li><input name="profile" type="submit" value="Profile" /></a></li>
+	                </ul>
+	            </nav>
+            </form>
         </main>
-        <aside>
-            <img id="Velocity" src="images/Velocity.png" alt="Velocity">   
-            <img id="Velocity2" src="images/Velocity.png" alt="Velocity">    
+        <aside id="Velocity">
+            <h2> Velocity </h2>      
         </aside>
         <footer>
             <p>&copy; Velocity Games Inc.</p>

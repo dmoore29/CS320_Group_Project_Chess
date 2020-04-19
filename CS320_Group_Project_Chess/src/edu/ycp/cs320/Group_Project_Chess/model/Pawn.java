@@ -52,4 +52,18 @@ public class Pawn extends Piece {
 		}
 		return false;
 	}
+	
+	/**
+	 * Return true if pawn is in the top or bottom.
+	 * 
+	 * @param board   	the game board
+	 * @return false if pawn is not in top or bottom,
+	 *     true if pawn is in the top or bottom.
+	 */
+	public Boolean promotion(Board board) {
+		if(location.y == 7 || location.y == 0) { //if in top or bottom
+			return true;
+		}
+		return false;
+	}
 }

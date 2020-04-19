@@ -160,14 +160,14 @@ public class DerbyDatabase{
 						"create table users (" +
 						"	user_id integer primary key " +
 						"		generated always as identity (start with 1, increment by 1), " +	
-						"	friendsId integer," +
-						"	email varchar(40)," +
-						"	username varchar(40)" +
-						"	password varchar(40)," +
-						"	wins integer," +
-						"	losses integer," +
-						"	elo integer," +
-						"	bio varchar(100)," +
+						"	friendsId integer, " +
+						"	email varchar(40), " +
+						"	username varchar(40), " +
+						"	password varchar(40), " +
+						"	wins integer, " +
+						"	losses integer, " +
+						"	elo integer, " +
+						"	bio varchar(100), " +
 						"	pictureNumber integer" +
 						")"
 					);	
@@ -198,9 +198,9 @@ public class DerbyDatabase{
 							"create table games (" +
 							"	boards_id integer primary key " +
 							"		generated always as identity (start with 1, increment by 1), " +
-							"	board_id integer constraint board_id references boards " +
-							"   player1 integer" +
-							"   player2 integer" +
+							"	boardId integer constraint board_id references boards, " +
+							"   player1Id integer, " +
+							"   player2Id integer, " +
 							"   turn integer" +
 							")"
 					);

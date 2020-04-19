@@ -33,6 +33,8 @@
 <body>
 	<form action="${pageContext.servletContext.contextPath}/chessGame" method="post">
 		<% Game model = (Game)request.getAttribute("model"); %>
+		<%Integer sourceX = (Integer)request.getAttribute("pos1x");%>
+		<%Integer sourceY = (Integer)request.getAttribute("pos1y");%>
 
 		<div class='turn'>
 			Chess Game
@@ -59,7 +61,11 @@
 				<% for (int y = 0; y < 8; y++ ) { %>
 				<tr>
 					<% for (int x = 0; x < 8; x++) { %>
-					<td onclick="transferCallToServlet(<%=x%> , <%=y%>)" class="test<%=(x+y)%2 %>">
+						<%if(sourceX != null && sourceX == x && sourceY == y){ %>
+							<td onclick="transferCallToServlet(<%=x%> , <%=y%>)" class="selected">
+						<%} else { %>
+							<td onclick="transferCallToServlet(<%=x%> , <%=y%>)" class="test<%=(x+y)%2 %>">
+						<% } %>
 						<% if (model.getBoard().getSpace(x, y).getPiece() != null) {
 						String color = null;
 						if (model.getBoard().getPiece(x, y).getColor() == 1) {

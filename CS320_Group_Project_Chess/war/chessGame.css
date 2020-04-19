@@ -11,6 +11,13 @@ td:hover{
 	background:red;
 }
 
+.selected{
+	width: 60px;
+	height: 60px;
+	border-style: solid;
+	background:red;
+}
+
 tr{
 	width: 60px;
 	height: 60px;

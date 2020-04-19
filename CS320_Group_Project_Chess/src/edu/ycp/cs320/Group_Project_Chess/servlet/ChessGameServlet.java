@@ -137,15 +137,19 @@ public class ChessGameServlet extends HttpServlet {
 			
 			if(game.getBoard().getSpace(sourceX, sourceY).getPiece() != null) { //if space has a piece
 				if(game.getTurn()%2 != game.getBoard().getSpace(sourceX, sourceY).getPiece().getColor()) { //if not player's turn
+					sourceX = 8;
+					sourceY = 8;
 					pos1Recieved = false;
 				}
 			} else {
+				sourceX = 8;
+				sourceY = 8;
 				pos1Recieved = false;
 			}
 			
-			
+			req.setAttribute("pos1x", sourceX);
+			req.setAttribute("pos1y", sourceY);
 			req.setAttribute("model", game);
-			
 			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
 		} 
 		
@@ -180,12 +184,13 @@ public class ChessGameServlet extends HttpServlet {
 				} else if(game.getBoard().getPiece(destX, destY) != null && game.getBoard().getPiece(destX, destY).getColor() == game.getBoard().getPiece(sourceX, sourceY).getColor()){
 					sourceX = destX;
 					sourceY = destY;
+					req.setAttribute("pos1x", sourceX);
+					req.setAttribute("pos1y", sourceY);
 					pos1Recieved = true;
 				} else {
 					System.out.println("NOT VALID ");
 				}
 			}
-			
 			req.setAttribute("model", game);
 			System.out.println("ChessGame Servlet: doGet");
 			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);

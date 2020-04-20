@@ -7,6 +7,13 @@ public class User {
 	private FriendsList friends;
 	private Profile profile;
 	
+	public User() {
+		friends = new FriendsList();
+		credentials = new Credentials();
+		stats = new Stats();
+		profile = new Profile();
+	}
+	
 	public User(Credentials credentials, Stats stats, FriendsList friends, Profile profile) {
 		this.credentials = credentials;
 		this.stats = stats;

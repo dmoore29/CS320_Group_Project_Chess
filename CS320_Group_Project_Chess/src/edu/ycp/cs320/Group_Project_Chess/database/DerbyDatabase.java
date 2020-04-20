@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.ycp.cs320.Group_Project_Chess.model.Bishop;
 import edu.ycp.cs320.Group_Project_Chess.model.Board;
@@ -33,6 +34,49 @@ public class DerbyDatabase{
 	
 	private interface Transaction<ResultType> {
 		public ResultType execute(Connection conn) throws SQLException;
+	}
+	
+	// transaction that retrieves all Users in database
+	public ArrayList<User> findAllUsers() {
+		return executeTransaction(new Transaction<ArrayList<User>>() {
+			@Override
+			public ArrayList<User> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"select * from users"
+					);
+					
+					ArrayList<User> result = new ArrayList<User>();
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						User user = new User();
+						loadUser(user, resultSet, 1);
+						
+						result.add(user);
+					}
+					
+					// check if any users were found
+					if (!found) {
+						System.out.println("No users were found in the database");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
 	}
 
 	private static final int MAX_ATTEMPTS = 10;
@@ -242,6 +286,13 @@ public class DerbyDatabase{
 					for (User user : userList) {
 						insertUser.setInt(1, user.getFriends().getFriendsId());
 						insertUser.setString(2, user.getCredentials().getEmail());
+						insertUser.setString(3, user.getCredentials().getUsername());
+						insertUser.setString(4, user.getCredentials().getPassword());
+						insertUser.setInt(5, user.getStats().getWins());
+						insertUser.setInt(6, user.getStats().getLosses());
+						insertUser.setInt(7, user.getStats().getElo());
+						insertUser.setString(8, user.getProfile().getBio());
+						insertUser.setInt(9, user.getProfile().getPictureNumber());
 						insertUser.addBatch();
 					}
 					insertUser.executeBatch();

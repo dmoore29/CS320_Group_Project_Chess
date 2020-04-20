@@ -5,6 +5,7 @@ public class Credentials {
 	private String username;
 	private String password;
 	
+	public Credentials() {}
 	
 	public Credentials(String email, String username, String password) {
 		this.email = email;

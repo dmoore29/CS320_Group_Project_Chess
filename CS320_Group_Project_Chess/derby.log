@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Mon Apr 20 11:18:21 EDT 2020:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0171-982b-36e0-000008244fe8 
-on database directory /Users/davidmoore777/CS-320/DB/chess.db with class loader sun.misc.Launcher$AppClassLoader@2a139a55 
-Loaded from file:/Users/davidmoore777/CS-201/CS320_Derby/lib/derby.jar
+Mon Apr 20 11:32:28 EDT 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0171-9838-231c-00000e38b7c0 
+on database directory C:\CS320-Group_Project_Chess\chess.db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/D:/downloads/CS201_Fall2019/CS201_Fall2019/workspace/CS320_Derby/lib/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_91-b14
-user.dir=/Users/davidmoore777/git/CS320_Group_Project_Chess/CS320_Group_Project_Chess
-os.name=Mac OS X
-os.arch=x86_64
-os.version=10.15.4
+java.runtime.version=1.8.0_171-b11
+user.dir=D:\downloads\CS320_Spring20\GroupProjectChess\CS320_Group_Project_Chess\CS320_Group_Project_Chess
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''

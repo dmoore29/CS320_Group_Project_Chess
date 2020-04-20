@@ -18,7 +18,7 @@ import edu.ycp.cs320.Group_Project_Chess.model.User;
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	LoginController controller = new LoginController(new FakeDatabase());
+	LoginController controller = null;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -51,6 +51,8 @@ public class LoginServlet extends HttpServlet {
 		
 		String errorMessage = null;
 		String destination = null;
+		
+		controller = new LoginController();
 			
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");

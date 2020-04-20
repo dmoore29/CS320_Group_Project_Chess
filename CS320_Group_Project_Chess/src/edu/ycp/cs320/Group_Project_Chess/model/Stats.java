@@ -22,7 +22,7 @@ public class Stats {
 		this.wins = wins;
 	}
 	
-	public double getWins() {
+	public int getWins() {
 		return wins;
 	}
 	
@@ -30,7 +30,7 @@ public class Stats {
 		this.losses = losses;
 	}
 	
-	public double getLosses() {
+	public int getLosses() {
 		return losses;
 	}
 	

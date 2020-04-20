@@ -34,6 +34,49 @@ public class DerbyDatabase{
 	private interface Transaction<ResultType> {
 		public ResultType execute(Connection conn) throws SQLException;
 	}
+	
+	// transaction that retrieves all Users in database
+	public ArrayList<User> findAllUsers() {
+		return executeTransaction(new Transaction<ArrayList<User>>() {
+			@Override
+			public ArrayList<User> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"select * from users"
+					);
+					
+					ArrayList<User> result = new ArrayList<User>();
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						User user = new User();
+						loadUser(user, resultSet, 1);
+						
+						result.add(user);
+					}
+					
+					// check if any users were found
+					if (!found) {
+						System.out.println("No users were found in the database");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
 
 	private static final int MAX_ATTEMPTS = 10;
 	
@@ -242,6 +285,13 @@ public class DerbyDatabase{
 					for (User user : userList) {
 						insertUser.setInt(1, user.getFriends().getFriendsId());
 						insertUser.setString(2, user.getCredentials().getEmail());
+						insertUser.setString(3, user.getCredentials().getUsername());
+						insertUser.setString(4, user.getCredentials().getPassword());
+						insertUser.setInt(5, user.getStats().getWins());
+						insertUser.setInt(6, user.getStats().getLosses());
+						insertUser.setInt(7, user.getStats().getElo());
+						insertUser.setString(8, user.getProfile().getBio());
+						insertUser.setInt(9, user.getProfile().getPictureNumber());
 						insertUser.addBatch();
 					}
 					insertUser.executeBatch();
@@ -260,36 +310,42 @@ public class DerbyDatabase{
 					
 					insertBoard = conn.prepareStatement("insert into boards (" + boardStatement.substring(2) + ") values (" + valueStatement.substring(2) + ")");
 			
+					int adjustment;
+					
  					for (Board board : boardList) {
  						for (int y = 0; y < 8; y++) {
  							for (int x = 0; x < 8; x++) {
+ 								
+ 								// this is a function that calculates the correct offset for each index of the ? in SQL statement
+ 								adjustment = ((y * 8) + x) * 2;
+ 								
  								if (board.getPiece(x, y) == null) {
  									// setting the piece's rank and color to 10 will trigger the default case of the loadBoard switch statement, rendering the piece as null
- 									insertBoard.setInt(1, 10);
- 									insertBoard.setInt(2, 10);
+ 									insertBoard.setInt(adjustment + 1, 10);
+ 									insertBoard.setInt(adjustment + 2, 10);
  								} else {
 	 								switch(board.getPiece(x, y).getRank()) {
 	 								case PAWN:
-	 									insertBoard.setInt(1, 0);
+	 									insertBoard.setInt(adjustment + 1, 0);
 	 									break;
 	 								case ROOK:
-	 									insertBoard.setInt(1, 1);
+	 									insertBoard.setInt(adjustment + 1, 1);
 	 									break;
 	 								case KNIGHT:
-	 									insertBoard.setInt(1, 2);
+	 									insertBoard.setInt(adjustment + 1, 2);
 	 									break;
 	 								case BISHOP:
-	 									insertBoard.setInt(1, 3);
+	 									insertBoard.setInt(adjustment + 1, 3);
 	 									break;
 	 								case QUEEN:
-	 									insertBoard.setInt(1, 4);
+	 									insertBoard.setInt(adjustment + 1, 4);
 	 									break;
 	 								case KING:
-	 									insertBoard.setInt(1, 5);
+	 									insertBoard.setInt(adjustment + 1, 5);
 	 									break;
 	 								}
 	 								
-	 								insertBoard.setInt(2, board.getPiece(x, y).getColor());
+	 								insertBoard.setInt(adjustment + 2, board.getPiece(x, y).getColor());
  								}
  							}
  						}

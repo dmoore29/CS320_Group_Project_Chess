@@ -311,36 +311,42 @@ public class DerbyDatabase{
 					
 					insertBoard = conn.prepareStatement("insert into boards (" + boardStatement.substring(2) + ") values (" + valueStatement.substring(2) + ")");
 			
+					int adjustment;
+					
  					for (Board board : boardList) {
  						for (int y = 0; y < 8; y++) {
  							for (int x = 0; x < 8; x++) {
+ 								
+ 								// this is a function that calculates the correct offset for each index of the ? in SQL statement
+ 								adjustment = ((y * 8) + x) * 2;
+ 								
  								if (board.getPiece(x, y) == null) {
  									// setting the piece's rank and color to 10 will trigger the default case of the loadBoard switch statement, rendering the piece as null
- 									insertBoard.setInt(1, 10);
- 									insertBoard.setInt(2, 10);
+ 									insertBoard.setInt(adjustment + 1, 10);
+ 									insertBoard.setInt(adjustment + 2, 10);
  								} else {
 	 								switch(board.getPiece(x, y).getRank()) {
 	 								case PAWN:
-	 									insertBoard.setInt(1, 0);
+	 									insertBoard.setInt(adjustment + 1, 0);
 	 									break;
 	 								case ROOK:
-	 									insertBoard.setInt(1, 1);
+	 									insertBoard.setInt(adjustment + 1, 1);
 	 									break;
 	 								case KNIGHT:
-	 									insertBoard.setInt(1, 2);
+	 									insertBoard.setInt(adjustment + 1, 2);
 	 									break;
 	 								case BISHOP:
-	 									insertBoard.setInt(1, 3);
+	 									insertBoard.setInt(adjustment + 1, 3);
 	 									break;
 	 								case QUEEN:
-	 									insertBoard.setInt(1, 4);
+	 									insertBoard.setInt(adjustment + 1, 4);
 	 									break;
 	 								case KING:
-	 									insertBoard.setInt(1, 5);
+	 									insertBoard.setInt(adjustment + 1, 5);
 	 									break;
 	 								}
 	 								
-	 								insertBoard.setInt(2, board.getPiece(x, y).getColor());
+	 								insertBoard.setInt(adjustment + 2, board.getPiece(x, y).getColor());
  								}
  							}
  						}

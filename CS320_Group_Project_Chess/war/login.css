@@ -24,6 +24,9 @@ header > img {
     height: 100%;
     width: 100%;    
 }
+.error{
+	color: #A64E2E;
+}
 #Title1{
     text-decoration: underline;
 }
@@ -78,6 +81,7 @@ ul li {
 }
 footer p {
     text-align: center;
+    color: #A64E2E;
 }
 aside {
     float: left;

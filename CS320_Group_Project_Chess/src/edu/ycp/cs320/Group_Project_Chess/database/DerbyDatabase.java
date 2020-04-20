@@ -126,8 +126,9 @@ public class DerbyDatabase{
 	}
 	
 	private Connection connect() throws SQLException {
+//		Connection conn = DriverManager.getConnection("jdbc:derby:/Users/davidmoore777/CS-320/DB/chess.db;create=true");		
 		Connection conn = DriverManager.getConnection("jdbc:derby:C:/CS320-Group_Project_Chess/chess.db;create=true");		
-		
+		///Users/davidmoore777/CS-320/DB/chess.db;
 		// Set autocommit() to false to allow the execution of
 		// multiple queries/statements as part of the same transaction.
 		conn.setAutoCommit(false);

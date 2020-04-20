@@ -119,7 +119,7 @@ public class InitialData {
 						fillBoard = board;
 					}
 				}
-				Game game = new Game(new Player(Integer.parseInt(i.next())), new Player(Integer.parseInt(i.next())), fillBoard);
+				Game game = new Game(new Player(Integer.parseInt(i.next())), new Player(Integer.parseInt(i.next())), fillBoard, Integer.parseInt(i.next()));
 				game.setGameId(gameId++);
 				gameList.add(game);
 			}

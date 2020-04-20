@@ -77,6 +77,49 @@ public class DerbyDatabase{
 			}
 		});
 	}
+	
+	// transaction that retrieves all games with a specific user
+	public ArrayList<Game> findGameswithUser(final String username) {
+		return executeTransaction(new Transaction<ArrayList<Game>>() {
+			@Override
+			public ArrayList<Game> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"select games.* from games"
+					);
+					
+					ArrayList<Game> result = new ArrayList<Game>();
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						User user = new User();
+						loadUser(user, resultSet, 1);
+						
+						//result.add(user);
+					}
+					
+					// check if any users were found
+					if (!found) {
+						System.out.println("No users were found in the database");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
 
 	private static final int MAX_ATTEMPTS = 10;
 	

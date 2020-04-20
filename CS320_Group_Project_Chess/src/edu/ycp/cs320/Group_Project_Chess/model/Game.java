@@ -48,7 +48,8 @@ public class Game {
 	}
 	
 	//constructor to load a previous game
-	public Game(Player player1, Player player2, Board board) {
+	public Game(Player player1, Player player2, Board board, int turn) {
+		this.turn = turn;
 		this.board = board;
 		this.player1 = player1;
 		this.player2 = player2;

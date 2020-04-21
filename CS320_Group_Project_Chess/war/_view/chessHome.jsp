@@ -44,10 +44,10 @@
             			}
             		}
             	} %>
+            	
             	<table class="gamesList">
 	            	<% for (Game game: games){ %>
 	            		<tr>
-	            			<td><%=game.getPlayer1().getUser().getCredentials().getUsername() %></td>
 	            			<td><%=game.getPlayer2().getUser().getCredentials().getUsername() %></td>
 	            			<td><%=game.getTurn() %></td>
 	            		</tr>

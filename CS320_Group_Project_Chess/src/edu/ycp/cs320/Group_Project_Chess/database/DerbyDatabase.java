@@ -157,6 +157,7 @@ public class DerbyDatabase{
 						User player2 = new User();
 						loadUser(player2, resultSet, 6);
 						
+						
 						//game.setPlayer1(new Player(player1, 0, game.getPlayer1().getPlayerId()));
 					}
 					

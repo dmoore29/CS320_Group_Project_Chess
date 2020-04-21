@@ -10,6 +10,12 @@ public class Player{
 		this.color = color;
 	}
 	
+	public Player(User user, int color, int playerId) {
+		this.user = user;
+		this.color = color;
+		this.playerId = playerId;
+	}
+	
 	public Player(int playerId) {
 		this.playerId = playerId;
 	}

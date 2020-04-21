@@ -26,7 +26,7 @@ public class ChessGameServlet extends HttpServlet {
 	Player p1 = new Player(u1, 0);
 	Player p2 = new Player(u2, 1);
 	Game game = new Game(p1, p2);
-	
+	 
 	GameController controller = new GameController(game);
 	
 	//TEMP MOVE DATA
@@ -35,6 +35,7 @@ public class ChessGameServlet extends HttpServlet {
 	int sourceY;
 	int destX;
 	int destY;
+	Integer promo = 0;
 
 	
 	
@@ -120,12 +121,15 @@ public class ChessGameServlet extends HttpServlet {
 				break;
 			}
 			
+			promo = 0;
+			
+			req.setAttribute("promotionFlag", promo);
 			req.setAttribute("model", game);
 			System.out.println("ChessGame Servlet: doGet");
 			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
 			
 		}
-		if(req.getParameter("x1") != null && pos1Recieved == false) { //if position 1 is received
+		if(req.getParameter("x1") != null && pos1Recieved == false && promo == 0) { //if position 1 is received
 			pos1Recieved = true; //sets position 1 received flag to true
 			System.out.println("Recieved Source");
 			
@@ -147,6 +151,7 @@ public class ChessGameServlet extends HttpServlet {
 				pos1Recieved = false;
 			}
 			
+			req.setAttribute("promotionFlag", promo);
 			req.setAttribute("pos1x", sourceX);
 			req.setAttribute("pos1y", sourceY);
 			req.setAttribute("model", game);
@@ -171,11 +176,7 @@ public class ChessGameServlet extends HttpServlet {
 						Pawn p = (Pawn) game.getBoard().getPiece(destX, destY); //creates temporary pawn to call promotion
 						if(p.promotion(game.getBoard())) { //if pawn is at y0 or y7
 							System.err.println("PROMOTION TIME");
-							Integer promo = 1;
-							req.setAttribute("promotionFlag", promo);
-						} else {							
-							Integer promo = 0;
-							req.setAttribute("promotionFlag", promo);
+							promo = 1;
 						}
 					}
 					System.out.println("VALID");
@@ -191,6 +192,12 @@ public class ChessGameServlet extends HttpServlet {
 					System.out.println("NOT VALID ");
 				}
 			}
+			req.setAttribute("promotionFlag", promo);
+			req.setAttribute("model", game);
+			System.out.println("ChessGame Servlet: doGet");
+			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
+		} else {
+			req.setAttribute("promotionFlag", promo);
 			req.setAttribute("model", game);
 			System.out.println("ChessGame Servlet: doGet");
 			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);

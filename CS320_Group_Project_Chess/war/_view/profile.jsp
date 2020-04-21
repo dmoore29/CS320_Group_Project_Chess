@@ -28,6 +28,7 @@
 	                </ul>
 	            </nav>
             </form>
+            <p>${profile.getCredentials().getUsername()}</p>
         </main>
         <aside>
 	    	<h2> VELOCITY </h2>

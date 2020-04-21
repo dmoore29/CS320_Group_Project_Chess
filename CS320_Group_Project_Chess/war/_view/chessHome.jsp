@@ -25,7 +25,7 @@
 	            <nav id="menu">
 	                <ul>
 	                    <li><input name="home" type="submit" value="Home Page" /></li>
-	                    <li><input name="chessGame" type="submit" value="Play Chess" /></li>
+	                    <li><input name="chessGame" type="submit" value="New Chess Game" /></li>
 	                    <li><input name="profile" type="submit" value="Profile" /></li>
 	                </ul>
 	            </nav>
@@ -44,16 +44,21 @@
             			}
             		}
             	} %>
-            	
-            	<table class="gamesList">
-	            	<% for (Game game: games){ %>
-	            		<tr>
-	            			<td><%=game.getPlayer2().getUser().getCredentials().getUsername() %></td>
-	            			<td><%=game.getTurn() %></td>
-	            		</tr>
-	            	<% } %>
-            
-            	</table>
+            	<form action="${pageContext.servletContext.contextPath}/chessHome" method="post">
+	            	<input name="oldChessGame" type="submit" value="Load Chess Game" />
+	            	
+	            	<table class="gamesList">
+		            	<% for (Game game: games){ %>
+		            	<% int gameId = game.getGameId(); %>
+		            		<tr>
+		            			<td><input name="oldChessGameRadio" type="radio" value=<%=gameId%> />
+		            			<td><%=game.getPlayer2().getUser().getCredentials().getUsername() %></td>
+		            			<td><%=game.getTurn() %></td>
+		            		</tr>
+		            	<% } %>
+	            
+	            	</table>
+            	</form>
             </div>
         </main>
         <aside>

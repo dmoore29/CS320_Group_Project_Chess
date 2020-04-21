@@ -40,10 +40,6 @@ public class ChessHomeServlet extends HttpServlet {
 		
 		ArrayList<Game> games = controller.getGameswithUsername(name);
 		
-		for (Game game: games) {
-			System.out.println(game.getPlayer1().getUser().getCredentials().getUsername() + " " + game.getPlayer2().getUser().getCredentials().getUsername());
-		}
-		
 		req.setAttribute("games", games);
 		
 		req.getRequestDispatcher("/_view/chessHome.jsp").forward(req, resp);
@@ -69,6 +65,22 @@ public class ChessHomeServlet extends HttpServlet {
 			System.out.println("ChessHome Servlet: forwarding to profile");
 			resp.sendRedirect(req.getContextPath() + "/profile");
 		}
+		
+		if (req.getParameter("oldChessGame") != null) {
+			
+			if (req.getParameter("oldChessGameRadio") != null) {
+				int gameId = Integer.parseInt(req.getParameter("oldChessGameRadio"));
+				System.out.println("game " + gameId + " selected");
+				req.setAttribute("gameId", gameId);
+				
+				System.out.println("ChessHome Servlet: forwarding to chessGame");
+				resp.sendRedirect(req.getContextPath() + "/chessGame");
+			} else {
+				System.out.println("ChessHome Servlet: reloading chessHome");
+				resp.sendRedirect(req.getContextPath() + "/chessHome");
+			}
+			
+		}	
 	}
 }
 

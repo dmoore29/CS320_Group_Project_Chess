@@ -15,6 +15,7 @@ import edu.ycp.cs320.Group_Project_Chess.model.Game;
 import edu.ycp.cs320.Group_Project_Chess.model.King;
 import edu.ycp.cs320.Group_Project_Chess.model.Knight;
 import edu.ycp.cs320.Group_Project_Chess.model.Pawn;
+import edu.ycp.cs320.Group_Project_Chess.model.Player;
 import edu.ycp.cs320.Group_Project_Chess.model.Queen;
 import edu.ycp.cs320.Group_Project_Chess.model.Rank;
 import edu.ycp.cs320.Group_Project_Chess.model.Rook;
@@ -151,19 +152,21 @@ public class DerbyDatabase{
 					while (resultSet.next()) {
 						found = true;
 						
-						Game game = null;
+						Game game = new Game();
 						loadGame(game, resultSet, 1);
 						
 						User player2 = new User();
 						loadUser(player2, resultSet, 6);
 						
+						game.setPlayer1(new Player(player1, 0, game.getPlayer1().getPlayerId()));
+						game.setPlayer2(new Player(player2, 0, game.getPlayer2().getPlayerId()));
 						
-						//game.setPlayer1(new Player(player1, 0, game.getPlayer1().getPlayerId()));
+						result.add(game);
 					}
 					
-					// check if any users were found
+					// check if any games were found
 					if (!found) {
-						System.out.println("No users were found in the database");
+						System.out.println("No games with user " + username + "were found in the database");
 					}
 					
 					return result;

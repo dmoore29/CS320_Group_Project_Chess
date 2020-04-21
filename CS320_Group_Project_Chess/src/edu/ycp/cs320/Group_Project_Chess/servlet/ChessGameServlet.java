@@ -36,6 +36,8 @@ public class ChessGameServlet extends HttpServlet {
 	int destX;
 	int destY;
 	Integer promo = 0;
+	int enPx = 8;
+	int enPy = 8;
 
 	
 	
@@ -169,14 +171,26 @@ public class ChessGameServlet extends HttpServlet {
 				if(sourceX == destX && sourceY == destY) { //if source is destination
 					System.out.println("NOT VALID");
 				}
-				if(game.getBoard().getSpace(sourceX, sourceY).getPiece().validMove(new Point(destX, destY), game.getBoard()) == true) {	//if move is valid			
+				if(game.getBoard().getSpace(sourceX, sourceY).getPiece().validMove(new Point(destX, destY), game.getBoard()) == true ) {	//if move is valid			
 					controller.movePiece(game.getBoard().getSpace(sourceX, sourceY), game.getBoard().getSpace(destX, destY)); //moves piece
-					
+					enPx = 8;
+					enPy = 8;
 					if(game.getBoard().getPiece(destX, destY).getRank() == Rank.PAWN) { //if piece is a pawn
 						Pawn p = (Pawn) game.getBoard().getPiece(destX, destY); //creates temporary pawn to call promotion
 						if(p.promotion(game.getBoard())) { //if pawn is at y0 or y7
 							System.err.println("PROMOTION TIME");
 							promo = 1;
+						}
+						if(Math.abs(sourceY - destY) == 2){ //if its a pawn and its first move
+							System.err.println("FIRST MOVE");
+							System.err.println(Math.abs(sourceY - destY));
+
+							enPx = sourceX;
+							if(p.getColor() == 0) { //if piece is white
+								enPy = 5;
+							} else {
+								enPy = 2;
+							}
 						}
 					}
 					System.out.println("VALID");
@@ -188,7 +202,16 @@ public class ChessGameServlet extends HttpServlet {
 					req.setAttribute("pos1x", sourceX);
 					req.setAttribute("pos1y", sourceY);
 					pos1Recieved = true;
-				} else {
+				} else if(game.getBoard().getSpace(sourceX, sourceY).getPiece().getRank() == Rank.PAWN && destX == enPx && destY == enPy) {
+					controller.movePiece(game.getBoard().getSpace(sourceX, sourceY), game.getBoard().getSpace(destX, destY)); //moves piece
+					if(enPy == 2) {
+						game.getBoard().getSpace(enPx, 3).setPiece(null);
+					} else {
+						game.getBoard().getSpace(enPx, 4).setPiece(null);
+					}
+					enPx = 8;
+					enPy = 8;
+				}	else {
 					System.out.println("NOT VALID ");
 				}
 			}
@@ -204,101 +227,3 @@ public class ChessGameServlet extends HttpServlet {
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//My attempt at passing model into the view, Use to reference later
-
-/*
-package edu.ycp.cs320.Group_Project_Chess.servlet;
-
-import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import edu.ycp.cs320.Group_Project_Chess.model.*;
-
-
-public class ChessGameServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
-	  protected void processRequest(HttpServletRequest request, 
-              HttpServletResponse response) 
-throws ServletException, IOException 
-{ 
-		  	Profile pr1 = new Profile();
-		  	FriendsList f1 = new FriendsList();
-		  	Stats s1 = new Stats();
-		  	Credentials c1 = new Credentials("a", "b", "c");
-		  	Credentials c2 = new Credentials("d", "e", "f");
-			User u1 = new User(c1, s1, f1, pr1);
-			User u2 = new User(c2, s1, f1, pr1);
-			Player p1 = new Player(u1, 0);
-			Player p2 = new Player(u2, 1);
-			Game game = new Game(p1, p2);
-//			model.getBoard().getSpace(0, 0).getPiece().getRank().toString();
-			
-			request.setAttribute("model", game);
-	        RequestDispatcher rd = request.getRequestDispatcher("/_view/chessGame.jsp"); 
-	        rd.forward(request, response); 
-				  
-}
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
-		System.out.println("ChessGame Servlet: doGet");
-		
-		request.getRequestDispatcher("/_view/chessGame.jsp").forward(request, response);
-		processRequest(request, response);
-	
-	}
-	
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse resp)
-			throws ServletException, IOException {
-		System.out.println("ChessGame Servlet: doPost");
-		
-		
-				
-		if (request.getParameter("home") != null) {
-			System.out.println("ChessGame Servlet: forwarding to hHome");
-			request.getRequestDispatcher("/_view/home.jsp").forward(request, resp);
-		}
-		
-		if (request.getParameter("chessHome") != null) {
-			System.out.println("ChessGame Servlet: forwarding to chessHome");
-			request.getRequestDispatcher("/_view/chessHome.jsp").forward(request, resp);
-		}
-		
-		if (request.getParameter("profile") != null) {
-			System.out.println("ChessGame Servlet: forwarding to profile");
-			request.getRequestDispatcher("/_view/profile.jsp").forward(request, resp);
-		}
-		
-		if (request.getParameter("friends") != null) {
-			System.out.println("ChessGame Servlet: forwarding to friends");
-			request.getRequestDispatcher("/_view/friends.jsp").forward(request, resp);
-		}
-		processRequest(request, resp);
-
-
-	}
-}
-
-*/

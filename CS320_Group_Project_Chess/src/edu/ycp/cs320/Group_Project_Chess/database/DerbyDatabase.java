@@ -125,7 +125,7 @@ public class DerbyDatabase{
 		});
 	}
 	
-	// transaction that retrieves all games with a specific user
+	// transaction that retrieves all games with a specific user 
 	public ArrayList<Game> findGameswithUser(final String username) {
 		return executeTransaction(new Transaction<ArrayList<Game>>() {
 			@Override

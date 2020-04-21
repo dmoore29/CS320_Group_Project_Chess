@@ -144,6 +144,8 @@ public class DerbyDatabase{
 					
 					ArrayList<Game> result = new ArrayList<Game>();
 					
+					stmt.setInt(1, player1.getUserId());
+					
 					resultSet = stmt.executeQuery();
 					
 					// for testing that a result was returned

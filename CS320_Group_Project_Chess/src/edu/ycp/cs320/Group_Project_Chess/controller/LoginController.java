@@ -16,7 +16,6 @@ public class LoginController {
 	
 	public boolean validLogin(Credentials login) {
 		userList = db.findAllUsers();
-		String u = null;
 		for (User user : userList) {
 			if (user.getCredentials().getUsername().equals(login.getUsername()) &&
 					user.getCredentials().getPassword().equals(login.getPassword())) {

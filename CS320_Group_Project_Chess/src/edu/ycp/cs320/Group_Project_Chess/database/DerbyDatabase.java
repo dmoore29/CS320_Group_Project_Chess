@@ -125,7 +125,7 @@ public class DerbyDatabase{
 		});
 	}
 	
-	// transaction that retrieves all games with a specific user
+	// transaction that retrieves all games with a specific user 
 	public ArrayList<Game> findGameswithUser(final String username) {
 		return executeTransaction(new Transaction<ArrayList<Game>>() {
 			@Override
@@ -143,6 +143,8 @@ public class DerbyDatabase{
 					);
 					
 					ArrayList<Game> result = new ArrayList<Game>();
+					
+					stmt.setInt(1, player1.getUserId());
 					
 					resultSet = stmt.executeQuery();
 					

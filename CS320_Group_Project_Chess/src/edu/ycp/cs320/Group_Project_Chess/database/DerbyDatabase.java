@@ -88,7 +88,8 @@ public class DerbyDatabase{
 				
 				try {
 					stmt = conn.prepareStatement(
-							"select games.* from games"
+							"select games.*, users.* from games, users " +
+							"where games.player1Id = users.user_id"
 					);
 					
 					ArrayList<Game> result = new ArrayList<Game>();

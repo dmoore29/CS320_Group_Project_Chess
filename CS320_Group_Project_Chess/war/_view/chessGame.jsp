@@ -136,12 +136,9 @@
 		</input>
 		</form>
 		</main>
-		<aside>
+		<aside class="websiteName">
 	    	<h2> VELOCITY </h2>
 	        <h2> VELOCITY </h2>          
-	    </aside>
-	    <aside id="right_aside">
-	           
 	    </aside>
         <footer>
             <p>&copy; Velocity Games Inc.</p>

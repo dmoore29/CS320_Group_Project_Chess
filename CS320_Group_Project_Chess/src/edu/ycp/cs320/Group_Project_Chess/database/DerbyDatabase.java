@@ -79,68 +79,22 @@ public class DerbyDatabase{
 	}
 	
 	// transaction that retrieves Users with specific username
-		public User findUserwithUsername(final String username) {
-			return executeTransaction(new Transaction<User>() {
-				@Override
-				public User execute(Connection conn) throws SQLException {
-					PreparedStatement stmt = null;
-					ResultSet resultSet = null;
-					
-					try {
-						stmt = conn.prepareStatement(
-								" select * from users " +
-								" where users.username = ? "
-						);
-						
-						User result = new User();
-						
-						stmt.setString(2, username);
-						
-						resultSet = stmt.executeQuery();
-						
-						// for testing that a result was returned
-						Boolean found = false;
-						
-						while (resultSet.next()) {
-							found = true;
-							
-							User user = new User();
-							loadUser(user, resultSet, 1);
-							
-							result = user;
-						}
-						
-						// check if any users were found
-						if (!found) {
-							System.out.println("No users with username " + username + " were found in the database");
-						}
-						
-						return result;
-					} finally {
-						DBUtil.closeQuietly(resultSet);
-						DBUtil.closeQuietly(stmt);
-					}
-				}
-			});
-		}
-	
-	// transaction that retrieves all games with a specific user
-	public ArrayList<Game> findGameswithUser(final String username) {
-		return executeTransaction(new Transaction<ArrayList<Game>>() {
+	public User findUserwithUsername(final String username) {
+		return executeTransaction(new Transaction<User>() {
 			@Override
-			public ArrayList<Game> execute(Connection conn) throws SQLException {
+			public User execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
-				PreparedStatement stmt2 = null;
 				ResultSet resultSet = null;
 				
 				try {
 					stmt = conn.prepareStatement(
-							" select games.*, users.username from games, users " +
-							" where games.player2Id = users.user_id " +
-							" 	and users.username = ? "
+							" select * from users " +
+							" where users.username = ? "
 					);
 					
-					ArrayList<Game> result = new ArrayList<Game>();
+					User result = new User();
+					
+					stmt.setString(1, username);
 					
 					resultSet = stmt.executeQuery();
 					
@@ -153,7 +107,58 @@ public class DerbyDatabase{
 						User user = new User();
 						loadUser(user, resultSet, 1);
 						
-						//result.add(user);
+						result = user;
+					}
+					
+					// check if any users were found
+					if (!found) {
+						System.out.println("No users with username " + username + " were found in the database");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	// transaction that retrieves all games with a specific user
+	public ArrayList<Game> findGameswithUser(final String username) {
+		return executeTransaction(new Transaction<ArrayList<Game>>() {
+			@Override
+			public ArrayList<Game> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					User player1 = findUserwithUsername(username);
+					
+					stmt = conn.prepareStatement(
+							" select games.*, users.* from games, users " +
+							" where games.player2Id = users.user_id " +
+							" 	and games.player1Id = ? "
+					);
+					
+					ArrayList<Game> result = new ArrayList<Game>();
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						Game game = null;
+						loadGame(game, resultSet, 1);
+						
+						User player2 = new User();
+						loadUser(player2, resultSet, 6);
+						
+						
+						//game.setPlayer1(new Player(player1, 0, game.getPlayer1().getPlayerId()));
 					}
 					
 					// check if any users were found

@@ -63,6 +63,14 @@ public class Game {
 		return player2;
 	}
 	
+	public void setPlayer1(Player player) {
+		player1 = player;
+	}
+	
+	public void setPlayer2(Player player) {
+		player2 = player;
+	}
+	
 	public Board getBoard() {
 		return board;
 	}

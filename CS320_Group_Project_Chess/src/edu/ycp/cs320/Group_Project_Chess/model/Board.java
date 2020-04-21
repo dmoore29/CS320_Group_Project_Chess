@@ -3,6 +3,7 @@ import java.awt.Point;
 
 public class Board {
 	//Create an 8x8 array of Space objects.
+	//test
 	private int boardId;
 	private Space[][] board;
 	

@@ -31,6 +31,7 @@
             <p class="username"><b>${profile.getCredentials().getUsername()}</b></p>
             <p> About Me: </p>
             <p class="bio">${profile.getProfile().getBio()}</p>
+            <p class="profilePicture"> picture </p>
         </main>
         <aside class="websiteName">
 	    	<h2> VELOCITY </h2>

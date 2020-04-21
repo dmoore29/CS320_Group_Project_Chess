@@ -7,8 +7,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.ycp.cs320.Group_Project_Chess.controller.ProfileController;
+import edu.ycp.cs320.Group_Project_Chess.model.User;
+
 public class ProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	ProfileController controller = null;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -30,6 +35,14 @@ public class ProfileServlet extends HttpServlet {
 		// proceed to handle request...
 		System.out.println("   User: <" + name + "> logged in");
 //-- structure taken from the library example
+		
+		controller = new ProfileController();
+		
+		User user = controller.getProfile(name);
+		
+		req.setAttribute("profile", user);
+		
+		
 		
 		req.getRequestDispatcher("/_view/profile.jsp").forward(req, resp);
 		

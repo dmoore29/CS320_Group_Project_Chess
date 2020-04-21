@@ -11,7 +11,6 @@ public class Board {
 	
 	public Board(int boardId) {
 		this.boardId = boardId;
-		
 	}
 	
 	// Sets the board to be completely empty. The board will

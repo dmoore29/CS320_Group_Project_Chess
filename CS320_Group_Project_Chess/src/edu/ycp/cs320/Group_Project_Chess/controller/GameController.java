@@ -8,7 +8,7 @@ public class GameController {
 	
 	/**
 	 * Set the model.
-	 * *test
+	 *
 	 * 
 	 * @param model the model to set
 	 */

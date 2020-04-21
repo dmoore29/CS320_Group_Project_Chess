@@ -136,7 +136,7 @@ public class DerbyDatabase{
 				try {
 					stmt = conn.prepareStatement(
 							" select * from users " +
-							" where users.users_id = ? "
+							" where users.user_id = ? "
 					);
 					
 					User result = new User();
@@ -207,7 +207,7 @@ public class DerbyDatabase{
 						loadUser(player2, resultSet, 6);
 						
 						game.setPlayer1(new Player(player1, 0, game.getPlayer1().getPlayerId()));
-						game.setPlayer2(new Player(player2, 0, game.getPlayer2().getPlayerId()));
+						game.setPlayer2(new Player(player2, 1, game.getPlayer2().getPlayerId()));
 						
 						result.add(game);
 					}
@@ -255,8 +255,8 @@ public class DerbyDatabase{
 						Game game = new Game();
 						loadGame(game, resultSet, 1);
 												
-						//game.setPlayer1(new Player(player1, 0, game.getPlayer1().getPlayerId()));
-						//game.setPlayer2(new Player(player2, 0, game.getPlayer2().getPlayerId()));
+						game.setPlayer1(new Player(findUserwithUserId(game.getPlayer1().getPlayerId()), 0, game.getPlayer1().getPlayerId()));
+						game.setPlayer2(new Player(findUserwithUserId(game.getPlayer2().getPlayerId()), 1, game.getPlayer2().getPlayerId()));
 						
 						result = game;
 					}

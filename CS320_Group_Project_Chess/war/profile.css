@@ -80,14 +80,13 @@ footer p {
     text-align: center;
     color: #A64E2E;
 }
-aside {
+.websiteName {
     float: left;
     width: 21.25%;
     padding: 0 1.875%;
     color: #644BBF;
-
 }
-aside > h2{
+.websiteName > h2{
     margin-top: 150%;
     height: 100%;
     width: 75%;
@@ -233,4 +232,35 @@ table > td > a[hdr-beach]{
         margin: 10px auto;
         display: block;
     }
+}
+p{
+	color: #A64E2E;
+}
+.username{
+	color: #A64E2E;
+	font-size: 250%; 
+	border-style: inset;
+	border-width: 10px;
+	margin-top: 10%;
+	text-align: center;
+	border-color: #644BBF; 
+}
+.bio{
+
+}
+.playerStats{
+    float: right;
+    width: 21.25%;
+    color: #644BBF;
+    border-style: inset;
+	border-width: 10px;
+	text-align: center;
+	border-color: #644BBF; 
+}
+.playerStats > h2{
+	size: 125%;
+	text-decoration: underline;
+}
+.playerStats > p{
+
 }

@@ -28,11 +28,21 @@
 	                </ul>
 	            </nav>
             </form>
-            <p>${profile.getCredentials().getUsername()}</p>
+            <p class="username"><b>${profile.getCredentials().getUsername()}</b></p>
+            <p> About Me: </p>
+            <p class="bio">${profile.getProfile().getBio()}</p>
         </main>
-        <aside>
+        <aside class="websiteName">
 	    	<h2> VELOCITY </h2>
 	        <h2> VELOCITY </h2>          
+	    </aside>
+	    <aside class="playerStats">
+	    	<h2> ELO </h2>
+	    	<p class="elo">${profile.getStats().getElo()}</p>
+	    	<h2> WINS </h2>
+	    	<p class="wins">${profile.getStats().getWins()}</p>
+	    	<h2> LOSSES </h2>
+	    	<p class="losses">${profile.getStats().getLosses()}</p>
 	    </aside>
         <footer>
             <p>&copy; Velocity Games Inc.</p>

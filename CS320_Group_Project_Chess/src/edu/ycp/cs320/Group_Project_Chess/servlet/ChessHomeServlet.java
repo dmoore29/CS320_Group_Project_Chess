@@ -1,11 +1,15 @@
 package edu.ycp.cs320.Group_Project_Chess.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import edu.ycp.cs320.Group_Project_Chess.controller.GameHomeController;
+import edu.ycp.cs320.Group_Project_Chess.model.Game;
 
 //import edu.ycp.cs320.Group_Project_Chess.model.Board;
 //import edu.ycp.cs320.Group_Project_Chess.model.Game;
@@ -13,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ChessHomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	GameHomeController controller = null;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -34,6 +40,12 @@ public class ChessHomeServlet extends HttpServlet {
 		// proceed to handle request...
 		System.out.println("   User: <" + name + "> logged in");
 //-- structure taken from the library example
+		
+		controller = new GameHomeController();
+		
+		ArrayList<Game> games = controller.getGameswithUsername(name);
+		
+		req.setAttribute("games", games);
 		
 		req.getRequestDispatcher("/_view/chessHome.jsp").forward(req, resp);
 		

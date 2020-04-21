@@ -1,39 +1,39 @@
 td{
-    width: 60px;
-    height: 60px;
-    border-style: solid;
-    border-width: 3px;
-    border-color: black;
-    background-color:#644BBF;
+	width: 64px;
+	height: 60px;
+	border-style: solid;
+	border-width: 3px;
+	border-color: black;
+	background-color:#644BBF;
 }
 
 td:hover{
-    width: 60px;
-    height: 60px;
-    border-style: solid;
-    background:#E36206;
+	width: 60px;
+	height: 60px;
+	border-style: solid;
+	background:#E36206;
 }
 
 .selected{
-    width: 60px;
-    height: 60px;
-    border-style: solid;
-    background:#E36206;
+	width: 60px;
+	height: 60px;
+	border-style: solid;
+	background:#E36206;
 }
 
 tr{
-    width: 60px;
-    height: 60px;
+	width: 60px;
+	height: 70px;
 }
 
 img {
-    width: 60px;
-    height: 56px;
+	width: 100%;
+	height: 100%;
 }
 
 .space{
 	margin-top: 20%;
-	margin-left: 3%;
+	margin-left: 0%;
 	width:700px;
 	height:700px;
 	position: absolute; 
@@ -58,13 +58,12 @@ img {
 }
 
 .promotion{
-	margin-top: 20%;
-	margin-left: 75%;
-	position: absolute;
-	top: 150px;
-	right: 20%;
-	color: black;
-    font-family: 'Helvetica Neue', sans-serif; font-size: 30px; font-weight: bold; letter-spacing: -1px; line-height: 1;
+    float: right;
+    width: 21.25%;
+    color: #644BBF;
+	text-align: center;
+	border-color: #644BBF; 
+	margin-top: 25%;
 }
 
 .promotionOption{
@@ -144,14 +143,14 @@ footer p {
     text-align: center;
     color: #A64E2E;
 }
-aside {
+.websiteName {
     float: left;
     width: 21.25%;
     padding: 0 1.875%;
     color: #644BBF;
 
 }
-aside > h2{
+.websiteName > h2{
     margin-top: 150%;
     height: 100%;
     width: 75%;

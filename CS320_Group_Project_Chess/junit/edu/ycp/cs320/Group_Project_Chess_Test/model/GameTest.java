@@ -26,6 +26,7 @@ public class GameTest {
 	private Player player2;
 	private User user1;
 	private User user2;
+	private int turn;
 	
 	@Before
 	public void SetUp() {
@@ -33,6 +34,7 @@ public class GameTest {
 		player2 = new Player(user2, 1);
 		oldBoard = new Board();
 		oldBoard.newGameBoard();
+		turn = 3;
 		oldBoard.setPiece(new Knight(Rank.KNIGHT, 0, new Point(4, 4)));
 		oldBoard.setPiece(new Queen(Rank.QUEEN, 1, new Point(5, 4)));
 	}
@@ -44,14 +46,16 @@ public class GameTest {
 		assertEquals(game.getBoard().getPiece(5, 6).getRank(), Rank.PAWN);
 		assertEquals(game.getBoard().getPiece(0, 0).getColor(), 1);
 		assertEquals(game.getBoard().getPiece(5, 6).getColor(), 0);
+		assertEquals(game.getTurn(), 0);
 	}
 	
 	@Test
 	public void previousGameTest() {
-		game = new Game(player1, player2, oldBoard);
+		game = new Game(player1, player2, oldBoard, turn);
 		assertEquals(game.getBoard().getPiece(4, 4).getRank(), Rank.KNIGHT);
 		assertEquals(game.getBoard().getPiece(5, 4).getRank(), Rank.QUEEN);
 		assertEquals(game.getBoard().getPiece(4, 4).getColor(), 0);
 		assertEquals(game.getBoard().getPiece(5, 4).getColor(), 1);
+		assertEquals(game.getTurn(), 3);
 	}
 }

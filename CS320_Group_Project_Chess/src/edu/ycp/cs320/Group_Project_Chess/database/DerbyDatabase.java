@@ -168,7 +168,7 @@ public class DerbyDatabase{
 					
 					// check if any games were found
 					if (!found) {
-						System.out.println("No games with user " + username + "were found in the database");
+						System.out.println("No games with user " + username + " were found in the database");
 					}
 					
 					return result;
@@ -256,7 +256,7 @@ public class DerbyDatabase{
 		game.setGameId(resultSet.getInt(index++));
 		game.getBoard().setBoardId(resultSet.getInt(index++));
 		game.getPlayer1().setPlayerId(resultSet.getInt(index++));
-		game.getPlayer1().setPlayerId(resultSet.getInt(index++));
+		game.getPlayer2().setPlayerId(resultSet.getInt(index++));
 		game.setTurn(resultSet.getInt(index++));
 	}
 	
@@ -342,9 +342,9 @@ public class DerbyDatabase{
 					
 					stmt3 = conn.prepareStatement(
 							"create table games (" +
-							"	boards_id integer primary key " +
+							"	games_id integer primary key " +
 							"		generated always as identity (start with 1, increment by 1), " +
-							"	boardId integer constraint board_id references boards, " +
+							"	boards_id integer constraint boards_id references boards, " +
 							"   player1Id integer, " +
 							"   player2Id integer, " +
 							"   turn integer" +
@@ -459,7 +459,7 @@ public class DerbyDatabase{
 					
 					System.out.println("Boards table populated");					
 					
-					insertGame = conn.prepareStatement("insert into games (boardId, player1Id, player2Id, turn) values (?, ?, ?, ?)");
+					insertGame = conn.prepareStatement("insert into games (boards_id, player1Id, player2Id, turn) values (?, ?, ?, ?)");
 					for (Game game : gameList) {
 						insertGame.setInt(1, game.getBoard().getBoardId());
 						insertGame.setInt(2, game.getPlayer1().getPlayerId());

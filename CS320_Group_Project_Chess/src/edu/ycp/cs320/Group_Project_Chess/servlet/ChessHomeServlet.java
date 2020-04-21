@@ -40,6 +40,10 @@ public class ChessHomeServlet extends HttpServlet {
 		
 		ArrayList<Game> games = controller.getGameswithUsername(name);
 		
+		for (Game game: games) {
+			System.out.println(game.getPlayer1().getUser().getCredentials().getUsername() + " " + game.getPlayer2().getUser().getCredentials().getUsername());
+		}
+		
 		req.setAttribute("games", games);
 		
 		req.getRequestDispatcher("/_view/chessHome.jsp").forward(req, resp);

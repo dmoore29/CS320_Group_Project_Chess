@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@page import="java.util.*" %>
+<%@page import="edu.ycp.cs320.Group_Project_Chess.model.*" %>
 <!-- java standard tag library -->
 
 <html>
@@ -24,10 +26,35 @@
 	                <ul>
 	                    <li><input name="home" type="submit" value="Home Page" /></li>
 	                    <li><input name="chessGame" type="submit" value="Play Chess" /></li>
-	                    <li><input name="profile" type="submit" value="Profile" /></a></li>
+	                    <li><input name="profile" type="submit" value="Profile" /></li>
 	                </ul>
 	            </nav>
             </form>
+            <div class="gamesList">
+            	<% ArrayList<Game> games = new ArrayList<Game>(); %>
+            	<% Object obj = request.getAttribute("games"); %>
+            	<% if (obj instanceof ArrayList<?>) {
+            		ArrayList<?> al = (ArrayList<?>) obj;
+            		if (al.size() > 0) {
+            			for (int i=0; i<al.size(); i++) {
+            				Object ob = al.get(i);
+            				if (ob instanceof Game) {
+            					games.add((Game) ob);
+            				}
+            			}
+            		}
+            	} %>
+            	<table class="gamesList">
+	            	<% for (Game game: games){ %>
+	            		<tr>
+	            			<td><%=game.getPlayer1().getUser().getCredentials().getUsername() %></td>
+	            			<td><%=game.getPlayer2().getUser().getCredentials().getUsername() %></td>
+	            			<td><%=game.getTurn() %></td>
+	            		</tr>
+	            	<% } %>
+            
+            	</table>
+            </div>
         </main>
         <aside>
 	    	<h2> VELOCITY </h2>

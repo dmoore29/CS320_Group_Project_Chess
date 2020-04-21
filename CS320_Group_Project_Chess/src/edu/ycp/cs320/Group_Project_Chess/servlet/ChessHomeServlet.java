@@ -7,13 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import edu.ycp.cs320.Group_Project_Chess.controller.GameHomeController;
 import edu.ycp.cs320.Group_Project_Chess.model.Game;
-
-//import edu.ycp.cs320.Group_Project_Chess.model.Board;
-//import edu.ycp.cs320.Group_Project_Chess.model.Game;
-//import edu.ycp.cs320.Group_Project_Chess.controller.GameController;
 
 public class ChessHomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

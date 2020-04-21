@@ -55,6 +55,12 @@ public class Game {
 		this.player2 = player2;
 	}
 	
+	public Game() {
+		player1 = new Player();
+		player2 = new Player();
+		board = new Board();
+	}
+	
 	public Player getPlayer1() {
 		return player1;
 	}

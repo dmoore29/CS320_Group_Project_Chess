@@ -20,6 +20,10 @@ public class Player{
 		this.playerId = playerId;
 	}
 	
+	public Player() {
+		user = new User();
+	}
+	
 	public int getColor() {
 		return color;
 	}

@@ -76,7 +76,8 @@ public class ChessHomeServlet extends HttpServlet {
 				System.out.println("ChessHome Servlet: forwarding to chessGame");
 				resp.sendRedirect(req.getContextPath() + "/chessGame");
 			} else {
-				req.getRequestDispatcher("/_view/chessHome.jsp").forward(req, resp);
+				System.out.println("ChessHome Servlet: reloading chessHome");
+				resp.sendRedirect(req.getContextPath() + "/chessHome");
 			}
 			
 		}	

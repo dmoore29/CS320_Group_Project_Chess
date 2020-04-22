@@ -15,6 +15,7 @@ import edu.ycp.cs320.Group_Project_Chess.model.Credentials;
 import edu.ycp.cs320.Group_Project_Chess.model.FriendsList;
 import edu.ycp.cs320.Group_Project_Chess.model.Game;
 import edu.ycp.cs320.Group_Project_Chess.model.Piece;
+import edu.ycp.cs320.Group_Project_Chess.model.Player;
 import edu.ycp.cs320.Group_Project_Chess.model.Profile;
 import edu.ycp.cs320.Group_Project_Chess.model.Rank;
 import edu.ycp.cs320.Group_Project_Chess.model.Stats;
@@ -56,6 +57,17 @@ public class DerbyDatabaseTest{
 		board.newGameBoard();
 		for (Piece piece : pieces) {
 			board.setPiece(piece);
+		}
+		games = new ArrayList<Game>();
+		for (int i = 0; i < 2; i++) {
+			Game game = new Game(new Player(u1, 0, u1.getUserId()), new Player(u2, 1, u2.getUserId()), board, i);
+			game.setGameId(i + 1);
+			games.add(game);			
+		}
+		for (int i = 0; i < 2; i++) {
+			Game game = new Game(new Player(u2, 0, u2.getUserId()), new Player(u1, 1, u1.getUserId()), board, i);
+			game.setGameId(i + 3);
+			games.add(game);			
 		}
 	}
 	
@@ -125,7 +137,47 @@ public class DerbyDatabaseTest{
 	
 	@Test
 	public void testFindGameWithGameId() {
+		ArrayList<Game> g = new ArrayList<Game>();
+		for (int i = 0; i < games.size(); i++) {
+			Game game = db.findGamewithGameId(games.get(i).getGameId());
+			g.add(game);
+		}
 		
+		for (int i = 0; i < games.size(); i++) {
+			assertTrue(games.get(i).getGameId() == g.get(i).getGameId());
+			assertTrue(games.get(i).getBoard().getBoardId() == g.get(i).getBoard().getBoardId());
+			for (int y = 0; y < 7; y++) {
+				for (int x = 0; x < 7; x++) {
+					assertEquals(games.get(i).getBoard().getPiece(x, y).getRank(), g.get(i).getBoard().getPiece(x, y).getRank());
+					assertTrue(games.get(i).getBoard().getPiece(x, y).getColor() == g.get(i).getBoard().getPiece(x, y).getColor());
+				}
+			}
+			assertTrue(games.get(i).getPlayer1().getUser().getUserId() == g.get(i).getPlayer1().getUser().getUserId());
+			assertEquals(games.get(i).getPlayer1().getUser().getCredentials().getEmail(), g.get(i).getPlayer1().getUser().getCredentials().getEmail());
+			assertEquals(games.get(i).getPlayer1().getUser().getCredentials().getPassword(), g.get(i).getPlayer1().getUser().getCredentials().getPassword());
+			assertEquals(games.get(i).getPlayer1().getUser().getCredentials().getUsername(), g.get(i).getPlayer1().getUser().getCredentials().getUsername());
+			assertTrue(games.get(i).getPlayer1().getUser().getStats().getWins() == g.get(i).getPlayer1().getUser().getStats().getWins());
+			assertTrue(games.get(i).getPlayer1().getUser().getStats().getLosses() == g.get(i).getPlayer1().getUser().getStats().getLosses());
+			assertTrue(games.get(i).getPlayer1().getUser().getStats().getElo() == g.get(i).getPlayer1().getUser().getStats().getElo());
+			assertEquals(games.get(i).getPlayer1().getUser().getProfile().getBio(), g.get(i).getPlayer1().getUser().getProfile().getBio());
+			assertTrue(games.get(i).getPlayer1().getUser().getProfile().getPictureNumber() == g.get(i).getPlayer1().getUser().getProfile().getPictureNumber());
+			assertTrue(games.get(i).getPlayer1().getPlayerId() == g.get(i).getPlayer1().getPlayerId());
+			assertTrue(games.get(i).getPlayer1().getColor() == g.get(i).getPlayer1().getColor());
+			
+			assertTrue(games.get(i).getPlayer2().getUser().getUserId() == g.get(i).getPlayer2().getUser().getUserId());
+			assertEquals(games.get(i).getPlayer2().getUser().getCredentials().getEmail(), g.get(i).getPlayer2().getUser().getCredentials().getEmail());
+			assertEquals(games.get(i).getPlayer2().getUser().getCredentials().getPassword(), g.get(i).getPlayer2().getUser().getCredentials().getPassword());
+			assertEquals(games.get(i).getPlayer2().getUser().getCredentials().getUsername(), g.get(i).getPlayer2().getUser().getCredentials().getUsername());
+			assertTrue(games.get(i).getPlayer2().getUser().getStats().getWins() == g.get(i).getPlayer2().getUser().getStats().getWins());
+			assertTrue(games.get(i).getPlayer2().getUser().getStats().getLosses() == g.get(i).getPlayer2().getUser().getStats().getLosses());
+			assertTrue(games.get(i).getPlayer2().getUser().getStats().getElo() == g.get(i).getPlayer2().getUser().getStats().getElo());
+			assertEquals(games.get(i).getPlayer2().getUser().getProfile().getBio(), g.get(i).getPlayer2().getUser().getProfile().getBio());
+			assertTrue(games.get(i).getPlayer2().getUser().getProfile().getPictureNumber() == g.get(i).getPlayer2().getUser().getProfile().getPictureNumber());
+			assertTrue(games.get(i).getPlayer2().getPlayerId() == g.get(i).getPlayer2().getPlayerId());
+			assertTrue(games.get(i).getPlayer2().getColor() == g.get(i).getPlayer2().getColor());
+			
+			assertTrue(games.get(i).getTurn() == g.get(i).getTurn());
+		}
 	}
 	
 	@Test

@@ -276,7 +276,7 @@ public class DerbyDatabase{
 		});
 	}
 	
-	// transaction that retrieves a game with a specific game_id 
+	// transaction that retrieves a board with a specific boards_id 
 	public Board findBoardwithBoardId(final int boardId) {
 		return executeTransaction(new Transaction<Board>() {
 			@Override
@@ -308,7 +308,7 @@ public class DerbyDatabase{
 						result = board;
 					}
 					
-					// check if any games were found
+					// check if any boards were found
 					if (!found) {
 						System.out.println("No boards with board_id " + boardId + " were found in the database");
 					}

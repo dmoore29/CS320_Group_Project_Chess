@@ -21,7 +21,7 @@ import edu.ycp.cs320.Group_Project_Chess.model.Rank;
 import edu.ycp.cs320.Group_Project_Chess.model.Rook;
 import edu.ycp.cs320.Group_Project_Chess.model.User;
 
-public class DerbyDatabase{
+public class DerbyDatabase implements IDatabase{
 	
 // from library example
 	static {

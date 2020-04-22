@@ -57,12 +57,44 @@ public class DerbyDatabaseTest{
 	
 	@Test
 	public void testFindUserWithUsername() {
+		ArrayList<User> users = new ArrayList<User>();
+		for (int i = 0; i < u.size(); i++) {
+			User user = db.findUserwithUsername(u.get(i).getCredentials().getUsername());
+			users.add(user);
+		}
 		
+		for (int i = 0; i < users.size(); i++) {
+			assertTrue(u.get(i).getUserId() == users.get(i).getUserId());
+			assertEquals(u.get(i).getCredentials().getEmail(), users.get(i).getCredentials().getEmail());
+			assertEquals(u.get(i).getCredentials().getPassword(), users.get(i).getCredentials().getPassword());
+			assertEquals(u.get(i).getCredentials().getUsername(), users.get(i).getCredentials().getUsername());
+			assertTrue(u.get(i).getStats().getWins() == users.get(i).getStats().getWins());
+			assertTrue(u.get(i).getStats().getLosses() == users.get(i).getStats().getLosses());
+			assertTrue(u.get(i).getStats().getElo() == users.get(i).getStats().getElo());
+			assertEquals(u.get(i).getProfile().getBio(), users.get(i).getProfile().getBio());
+			assertTrue(u.get(i).getProfile().getPictureNumber() == users.get(i).getProfile().getPictureNumber());
+		}
 	}
 	
 	@Test
 	public void testFindUserWithUserId() {
+		ArrayList<User> users = new ArrayList<User>();
+		for (int i = 0; i < u.size(); i++) {
+			User user = db.findUserwithUserId(u.get(i).getUserId());
+			users.add(user);
+		}
 		
+		for (int i = 0; i < users.size(); i++) {
+			assertTrue(u.get(i).getUserId() == users.get(i).getUserId());
+			assertEquals(u.get(i).getCredentials().getEmail(), users.get(i).getCredentials().getEmail());
+			assertEquals(u.get(i).getCredentials().getPassword(), users.get(i).getCredentials().getPassword());
+			assertEquals(u.get(i).getCredentials().getUsername(), users.get(i).getCredentials().getUsername());
+			assertTrue(u.get(i).getStats().getWins() == users.get(i).getStats().getWins());
+			assertTrue(u.get(i).getStats().getLosses() == users.get(i).getStats().getLosses());
+			assertTrue(u.get(i).getStats().getElo() == users.get(i).getStats().getElo());
+			assertEquals(u.get(i).getProfile().getBio(), users.get(i).getProfile().getBio());
+			assertTrue(u.get(i).getProfile().getPictureNumber() == users.get(i).getProfile().getPictureNumber());
+		}
 	}
 	
 	@Test

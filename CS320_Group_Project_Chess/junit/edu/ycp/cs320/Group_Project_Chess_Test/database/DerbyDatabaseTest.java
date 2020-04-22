@@ -45,6 +45,13 @@ public class DerbyDatabaseTest{
 		for (int i = 0; i < users.size(); i++) {
 			assertTrue(u.get(i).getUserId() == users.get(i).getUserId());
 			assertEquals(u.get(i).getCredentials().getEmail(), users.get(i).getCredentials().getEmail());
+			assertEquals(u.get(i).getCredentials().getPassword(), users.get(i).getCredentials().getPassword());
+			assertEquals(u.get(i).getCredentials().getUsername(), users.get(i).getCredentials().getUsername());
+			assertTrue(u.get(i).getStats().getWins() == users.get(i).getStats().getWins());
+			assertTrue(u.get(i).getStats().getLosses() == users.get(i).getStats().getLosses());
+			assertTrue(u.get(i).getStats().getElo() == users.get(i).getStats().getElo());
+			assertEquals(u.get(i).getProfile().getBio(), users.get(i).getProfile().getBio());
+			assertTrue(u.get(i).getProfile().getPictureNumber() == users.get(i).getProfile().getPictureNumber());
 		}
 	}
 	

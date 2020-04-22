@@ -3,6 +3,7 @@ package edu.ycp.cs320.Group_Project_Chess_Test.database;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 import org.junit.Before;
@@ -13,20 +14,28 @@ import edu.ycp.cs320.Group_Project_Chess.model.Board;
 import edu.ycp.cs320.Group_Project_Chess.model.Credentials;
 import edu.ycp.cs320.Group_Project_Chess.model.FriendsList;
 import edu.ycp.cs320.Group_Project_Chess.model.Game;
+import edu.ycp.cs320.Group_Project_Chess.model.Piece;
 import edu.ycp.cs320.Group_Project_Chess.model.Profile;
+import edu.ycp.cs320.Group_Project_Chess.model.Rank;
 import edu.ycp.cs320.Group_Project_Chess.model.Stats;
 import edu.ycp.cs320.Group_Project_Chess.model.User;
+import edu.ycp.cs320.Group_Project_Chess.model.Rook;
 
 public class DerbyDatabaseTest{
 	
 	private DerbyDatabase db;
-	private Game game;
+	private ArrayList<Game> games;
 	private User u1;
 	private User u2;
 	private Board board;
 	private ArrayList<User> u;
+	ArrayList<Piece> pieces;
 	//1|user1@email.com|user1|password1|2|1|110|I like to play chess|1
 	//2|user2@email.com|user2|password2|1|2|104|I dont like to play chess|2
+	//1|1|2|0
+	//1|1|2|1
+	//1|2|1|0
+	//1|2|1|1
 	
 	@Before
 	public void setUp() {
@@ -36,6 +45,18 @@ public class DerbyDatabaseTest{
 		u = new ArrayList<User>();
 		u.add(u1);
 		u.add(u2);
+		pieces = new ArrayList<Piece>();
+		for (int y = 0; y < 7; y++) {
+			for (int x = 0; x < 7; x++) {
+				Piece piece = new Rook(Rank.ROOK, 1, new Point(x, y));
+				pieces.add(piece);
+			}
+		}
+		board = new Board(1);
+		board.newGameBoard();
+		for (Piece piece : pieces) {
+			board.setPiece(piece);
+		}
 	}
 	
 	@Test
@@ -109,6 +130,14 @@ public class DerbyDatabaseTest{
 	
 	@Test
 	public void testFindBoardWithBoardId() {
+		Board b = db.findBoardwithBoardId(board.getBoardId());
 		
+		assertTrue(board.getBoardId() == b.getBoardId());
+		for (int y = 0; y < 7; y++) {
+			for (int x = 0; x < 7; x++) {
+				assertEquals(board.getPiece(x, y).getRank(), b.getPiece(x, y).getRank());
+				assertTrue(board.getPiece(x, y).getColor() == b.getPiece(x, y).getColor());
+			}
+		}
 	}
 }

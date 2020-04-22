@@ -35,7 +35,7 @@
             	<% if (obj instanceof User) {
             		profile = (User) obj;
             	} %>
-            <aside class="profilePicture">
+            <!-- <aside class="profilePicture">
             	<% String rank = null; %>
 	    		<% switch(profile.getProfile().getPictureNumber()){
 							case 1:
@@ -59,7 +59,7 @@
 				<% String color = "White"; %>
 				<% String source = "images/" + color + rank + ".png"; %>
 				<img src=<%= source %> alt=" images/WhitePawn.png">
-	    	</aside>
+	    	</aside> -->
             <p> About Me: </p>
             <p class="bio">${profile.getProfile().getBio()}</p>
         </main>

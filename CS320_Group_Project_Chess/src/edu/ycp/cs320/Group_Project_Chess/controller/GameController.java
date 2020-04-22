@@ -1,10 +1,12 @@
 package edu.ycp.cs320.Group_Project_Chess.controller;
 
+import edu.ycp.cs320.Group_Project_Chess.database.DerbyDatabase;
 import edu.ycp.cs320.Group_Project_Chess.model.Game; 
 import edu.ycp.cs320.Group_Project_Chess.model.Space; 
 
 public class GameController {
 	private Game model;
+	private DerbyDatabase database;
 	
 	/**
 	 * Set the model.
@@ -14,6 +16,16 @@ public class GameController {
 	 */
 	public GameController(Game model) {
 		this.model = model;
+		database = new DerbyDatabase();
+	}
+	
+	public GameController() {
+		database = new DerbyDatabase();
+	}
+	
+	public Game loadGame(int gameId) {
+		model = database.findGamewithGameId(gameId);
+		return model;
 	}
 	
 	/**

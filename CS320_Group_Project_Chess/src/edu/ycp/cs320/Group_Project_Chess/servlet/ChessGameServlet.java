@@ -27,7 +27,7 @@ public class ChessGameServlet extends HttpServlet {
 	Player p2 = new Player(u2, 1);
 	Game game = new Game(p1, p2);
 	 
-	GameController controller = new GameController(game);
+	GameController controller = null;
 	
 	//TEMP MOVE DATA
 	Boolean pos1Recieved = false;
@@ -42,9 +42,14 @@ public class ChessGameServlet extends HttpServlet {
 	
 	
 	
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
+		if ((int) req.getAttribute("loadGameFlag") == 1) {
+			controller = new GameController(game);
+		}
 		
 		req.setAttribute("model", game);
 		System.out.println("ChessGame Servlet: doGet");

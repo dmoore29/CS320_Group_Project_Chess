@@ -25,7 +25,7 @@ public class ChessGameServlet extends HttpServlet {
 	User u2 = new User(c2, s1, f1, pr1);
 	Player p1 = new Player(u1, 0);
 	Player p2 = new Player(u2, 1);
-	Game game = new Game(p1, p2);
+	Game game = null;
 	 
 	GameController controller = null;
 	
@@ -47,8 +47,19 @@ public class ChessGameServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		if ((int) req.getAttribute("loadGameFlag") == 1) {
-			controller = new GameController(game);
+		if (req.getSession().getAttribute("loadGameFlag") != null) {
+			System.out.println("flag detected");
+			if ((int) req.getSession().getAttribute("loadGameFlag") == 1) {
+				System.out.println("load game detected");
+				controller = new GameController();
+				game = controller.loadGame((int) req.getSession().getAttribute("gameId"));
+				req.getSession().setAttribute("loadGameFlag", 0);
+				req.getSession().setAttribute("gameId", null);
+			} else {
+				game = new Game(p1, p2);
+			}
+		} else {
+			game = new Game(p1, p2);
 		}
 		
 		req.setAttribute("model", game);
@@ -76,7 +87,9 @@ public class ChessGameServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		System.out.println("ChessGame Servlet: doPost");		
+		System.out.println("ChessGame Servlet: doPost");
+		
+		controller = new GameController(game);
 		
 		if (req.getParameter("home") != null) {
 			System.out.println("ChessGame Servlet: forwarding to hHome");

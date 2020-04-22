@@ -303,6 +303,7 @@ public class DerbyDatabase{
 						found = true;
 						
 						Board board = new Board();
+						board.newGameBoard();
 						loadBoard(board, resultSet, 1);
 						
 						result = board;

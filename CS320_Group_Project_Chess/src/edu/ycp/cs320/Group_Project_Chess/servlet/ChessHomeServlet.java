@@ -72,8 +72,8 @@ public class ChessHomeServlet extends HttpServlet {
 				int gameId = Integer.parseInt(req.getParameter("oldChessGameRadio"));
 				System.out.println("game " + gameId + " selected");
 				
-				req.setAttribute("loadGameFlag", 1);
-				req.setAttribute("gameId", gameId);
+				req.getSession().setAttribute("loadGameFlag", 1);
+				req.getSession().setAttribute("gameId", gameId);
 				
 				System.out.println("ChessHome Servlet: forwarding to chessGame");
 				resp.sendRedirect(req.getContextPath() + "/chessGame");

@@ -19,12 +19,14 @@ import edu.ycp.cs320.Group_Project_Chess.model.Rank;
 public class PawnTest {
 	private Pawn pawn;
 	private Board board = new Board();
+	private Board promoBoard = new Board();
 	
 	
 	@Before
 	public void SetUp() {
 		pawn = new Pawn(Rank.PAWN, 0, new Point(4, 0));
 		board.newGameBoard();
+		promoBoard.newGameBoard();
 		board.setPiece(new Pawn(Rank.PAWN, 0, new Point(3, 6)));
 		board.setPiece(new Pawn(Rank.PAWN, 1, new Point(3, 1)));
 	}
@@ -135,6 +137,59 @@ public class PawnTest {
 		assertTrue(board.getPiece(3, 1).validMove(new Point(2, 2), board));
 		
 		/////END BLACK PAWN/////
+		
+		/////START PROMOTION TEST/////
+		//Can Promote
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 0, new Point(0,0)));
+		assertTrue(((Pawn)promoBoard.getPiece(0, 0)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 0, new Point(1,0)));
+		assertTrue(((Pawn)promoBoard.getPiece(1, 0)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 0, new Point(2,0)));
+		assertTrue(((Pawn)promoBoard.getPiece(2, 0)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 0, new Point(3,0)));
+		assertTrue(((Pawn)promoBoard.getPiece(3, 0)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 0, new Point(4,0)));
+		assertTrue(((Pawn)promoBoard.getPiece(4, 0)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 0, new Point(5,0)));
+		assertTrue(((Pawn)promoBoard.getPiece(5, 0)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 0, new Point(6,0)));
+		assertTrue(((Pawn)promoBoard.getPiece(6, 0)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 0, new Point(7,0)));
+		assertTrue(((Pawn)promoBoard.getPiece(7, 0)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 1, new Point(0,7)));
+		assertTrue(((Pawn)promoBoard.getPiece(0, 7)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 1, new Point(1,7)));
+		assertTrue(((Pawn)promoBoard.getPiece(1, 7)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 1, new Point(2,7)));
+		assertTrue(((Pawn)promoBoard.getPiece(2, 7)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 1, new Point(3,7)));
+		assertTrue(((Pawn)promoBoard.getPiece(3, 7)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 1, new Point(4,7)));
+		assertTrue(((Pawn)promoBoard.getPiece(4, 7)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 1, new Point(5,7)));
+		assertTrue(((Pawn)promoBoard.getPiece(5, 7)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 1, new Point(6,7)));
+		assertTrue(((Pawn)promoBoard.getPiece(6, 7)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 1, new Point(7,7)));
+		assertTrue(((Pawn)promoBoard.getPiece(7, 7)).promotion(promoBoard));
+		
+		//Can't promote
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 0, new Point(3,5)));
+		assertFalse(((Pawn)promoBoard.getPiece(3, 5)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 0, new Point(4,6)));
+		assertFalse(((Pawn)promoBoard.getPiece(4, 6)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 0, new Point(5,4)));
+		assertFalse(((Pawn)promoBoard.getPiece(5, 4)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 0, new Point(2,1)));
+		assertFalse(((Pawn)promoBoard.getPiece(2, 1)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 0, new Point(3,3)));
+		assertFalse(((Pawn)promoBoard.getPiece(3, 3)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 0, new Point(4,5)));
+		assertFalse(((Pawn)promoBoard.getPiece(4, 5)).promotion(promoBoard));
+		promoBoard.setPiece(new Pawn(Rank.PAWN, 0, new Point(2,3)));
+		assertFalse(((Pawn)promoBoard.getPiece(2, 3)).promotion(promoBoard));
+		/////END PROMOTION TEST/////
+		
 				
 	}
 }

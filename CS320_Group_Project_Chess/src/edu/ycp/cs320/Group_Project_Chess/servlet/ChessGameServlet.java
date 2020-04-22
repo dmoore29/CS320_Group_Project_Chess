@@ -196,13 +196,9 @@ public class ChessGameServlet extends HttpServlet {
 					if(game.getBoard().getPiece(destX, destY).getRank() == Rank.PAWN) { //if piece is a pawn
 						Pawn p = (Pawn) game.getBoard().getPiece(destX, destY); //creates temporary pawn to call promotion
 						if(p.promotion(game.getBoard())) { //if pawn is at y0 or y7
-							System.err.println("PROMOTION TIME");
 							promo = 1;
 						}
 						if(Math.abs(sourceY - destY) == 2){ //if its a pawn and its first move
-							System.err.println("FIRST MOVE");
-							System.err.println(Math.abs(sourceY - destY));
-
 							enPx = sourceX;
 							if(p.getColor() == 0) { //if piece is white
 								enPy = 5;
@@ -227,6 +223,7 @@ public class ChessGameServlet extends HttpServlet {
 					} else {
 						game.getBoard().getSpace(enPx, 4).setPiece(null);
 					}
+					game.setTurn(game.getTurn()+1); //increments turn on En Passant move
 					enPx = 8;
 					enPy = 8;
 				}	else {

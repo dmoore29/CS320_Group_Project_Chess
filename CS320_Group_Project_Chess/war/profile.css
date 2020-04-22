@@ -265,5 +265,7 @@ p{
 
 }
 .profilePicture{
-
+    float: right;
+    width: 21.25%;
+    height 21.25%;
 }

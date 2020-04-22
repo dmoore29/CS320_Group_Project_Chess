@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@page import="edu.ycp.cs320.Group_Project_Chess.model.*" %>
 <!-- java standard tag library -->
 
 <html>
@@ -29,9 +30,38 @@
 	            </nav>
             </form>
             <p class="username"><b>${profile.getCredentials().getUsername()}</b></p>
+            	<% User profile = new User(); %>
+            	<% Object obj = request.getAttribute("profile"); %>
+            	<% if (obj instanceof User) {
+            		profile = (User) obj;
+            	} %>
+            <aside class="profilePicture">
+            	<% String rank = null; %>
+	    		<% switch(profile.getProfile().getPictureNumber()){
+							case 1:
+								rank = "Pawn";
+								break;
+							case 2:
+								rank = "Rook";
+								break;
+							case 3:
+								rank = "Horse";
+								break;
+							case 4:
+								rank = "Bishop";
+								break;
+							case 5:
+								rank = "King";
+								break;
+							case 6:
+								rank = "Queen";
+				} %>
+				<% String color = "White"; %>
+				<% String source = "images/" + color + rank + ".png"; %>
+				<img src=<%= source %> alt=" images/WhitePawn.png">
+	    	</aside>
             <p> About Me: </p>
             <p class="bio">${profile.getProfile().getBio()}</p>
-            <p class="profilePicture"> picture </p>
         </main>
         <aside class="websiteName">
 	    	<h2> VELOCITY </h2>

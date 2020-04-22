@@ -10,10 +10,14 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import edu.ycp.cs320.Group_Project_Chess.model.Profile;
+import edu.ycp.cs320.Group_Project_Chess.model.User;
+import edu.ycp.cs320.Group_Project_Chess.database.DerbyDatabase;
 
 public class ProfileTest {
 	private Profile model;
 	private BufferedImage img;
+	private User user;
+	private DerbyDatabase db;
 	
 	@Before
 	public void setUp() {

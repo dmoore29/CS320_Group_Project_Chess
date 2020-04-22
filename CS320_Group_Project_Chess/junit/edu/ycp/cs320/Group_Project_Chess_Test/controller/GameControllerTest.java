@@ -2,13 +2,17 @@ package edu.ycp.cs320.Group_Project_Chess_Test.controller;
 
 import static org.junit.Assert.*;
 
+import java.awt.Point;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import edu.ycp.cs320.Group_Project_Chess.controller.GameController;
 import edu.ycp.cs320.Group_Project_Chess.model.Game;
+import edu.ycp.cs320.Group_Project_Chess.model.King;
 import edu.ycp.cs320.Group_Project_Chess.model.Player;
 import edu.ycp.cs320.Group_Project_Chess.model.Rank;
+import edu.ycp.cs320.Group_Project_Chess.model.Rook;
 import edu.ycp.cs320.Group_Project_Chess.model.Space;
 
 public class GameControllerTest {
@@ -78,12 +82,39 @@ public class GameControllerTest {
 	
 	@Test
 	public void testCheck() {
-		throw new UnsupportedOperationException("TODO - implement");
+		// Create a scenario; king is adjacent to an opposing rook.
+		game.getBoard().setPiece(new King(Rank.KING, 1, new Point(1,0)));
+		game.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(0,0)));
+		
+		
+		// The rook is able to capture the king, the king should be in check.
+		assertTrue(controller.check());
+		
+		// Remove the opposing rook.
+		game.getBoard().getSpace(0,0).setPiece(null);
+		
+		// The king should no longer be in check.
+		assertFalse(controller.check());
 	}
 	
 	@Test
 	public void testCheckMate() {
-		throw new UnsupportedOperationException("TODO - implement");
+		// Create a scenario; king is surrounded by rooks on all sides.
+		game.getBoard().setPiece(new King(Rank.KING, 1, new Point(1,0)));
+		game.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(0,0)));
+		game.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(2,0)));
+		game.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(0,1)));
+		game.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(1,1)));
+		game.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(2,1)));
+		
+		// King should be in check.
+		assertTrue(controller.checkmate());
+		
+		// Get rid of the piece directly in front of the king.
+		game.getBoard().getSpace(1, 1).setPiece(null);
+		
+		// The king should NOT be in check.
+		assertFalse(controller.checkmate());
 	}
 	
 	

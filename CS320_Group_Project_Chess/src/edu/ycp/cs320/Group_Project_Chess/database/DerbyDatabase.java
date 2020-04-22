@@ -257,6 +257,7 @@ public class DerbyDatabase{
 												
 						game.setPlayer1(new Player(findUserwithUserId(game.getPlayer1().getPlayerId()), 0, game.getPlayer1().getPlayerId()));
 						game.setPlayer2(new Player(findUserwithUserId(game.getPlayer2().getPlayerId()), 1, game.getPlayer2().getPlayerId()));
+						game.setBoard(findBoardwithBoardId(game.getBoard().getBoardId()));
 						
 						result = game;
 					}
@@ -264,6 +265,52 @@ public class DerbyDatabase{
 					// check if any games were found
 					if (!found) {
 						System.out.println("No games with game_id " + gameId + " were found in the database");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	// transaction that retrieves a game with a specific game_id 
+	public Board findBoardwithBoardId(final int boardId) {
+		return executeTransaction(new Transaction<Board>() {
+			@Override
+			public Board execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {					
+					stmt = conn.prepareStatement(
+							" select * from games " +
+							" where games.games_id = ? "
+					);
+					
+					Board result = new Board();
+					
+					stmt.setInt(1, boardId);
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						Board board = new Board();
+						loadBoard(board, resultSet, 1);
+						
+						result = board;
+					}
+					
+					// check if any games were found
+					if (!found) {
+						System.out.println("No boards with board_id " + boardId + " were found in the database");
 					}
 					
 					return result;

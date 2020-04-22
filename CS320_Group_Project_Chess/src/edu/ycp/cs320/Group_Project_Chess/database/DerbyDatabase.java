@@ -286,8 +286,8 @@ public class DerbyDatabase{
 				
 				try {					
 					stmt = conn.prepareStatement(
-							" select * from games " +
-							" where games.games_id = ? "
+							" select * from boards " +
+							" where boards.boards_id = ? "
 					);
 					
 					Board result = new Board();

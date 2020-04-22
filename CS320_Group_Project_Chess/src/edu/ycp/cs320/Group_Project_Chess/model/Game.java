@@ -81,6 +81,10 @@ public class Game {
 		return board;
 	}
 	
+	public void setBoard(Board board) {
+		this.board = board;
+	}
+	
 	public void setUserId(int id) {
 		this.userId = id;
 	}

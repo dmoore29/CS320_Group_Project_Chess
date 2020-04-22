@@ -125,6 +125,52 @@ public class DerbyDatabase{
 		});
 	}
 	
+	// transaction that retrieves Users with specific user_id
+	public User findUserwithUserId(final int userId) {
+		return executeTransaction(new Transaction<User>() {
+			@Override
+			public User execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							" select * from users " +
+							" where users.user_id = ? "
+					);
+					
+					User result = new User();
+					
+					stmt.setInt(1, userId);
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						User user = new User();
+						loadUser(user, resultSet, 1);
+						
+						result = user;
+					}
+					
+					// check if any users were found
+					if (!found) {
+						System.out.println("No users with userId " + userId + " were found in the database");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
 	// transaction that retrieves all games with a specific user 
 	public ArrayList<Game> findGameswithUser(final String username) {
 		return executeTransaction(new Transaction<ArrayList<Game>>() {
@@ -161,7 +207,7 @@ public class DerbyDatabase{
 						loadUser(player2, resultSet, 6);
 						
 						game.setPlayer1(new Player(player1, 0, game.getPlayer1().getPlayerId()));
-						game.setPlayer2(new Player(player2, 0, game.getPlayer2().getPlayerId()));
+						game.setPlayer2(new Player(player2, 1, game.getPlayer2().getPlayerId()));
 						
 						result.add(game);
 					}
@@ -169,6 +215,102 @@ public class DerbyDatabase{
 					// check if any games were found
 					if (!found) {
 						System.out.println("No games with user " + username + " were found in the database");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	// transaction that retrieves a game with a specific game_id 
+	public Game findGamewithGameId(final int gameId) {
+		return executeTransaction(new Transaction<Game>() {
+			@Override
+			public Game execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {					
+					stmt = conn.prepareStatement(
+							" select * from games " +
+							" where games.games_id = ? "
+					);
+					
+					Game result = new Game();
+					
+					stmt.setInt(1, gameId);
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						Game game = new Game();
+						loadGame(game, resultSet, 1);
+												
+						game.setPlayer1(new Player(findUserwithUserId(game.getPlayer1().getPlayerId()), 0, game.getPlayer1().getPlayerId()));
+						game.setPlayer2(new Player(findUserwithUserId(game.getPlayer2().getPlayerId()), 1, game.getPlayer2().getPlayerId()));
+						game.setBoard(findBoardwithBoardId(game.getBoard().getBoardId()));
+						
+						result = game;
+					}
+					
+					// check if any games were found
+					if (!found) {
+						System.out.println("No games with game_id " + gameId + " were found in the database");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	// transaction that retrieves a board with a specific boards_id 
+	public Board findBoardwithBoardId(final int boardId) {
+		return executeTransaction(new Transaction<Board>() {
+			@Override
+			public Board execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {					
+					stmt = conn.prepareStatement(
+							" select * from boards " +
+							" where boards.boards_id = ? "
+					);
+					
+					Board result = new Board();
+					
+					stmt.setInt(1, boardId);
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						Board board = new Board();
+						loadBoard(board, resultSet, 1);
+						
+						result = board;
+					}
+					
+					// check if any boards were found
+					if (!found) {
+						System.out.println("No boards with board_id " + boardId + " were found in the database");
 					}
 					
 					return result;

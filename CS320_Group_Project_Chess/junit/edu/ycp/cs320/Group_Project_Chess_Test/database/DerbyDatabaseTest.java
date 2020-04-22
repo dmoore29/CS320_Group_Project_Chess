@@ -1,0 +1,75 @@
+package edu.ycp.cs320.Group_Project_Chess_Test.database;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import edu.ycp.cs320.Group_Project_Chess.database.DerbyDatabase;
+import edu.ycp.cs320.Group_Project_Chess.model.Board;
+import edu.ycp.cs320.Group_Project_Chess.model.Credentials;
+import edu.ycp.cs320.Group_Project_Chess.model.FriendsList;
+import edu.ycp.cs320.Group_Project_Chess.model.Game;
+import edu.ycp.cs320.Group_Project_Chess.model.Profile;
+import edu.ycp.cs320.Group_Project_Chess.model.Stats;
+import edu.ycp.cs320.Group_Project_Chess.model.User;
+
+public class DerbyDatabaseTest{
+	
+	private DerbyDatabase db;
+	private Game game;
+	private User u1;
+	private User u2;
+	private Board board;
+	private ArrayList<User> u;
+	//1|user1@email.com|user1|password1|2|1|110|I like to play chess|1
+	//2|user2@email.com|user2|password2|1|2|104|I dont like to play chess|2
+	
+	@Before
+	public void setUp() {
+		db = new DerbyDatabase();
+		u1 = new User(1, 1, new Credentials("user1@email.com", "user1", "password1"), new Stats(2, 1, 110), new FriendsList(1), new Profile("I like to play chess", 1));
+		u2 = new User(2, 2, new Credentials("user2@email.com", "user2", "password2"), new Stats(1, 2, 104), new FriendsList(2), new Profile("I dont like to play chess", 2));
+		u = new ArrayList<User>();
+		u.add(u1);
+		u.add(u2);
+	}
+	
+	@Test
+	public void testFindAllUsers() {
+		ArrayList<User> users = db.findAllUsers();
+		
+		for (int i = 0; i < users.size(); i++) {
+			assertTrue(u.get(i).getUserId() == users.get(i).getUserId());
+			assertEquals(u.get(i).getCredentials().getEmail(), users.get(i).getCredentials().getEmail());
+		}
+	}
+	
+	@Test
+	public void testFindUserWithUsername() {
+		
+	}
+	
+	@Test
+	public void testFindUserWithUserId() {
+		
+	}
+	
+	@Test
+	public void testFindGamesWithUser() {
+		
+	}
+	
+	@Test
+	public void testFindGameWithGameId() {
+		
+	}
+	
+	@Test
+	public void testFindBoardWithBoardId() {
+		
+	}
+}

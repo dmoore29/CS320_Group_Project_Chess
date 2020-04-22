@@ -9,14 +9,27 @@ public class Game {
 	private Player player1;
 	private Player player2;
 	private int turn;
+	Boolean pos1Recieved;
+	int sourceX;
+	int sourceY;
+	int destX;
+	int destY;
+	int promo;
+	int enPx;
+	int enPy;
 	
 	//constructor for a new game of chess
 	public Game(Player player1, Player player2) {
+
 		board = new Board();
 		board.newGameBoard();
 		this.player1 = player1;
 		this.player2 = player2;
+		pos1Recieved = false;
 		turn = 0;
+		promo = 0;
+		enPx = 8;
+		enPy = 8;
 		
 		//pieces need rank, color, location
 		//white = 0 black = 1
@@ -107,5 +120,69 @@ public class Game {
 	
 	public int getTurn() {
 		return turn;
+	}
+	
+	public boolean getPos1Recieved() {
+		return pos1Recieved;
+	}
+	
+	public void setPos1Recieved(boolean pos1Recieved) {
+		this.pos1Recieved = pos1Recieved;
+	}
+	
+	public int getSourceX(){
+		return sourceX;
+	}
+	
+	public void setSourceX(int sourceX) {
+		this.sourceX = sourceX;
+	}
+	
+	public int getSourceY(){
+		return sourceY;
+	}
+	
+	public void setSourceY(int sourceY) {
+		this.sourceY = sourceY;
+	}
+	
+	public int getDestX(){
+		return destX;
+	}
+	
+	public void setDestX(int destX) {
+		this.destX = destX;
+	}
+	
+	public int getDestY(){
+		return destY;
+	}
+	
+	public void setDestY(int destY) {
+		this.destY = destY;
+	}	
+	
+	public int getPromo(){
+		return promo;
+	}
+	
+	public void setPromo(int promo) {
+		this.promo = promo;
+	}
+	
+	public int getEnPx(){
+		return enPx;
+	}
+	
+	public void setEnPx(int enPx) {
+		this.enPx = enPx;
+	}
+	
+	public int getEnPy(){
+		return enPy;
+	}
+	
+	public void setEnPy(int enPy) {
+		this.enPy = enPy;
 	}
 }

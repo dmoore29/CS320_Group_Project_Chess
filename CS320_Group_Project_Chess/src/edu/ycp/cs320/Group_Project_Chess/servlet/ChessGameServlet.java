@@ -14,7 +14,7 @@ import edu.ycp.cs320.Group_Project_Chess.model.*;
 
 public class ChessGameServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Boolean pos1Recieved;
+	private Boolean pos1Recieved = false;
 	private int sourceX;
 	private int sourceY;
 	private int destX;
@@ -140,6 +140,7 @@ public class ChessGameServlet extends HttpServlet {
 			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
 			
 		}
+		System.out.println("PROMO" + game.getPromo());
 		if(req.getParameter("x1") != null && pos1Recieved == false && game.getPromo() == 0) { //if position 1 is received
 			pos1Recieved = true; //sets position 1 received flag to true
 			System.out.println("Recieved Source");

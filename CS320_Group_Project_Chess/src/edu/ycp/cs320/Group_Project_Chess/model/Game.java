@@ -9,14 +9,9 @@ public class Game {
 	private Player player1;
 	private Player player2;
 	private int turn;
-	Boolean pos1Recieved;
-	int sourceX;
-	int sourceY;
-	int destX;
-	int destY;
-	int promo;
-	int enPx;
-	int enPy;
+	private int promo;
+	private int enPx;
+	private int enPy;
 	
 	//constructor for a new game of chess
 	public Game(Player player1, Player player2) {
@@ -25,7 +20,6 @@ public class Game {
 		board.newGameBoard();
 		this.player1 = player1;
 		this.player2 = player2;
-		pos1Recieved = false;
 		turn = 0;
 		promo = 0;
 		enPx = 8;
@@ -120,46 +114,6 @@ public class Game {
 	
 	public int getTurn() {
 		return turn;
-	}
-	
-	public boolean getPos1Recieved() {
-		return pos1Recieved;
-	}
-	
-	public void setPos1Recieved(boolean pos1Recieved) {
-		this.pos1Recieved = pos1Recieved;
-	}
-	
-	public int getSourceX(){
-		return sourceX;
-	}
-	
-	public void setSourceX(int sourceX) {
-		this.sourceX = sourceX;
-	}
-	
-	public int getSourceY(){
-		return sourceY;
-	}
-	
-	public void setSourceY(int sourceY) {
-		this.sourceY = sourceY;
-	}
-	
-	public int getDestX(){
-		return destX;
-	}
-	
-	public void setDestX(int destX) {
-		this.destX = destX;
-	}
-	
-	public int getDestY(){
-		return destY;
-	}
-	
-	public void setDestY(int destY) {
-		this.destY = destY;
 	}	
 	
 	public int getPromo(){

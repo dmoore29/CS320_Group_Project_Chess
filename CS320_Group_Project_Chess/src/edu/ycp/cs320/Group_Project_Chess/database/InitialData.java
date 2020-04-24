@@ -120,6 +120,9 @@ public class InitialData {
 					}
 				}
 				Game game = new Game(new Player(Integer.parseInt(i.next())), new Player(Integer.parseInt(i.next())), fillBoard, Integer.parseInt(i.next()));
+				game.setPromo(Integer.parseInt(i.next()));
+				game.setEnPx(Integer.parseInt(i.next()));
+				game.setEnPy(Integer.parseInt(i.next()));
 				game.setGameId(gameId++);
 				gameList.add(game);
 			}

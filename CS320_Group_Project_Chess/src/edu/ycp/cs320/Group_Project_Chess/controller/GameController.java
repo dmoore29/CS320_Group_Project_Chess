@@ -1,8 +1,11 @@
 package edu.ycp.cs320.Group_Project_Chess.controller;
 
+import java.sql.SQLException;
+
 import edu.ycp.cs320.Group_Project_Chess.database.DerbyDatabase;
-import edu.ycp.cs320.Group_Project_Chess.model.Game; 
-import edu.ycp.cs320.Group_Project_Chess.model.Space; 
+import edu.ycp.cs320.Group_Project_Chess.model.Game;
+import edu.ycp.cs320.Group_Project_Chess.model.Space;
+import edu.ycp.cs320.Group_Project_Chess.model.User; 
 
 public class GameController {
 	private Game model;
@@ -27,6 +30,37 @@ public class GameController {
 		model = database.findGamewithGameId(gameId);
 		return model;
 	}
+	
+	/**
+	 * Stores the game in the database.
+	 * 
+	 * @param game   the model of the game
+	 * @throws SQLException 
+	 */
+	public void updateGame(Game game) throws SQLException {
+		database.updateGame(game);
+	}
+	
+	/**
+	 * Returns a user from database.
+	 * 
+	 * @param String   the username of the user
+	 * @return the user from specified name.
+	 */
+	public User loadUser(String username) {
+		return database.findUserwithUsername(username);
+	}
+	
+	/**
+	 * Stores a new game in the database.
+	 * 
+	 * @param Game   the game you want to store
+	 * @throws SQLException 
+	 */
+	public void StoreNewGame(Game game) throws SQLException {
+		database.newGame(game);
+	}
+	
 	
 	/**
 	 * Return true if the intended move is allowed.

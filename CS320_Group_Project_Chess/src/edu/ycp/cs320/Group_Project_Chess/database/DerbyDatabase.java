@@ -193,7 +193,7 @@ public class DerbyDatabase implements IDatabase{
 					stmt.setInt(1, player1.getUserId());
 					
 					resultSet = stmt.executeQuery();
-					
+										
 					// for testing that a result was returned
 					Boolean found = false;
 					
@@ -201,10 +201,11 @@ public class DerbyDatabase implements IDatabase{
 						found = true;
 						
 						Game game = new Game();
+
 						loadGame(game, resultSet, 1);
-						
+
 						User player2 = new User();
-						loadUser(player2, resultSet, 6);
+						loadUser(player2, resultSet, 9);
 						
 						game.setPlayer1(new Player(player1, 0, game.getPlayer1().getPlayerId()));
 						game.setPlayer2(new Player(player2, 1, game.getPlayer2().getPlayerId()));
@@ -401,6 +402,63 @@ public class DerbyDatabase implements IDatabase{
 		game.getPlayer1().setPlayerId(resultSet.getInt(index++));
 		game.getPlayer2().setPlayerId(resultSet.getInt(index++));
 		game.setTurn(resultSet.getInt(index++));
+		game.setPromo(resultSet.getInt(index++));
+		game.setEnPx(resultSet.getInt(index++));
+		game.setEnPy(resultSet.getInt(index++));
+	}
+	
+	public void newGame(Game game) throws SQLException {
+		Connection conn = connect();
+		PreparedStatement stmt = null;
+		
+		stmt = conn.prepareStatement(
+				"insert into games (boards_id, player1Id, player2Id, turn, promo, enPx, enPy) "
+				+ "  values (?, ?, ?, ?, ?, ?, ?)"
+		);
+		
+		stmt.setInt(1, game.getBoard().getBoardId());
+		stmt.setInt(2, game.getPlayer1().getPlayerId());
+		stmt.setInt(3, game.getPlayer2().getPlayerId());
+		stmt.setInt(4, game.getTurn());
+		stmt.setInt(5, game.getPromo());
+		stmt.setInt(6, game.getEnPx());
+		stmt.setInt(7, game.getEnPy());
+		
+		stmt.executeUpdate();
+
+		DBUtil.closeQuietly(stmt);
+		DBUtil.closeQuietly(conn);
+	}
+	
+	public void updateGame(Game game) throws SQLException {
+		Connection conn = connect();
+		PreparedStatement stmt = null;
+		
+		stmt = conn.prepareStatement(
+				"update games "
+				+ "set boards_id = ?, "
+				+ "player1Id = ?, "
+				+ "player2Id = ?, "
+				+ "turn = ?, "
+				+ "promo = ?, "
+				+ "enPx = ?, "
+				+ "enPy = ? "
+				+ "where games_id = ?"
+		);
+		
+		stmt.setInt(1, game.getBoard().getBoardId());
+		stmt.setInt(2, game.getPlayer1().getPlayerId());
+		stmt.setInt(3, game.getPlayer2().getPlayerId());
+		stmt.setInt(4, game.getTurn());
+		stmt.setInt(5, game.getPromo());
+		stmt.setInt(6, game.getEnPx());
+		stmt.setInt(7, game.getEnPy());
+		stmt.setInt(8, game.getGameId());
+		
+		stmt.executeUpdate();
+
+		DBUtil.closeQuietly(stmt);
+		DBUtil.closeQuietly(conn);
 	}
 	
 	private void loadBoard(Board board, ResultSet resultSet, int index) throws SQLException {
@@ -490,7 +548,10 @@ public class DerbyDatabase implements IDatabase{
 							"	boards_id integer constraint boards_id references boards, " +
 							"   player1Id integer, " +
 							"   player2Id integer, " +
-							"   turn integer" +
+							"   turn integer, " +
+							"   promo integer, " +
+							"   enPx integer, " +
+							"   enPy integer" +
 							")"
 					);
 					stmt3.executeUpdate();
@@ -600,16 +661,35 @@ public class DerbyDatabase implements IDatabase{
 					}
 					insertBoard.executeBatch();
 					
-					System.out.println("Boards table populated");					
+					System.out.println("Boards table populated");	
 					
-					insertGame = conn.prepareStatement("insert into games (boards_id, player1Id, player2Id, turn) values (?, ?, ?, ?)");
-					for (Game game : gameList) {
+					
+					insertGame = conn.prepareStatement(
+							"insert into games (boards_id, player1Id, player2Id, turn, promo, enPx, enPy) "
+							+ "  values (?, ?, ?, ?, ?, ?, ?)"
+					);
+					
+					for (Game game : gameList) {					
 						insertGame.setInt(1, game.getBoard().getBoardId());
 						insertGame.setInt(2, game.getPlayer1().getPlayerId());
 						insertGame.setInt(3, game.getPlayer2().getPlayerId());
 						insertGame.setInt(4, game.getTurn());
+						insertGame.setInt(5, game.getPromo());
+						insertGame.setInt(6, game.getEnPx());
+						insertGame.setInt(7, game.getEnPy());
 						insertGame.addBatch();
 					}
+					
+					
+					
+//					insertGame = conn.prepareStatement("insert into games (boards_id, player1Id, player2Id, turn) values (?, ?, ?, ?)");
+//					for (Game game : gameList) {
+//						insertGame.setInt(1, game.getBoard().getBoardId());
+//						insertGame.setInt(2, game.getPlayer1().getPlayerId());
+//						insertGame.setInt(3, game.getPlayer2().getPlayerId());
+//						insertGame.setInt(4, game.getTurn());
+//						insertGame.addBatch();
+//					}
 					insertGame.executeBatch();	
 					
 					System.out.println("Games table populated");					

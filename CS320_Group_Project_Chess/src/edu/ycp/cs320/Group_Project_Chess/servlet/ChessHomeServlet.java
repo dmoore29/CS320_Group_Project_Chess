@@ -76,24 +76,28 @@ public class ChessHomeServlet extends HttpServlet {
 			//TODO: SPECIFY USER 2
 
 			Player p1 = new Player(u1, 0);
+			p1.setPlayerId(1);
 			Player p2 = new Player(u2, 1);
+			p2.setPlayerId(2);
 			Game game = new Game(p1, p2);
+			int newId = 0;
 			
 			//TODO: SPECIFY REAL BOARD ID
 			game.getBoard().setBoardId(1);
 			//TODO: SPECIFY REAL BOARD ID
 			
 			try {
-				controller.StoreNewGame(game);
 				game.setPromo(0);
 				game.setEnPx(8);
 				game.setEnPy(8);
-				controller.updateGame(game);
+				newId = controller.StoreNewGame(game);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
+			System.out.println("NEW ID: " + newId);
+			req.getSession().setAttribute("gameId", newId);
 			System.out.println("ChessHome Servlet: forwarding to chessGame");
 			resp.sendRedirect(req.getContextPath() + "/chessGame");
 		}

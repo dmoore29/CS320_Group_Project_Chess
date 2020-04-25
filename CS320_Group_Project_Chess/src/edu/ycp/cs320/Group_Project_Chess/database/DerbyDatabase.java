@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import edu.ycp.cs320.Group_Project_Chess.model.Bishop;
@@ -407,58 +408,78 @@ public class DerbyDatabase implements IDatabase{
 		game.setEnPy(resultSet.getInt(index++));
 	}
 	
-	public void newGame(Game game) throws SQLException {
-		Connection conn = connect();
-		PreparedStatement stmt = null;
-		
-		stmt = conn.prepareStatement(
-				"insert into games (boards_id, player1Id, player2Id, turn, promo, enPx, enPy) "
-				+ "  values (?, ?, ?, ?, ?, ?, ?)"
-		);
-		
-		stmt.setInt(1, game.getBoard().getBoardId());
-		stmt.setInt(2, game.getPlayer1().getPlayerId());
-		stmt.setInt(3, game.getPlayer2().getPlayerId());
-		stmt.setInt(4, game.getTurn());
-		stmt.setInt(5, game.getPromo());
-		stmt.setInt(6, game.getEnPx());
-		stmt.setInt(7, game.getEnPy());
-		
-		stmt.executeUpdate();
-
-		DBUtil.closeQuietly(stmt);
-		DBUtil.closeQuietly(conn);
+//	@Override
+	public Integer newGame(final Game game) throws SQLException {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+//				conn = connect();
+				PreparedStatement stmt = null;
+				
+				stmt = conn.prepareStatement(
+						"insert into games (boards_id, player1Id, player2Id, turn, promo, enPx, enPy) "
+						+ " values (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
+				);
+				
+				System.out.println("BOARD ID: " + game.getBoard().getBoardId());
+				stmt.setInt(1, game.getBoard().getBoardId());
+				stmt.setInt(2, game.getPlayer1().getPlayerId());
+				stmt.setInt(3, game.getPlayer2().getPlayerId());
+				stmt.setInt(4, game.getTurn());
+				stmt.setInt(5, game.getPromo());
+				stmt.setInt(6, game.getEnPx());
+				stmt.setInt(7, game.getEnPy());
+				
+				stmt.execute();
+				
+				ResultSet rs = stmt.getGeneratedKeys();
+				int generatedKey = 0;
+				if (rs.next()) {
+				    generatedKey = rs.getInt(1);
+				}
+								
+				DBUtil.closeQuietly(stmt);
+				DBUtil.closeQuietly(conn);
+				System.out.println("THIS IS THE GENERATED ID: " + generatedKey);
+				return generatedKey;
+			}
+		});
 	}
 	
-	public void updateGame(Game game) throws SQLException {
-		Connection conn = connect();
-		PreparedStatement stmt = null;
+	public Integer updateGame(final Game game) throws SQLException {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
+				stmt = conn.prepareStatement(
+						"update games "
+						+ "set boards_id = ?, "
+						+ "player1Id = ?, "
+						+ "player2Id = ?, "
+						+ "turn = ?, "
+						+ "promo = ?, "
+						+ "enPx = ?, "
+						+ "enPy = ? "
+						+ "where games_id = ?"
+				);
+				
+				stmt.setInt(1, game.getBoard().getBoardId());
+				stmt.setInt(2, game.getPlayer1().getPlayerId());
+				stmt.setInt(3, game.getPlayer2().getPlayerId());
+				stmt.setInt(4, game.getTurn());
+				stmt.setInt(5, game.getPromo());
+				stmt.setInt(6, game.getEnPx());
+				stmt.setInt(7, game.getEnPy());
+				stmt.setInt(8, game.getGameId());
+				
+				stmt.executeUpdate();
 		
-		stmt = conn.prepareStatement(
-				"update games "
-				+ "set boards_id = ?, "
-				+ "player1Id = ?, "
-				+ "player2Id = ?, "
-				+ "turn = ?, "
-				+ "promo = ?, "
-				+ "enPx = ?, "
-				+ "enPy = ? "
-				+ "where games_id = ?"
-		);
-		
-		stmt.setInt(1, game.getBoard().getBoardId());
-		stmt.setInt(2, game.getPlayer1().getPlayerId());
-		stmt.setInt(3, game.getPlayer2().getPlayerId());
-		stmt.setInt(4, game.getTurn());
-		stmt.setInt(5, game.getPromo());
-		stmt.setInt(6, game.getEnPx());
-		stmt.setInt(7, game.getEnPy());
-		stmt.setInt(8, game.getGameId());
-		
-		stmt.executeUpdate();
-
-		DBUtil.closeQuietly(stmt);
-		DBUtil.closeQuietly(conn);
+				DBUtil.closeQuietly(stmt);
+				DBUtil.closeQuietly(conn);
+				return 1;
+			}
+		});
 	}
 	
 	private void loadBoard(Board board, ResultSet resultSet, int index) throws SQLException {
@@ -680,16 +701,6 @@ public class DerbyDatabase implements IDatabase{
 						insertGame.addBatch();
 					}
 					
-					
-					
-//					insertGame = conn.prepareStatement("insert into games (boards_id, player1Id, player2Id, turn) values (?, ?, ?, ?)");
-//					for (Game game : gameList) {
-//						insertGame.setInt(1, game.getBoard().getBoardId());
-//						insertGame.setInt(2, game.getPlayer1().getPlayerId());
-//						insertGame.setInt(3, game.getPlayer2().getPlayerId());
-//						insertGame.setInt(4, game.getTurn());
-//						insertGame.addBatch();
-//					}
 					insertGame.executeBatch();	
 					
 					System.out.println("Games table populated");					

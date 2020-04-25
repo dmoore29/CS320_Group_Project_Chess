@@ -2,6 +2,7 @@ package edu.ycp.cs320.Group_Project_Chess.servlet;
 
 import java.awt.Point;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,18 +20,17 @@ public class ChessGameServlet extends HttpServlet {
 	private int sourceY;
 	private int destX;
 	private int destY;
-
 	
 	//TEMPORARY PERSISTANT MEMORY
-  	Profile pr1 = new Profile();
-  	FriendsList f1 = new FriendsList();
-  	Stats s1 = new Stats();
-  	Credentials c1 = new Credentials("a", "b", "c");
-  	Credentials c2 = new Credentials("d", "e", "f");
-	User u1 = new User(c1, s1, f1, pr1);
-	User u2 = new User(c2, s1, f1, pr1);
-	Player p1 = new Player(u1, 0);
-	Player p2 = new Player(u2, 1);
+//  	Profile pr1 = new Profile();
+//  	FriendsList f1 = new FriendsList();
+//  	Stats s1 = new Stats();
+//  	Credentials c1 = new Credentials("a", "b", "c");
+//  	Credentials c2 = new Credentials("d", "e", "f");
+//	User u1 = new User(c1, s1, f1, pr1);
+//	User u2 = new User(c2, s1, f1, pr1);
+//	Player p1 = new Player(u1, 0);
+//	Player p2 = new Player(u2, 1);
 	Game game = null;
 	GameController controller = null;
 	
@@ -45,12 +45,13 @@ public class ChessGameServlet extends HttpServlet {
 				controller = new GameController();
 				game = controller.loadGame((int) req.getSession().getAttribute("gameId"));
 				req.getSession().setAttribute("loadGameFlag", 0);
-				req.getSession().setAttribute("gameId", null);
 			} else {
-				game = new Game(p1, p2);
+				controller = new GameController();
+				game = controller.loadGame((int) req.getSession().getAttribute("gameId"));
 			}
 		} else {
-			game = new Game(p1, p2);
+			controller = new GameController();
+			game = controller.loadGame((int) req.getSession().getAttribute("gameId"));
 		}
 		
 		req.setAttribute("model", game);
@@ -140,16 +141,12 @@ public class ChessGameServlet extends HttpServlet {
 			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
 			
 		}
-		System.out.println("PROMO" + game.getPromo());
 		if(req.getParameter("x1") != null && pos1Recieved == false && game.getPromo() == 0) { //if position 1 is received
 			pos1Recieved = true; //sets position 1 received flag to true
 			System.out.println("Recieved Source");
 			
 			sourceX = Integer.parseInt(req.getParameter("x1"));
 			sourceY = Integer.parseInt(req.getParameter("y1"));
-			
-			System.err.println("TURN: " + game.getTurn()%2);
-
 			
 			if(game.getBoard().getSpace(sourceX, sourceY).getPiece() != null) { //if space has a piece
 				if(game.getTurn()%2 != game.getBoard().getSpace(sourceX, sourceY).getPiece().getColor()) { //if not player's turn
@@ -231,6 +228,13 @@ public class ChessGameServlet extends HttpServlet {
 			req.setAttribute("model", game);
 			System.out.println("ChessGame Servlet: doGet");
 			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
+		}
+		try {
+			controller.updateGame(game);
+			System.out.println("UPDATED GAME");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

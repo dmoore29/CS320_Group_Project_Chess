@@ -57,8 +57,8 @@ public class GameController {
 	 * @param Game   the game you want to store
 	 * @throws SQLException 
 	 */
-	public void StoreNewGame(Game game) throws SQLException {
-		database.newGame(game);
+	public int StoreNewGame(Game game) throws SQLException {
+		return database.newGame(game);
 	}
 	
 	

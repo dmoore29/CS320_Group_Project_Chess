@@ -39,6 +39,7 @@ public class GameController {
 	 */
 	public void updateGame(Game game) throws SQLException {
 		database.updateGame(game);
+		database.updateBoard(game.getBoard());
 	}
 	
 	/**

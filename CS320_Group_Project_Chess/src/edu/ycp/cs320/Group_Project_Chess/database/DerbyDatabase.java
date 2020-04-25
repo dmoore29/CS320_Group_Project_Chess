@@ -184,6 +184,11 @@ public class DerbyDatabase implements IDatabase{
 					User player1 = findUserwithUsername(username);
 					
 					stmt = conn.prepareStatement(
+//							" select games.*, users.* from games, users "
+//							+ " where games.PLAYER1ID = users.USER_ID and "
+//							+ "((games.player2Id = 1 and games.player1Id = 2) or "
+//							+ "(games.player2Id = 2 and games.player1Id = 1)) "
+
 							" select games.*, users.* from games, users " +
 							" where games.player2Id = users.user_id " +
 							" 	and games.player1Id = ? "
@@ -482,6 +487,119 @@ public class DerbyDatabase implements IDatabase{
 		});
 	}
 	
+	public Integer newBoard(final Board board) throws SQLException {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				String sql = "insert into boards (";
+				
+				for(int i = 0; i<8; i++) {
+					for(int j = 0; j<8; j++) {
+						if(i != 7 || j !=7) {
+							sql = sql + "RANK" + Integer.toString(i) + Integer.toString(j) + ", " + "COLOR" + Integer.toString(i) + Integer.toString(j) + ", ";
+						}
+					}
+				}
+				
+					sql = sql + "RANK" + Integer.toString(7) + Integer.toString(7) + ", " + "COLOR" + Integer.toString(7) + Integer.toString(7) + ") Values(";
+				
+				for(int i = 0; i<8; i++) {
+					for(int j = 0; j<8; j++) {
+						if(i != 7 || j !=7) {
+							sql = sql + "?, ?, ";
+						}
+					}
+				}
+				
+					sql = sql + "?, ?)";
+					
+				System.out.print(sql);
+				
+				stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				
+				int count = 1;
+				for(int i = 0; i<8; i++) {
+					for(int j = 0; j<8; j++) {
+						if(board.getPiece(i, j) != null) {
+							stmt.setInt(count, board.getPiece(i, j).getRank().getRank());
+							count++;
+							stmt.setInt(count, board.getPiece(i, j).getColor());
+							count++;
+						} else {
+							stmt.setInt(count, 6);
+							count++;
+							stmt.setInt(count, 0);
+							count++;
+						}
+					}
+				}
+
+				stmt.execute();
+				
+				ResultSet rs = stmt.getGeneratedKeys();
+				int generatedKey = 0;
+				if (rs.next()) {
+				    generatedKey = rs.getInt(1);
+				}
+								
+				DBUtil.closeQuietly(stmt);
+				DBUtil.closeQuietly(conn);
+				System.out.println("THIS IS THE GENERATED ID FOR BOARD: " + generatedKey);
+				return generatedKey;
+			}
+		});
+	}
+	
+	public Integer updateBoard(final Board board) throws SQLException {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
+				String sql = "update boards set ";
+				
+				for(int i = 0; i<8; i++) {
+					for(int j = 0; j<8; j++) {
+						if(i != 7 || j !=7) {
+							sql = sql + "RANK" + Integer.toString(i) + Integer.toString(j) + " = ?, " + "COLOR" + Integer.toString(i) + Integer.toString(j) + " = ?, ";
+						}
+					}
+				}
+				
+				sql = sql + "RANK" + Integer.toString(7) + Integer.toString(7) + " = ?, " + "COLOR" + Integer.toString(7) + Integer.toString(7) + " = ? "
+						+ "where boards_id = ? ";
+				
+				stmt = conn.prepareStatement(sql);
+
+				int count = 1;
+				for(int i = 0; i<8; i++) {
+					for(int j = 0; j<8; j++) {
+						if(board.getPiece(i, j) != null) {
+							stmt.setInt(count, board.getPiece(i, j).getRank().getRank());
+							count++;
+							stmt.setInt(count, board.getPiece(i, j).getColor());
+							count++;
+						} else {
+							stmt.setInt(count, 6);
+							count++;
+							stmt.setInt(count, 0);
+							count++;
+						}
+					}
+				}
+				
+				stmt.setInt(count, board.getBoardId());
+				
+				stmt.executeUpdate();
+		
+				DBUtil.closeQuietly(stmt);
+				DBUtil.closeQuietly(conn);
+				return 1;
+			}
+		});
+	}
+	
 	private void loadBoard(Board board, ResultSet resultSet, int index) throws SQLException {
 		board.setBoardId(resultSet.getInt(index++));
 		for (int y = 0; y < 8; y++) {
@@ -507,6 +625,9 @@ public class DerbyDatabase implements IDatabase{
 					break;
 				case 5:
 					board.getSpace(x, y).setPiece(new King(Rank.KING, color, location));
+					break;
+				case 6:
+					board.getSpace(x, y).setPiece(null);
 					break;
 				default:
 					board.getSpace(x, y).setPiece(null);

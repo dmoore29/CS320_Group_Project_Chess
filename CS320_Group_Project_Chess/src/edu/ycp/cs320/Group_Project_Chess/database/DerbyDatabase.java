@@ -184,6 +184,11 @@ public class DerbyDatabase implements IDatabase{
 					User player1 = findUserwithUsername(username);
 					
 					stmt = conn.prepareStatement(
+//							" select games.*, users.* from games, users "
+//							+ " where games.PLAYER1ID = users.USER_ID and "
+//							+ "((games.player2Id = 1 and games.player1Id = 2) or "
+//							+ "(games.player2Id = 2 and games.player1Id = 1)) "
+
 							" select games.*, users.* from games, users " +
 							" where games.player2Id = users.user_id " +
 							" 	and games.player1Id = ? "
@@ -478,6 +483,70 @@ public class DerbyDatabase implements IDatabase{
 				DBUtil.closeQuietly(stmt);
 				DBUtil.closeQuietly(conn);
 				return 1;
+			}
+		});
+	}
+	
+	public Integer newBoard(final Board board) throws SQLException {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				String sql = "insert into boards (";
+				
+				for(int i = 0; i<8; i++) {
+					for(int j = 0; j<8; j++) {
+						if(i != 7 || j !=7) {
+							sql = sql + "RANK" + Integer.toString(i) + Integer.toString(j) + ", " + "COLOR" + Integer.toString(i) + Integer.toString(j) + ", ";
+						}
+					}
+				}
+				
+				sql = sql + "RANK" + Integer.toString(7) + Integer.toString(7) + ", " + "COLOR" + Integer.toString(7) + Integer.toString(7) + ") Values(";
+				
+				for(int i = 0; i<8; i++) {
+					for(int j = 0; j<8; j++) {
+						if(i != 7 || j !=7) {
+							sql = sql + "?, ?, ";
+						}
+					}
+				}
+				
+				sql = sql + "?, ?)";
+				
+				System.out.print(sql);
+				
+				stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				
+				int count = 1;
+				for(int i = 0; i<8; i++) {
+					for(int j = 0; j<8; j++) {
+						if(board.getPiece(i, j) != null) {
+							stmt.setInt(count, board.getPiece(i, j).getRank().getRank());
+							count++;
+							stmt.setInt(count, board.getPiece(i, j).getColor());
+						} else {
+							stmt.setInt(count, 0);
+							count++;
+							stmt.setInt(count, 0);
+						}
+						stmt.addBatch();
+						count++;
+					}
+				}
+
+				stmt.executeBatch();
+				
+				ResultSet rs = stmt.getGeneratedKeys();
+				int generatedKey = 0;
+				if (rs.next()) {
+				    generatedKey = rs.getInt(1);
+				}
+								
+				DBUtil.closeQuietly(stmt);
+				DBUtil.closeQuietly(conn);
+				System.out.println("THIS IS THE GENERATED ID FOR BOARD: " + generatedKey);
+				return generatedKey;
 			}
 		});
 	}

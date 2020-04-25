@@ -82,10 +82,6 @@ public class ChessHomeServlet extends HttpServlet {
 			Game game = new Game(p1, p2);
 			int newId = 0;
 			
-			//TODO: SPECIFY REAL BOARD ID
-			game.getBoard().setBoardId(1);
-			//TODO: SPECIFY REAL BOARD ID
-			
 			try {
 				game.setPromo(0);
 				game.setEnPx(8);

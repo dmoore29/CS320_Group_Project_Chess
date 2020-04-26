@@ -71,9 +71,19 @@
 			    	<p class="losses">${profile.getStats().getLosses()}</p>
 		    	</aside>
 		    </div>
-            <p> About Me: </p>
+            <% Integer bioFlag = (Integer) request.getAttribute("editBioFlag");
+           	   Integer picFlag = (Integer) request.getAttribute("editPicFlag"); %>
+           	<% if (bioFlag != null || picFlag != null){ %>
+           		<% if (bioFlag != null){ %>
+           		<p> Enter Bio Here: </p>
+            	<input name="bioField" type="text" maxlength="100" size="30" value="${profile.getProfile().getBio()}" />
+           		<% } else if (picFlag != null){ %>
+           		
+           		<% } %>
+           	<% } else { %>
+           	<p> About Me: </p>
             <p class="bio">${profile.getProfile().getBio()}</p>
-            <form action="${pageContext.servletContext.contextPath}/profile" method="post">
+           	<form action="${pageContext.servletContext.contextPath}/profile" method="post">
 	            <div class="menu">
 	            	<ul>
 	            		<li><input name="editBio" type="submit" value="Edit Your Bio" /></li>
@@ -81,6 +91,7 @@
 	            	</ul>    
 	            </div>
 	        </form>
+            <% } %>
         </main>
         <aside class="websiteName">
 	    	<h2> VELOCITY </h2>

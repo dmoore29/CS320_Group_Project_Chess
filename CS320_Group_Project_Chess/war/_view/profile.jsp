@@ -78,7 +78,25 @@
            		<p> Enter Bio Here: </p>
             	<input name="bioField" type="text" maxlength="100" size="30" value="${profile.getProfile().getBio()}" />
            		<% } else if (picFlag != null){ %>
-           		
+           		<p> Pick Profile Picture Here: </p>
+           		<table>
+           			<tr>
+           				<td><img src="images/WhitePawn.png"></td>
+           				<td><img src="images/WhiteHorse.png"></td>
+           			</tr>
+           			<tr>
+           				<td><img src="images/WhiteBishop.png"></td>
+           				<td><img src="images/WhiteRook.png"></td>
+           			</tr>
+           			<tr>
+           				<td><img src="images/WhiteQueen.png"></td>
+           				<td><img src="images/WhiteKing.png"></td>
+           			</tr>
+           			<tr>
+           				<td><img src="images/Cheese.jpg"></td>
+           				<td><img src="images/chess_logo.png"></td>
+           			</tr>
+           		</table>
            		<% } %>
            	<% } else { %>
            	<p> About Me: </p>

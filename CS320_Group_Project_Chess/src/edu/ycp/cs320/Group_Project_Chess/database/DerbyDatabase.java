@@ -281,6 +281,7 @@ public class DerbyDatabase implements IDatabase{
 		});
 	}
 	
+	//Testing merge conficts
 	// transaction that retrieves a game with a specific game_id 
 	public Game findGamewithGameId(final int gameId) {
 		return executeTransaction(new Transaction<Game>() {
@@ -750,8 +751,8 @@ public class DerbyDatabase implements IDatabase{
 	}
 	
 	private Connection connect() throws SQLException {
-//		Connection conn = DriverManager.getConnection("jdbc:derby:/Users/davidmoore777/CS-320/DB/chess.db;create=true");		
-		Connection conn = DriverManager.getConnection("jdbc:derby:C:/CS320-Group_Project_Chess/chess.db;create=true");		
+		Connection conn = DriverManager.getConnection("jdbc:derby:/Users/davidmoore777/CS-320/DB/chess.db;create=true");		
+//		Connection conn = DriverManager.getConnection("jdbc:derby:C:/CS320-Group_Project_Chess/chess.db;create=true");		
 		///Users/davidmoore777/CS-320/DB/chess.db;
 		// Set autocommit() to false to allow the execution of
 		// multiple queries/statements as part of the same transaction.

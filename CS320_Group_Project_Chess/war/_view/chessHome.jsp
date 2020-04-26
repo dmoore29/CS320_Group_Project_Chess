@@ -74,7 +74,7 @@
             	</form>
             </div>
         </main>
-        <aside>
+        <aside class="velocity">
 	    	<h2> VELOCITY </h2>
 	        <h2> VELOCITY </h2>          
 	    </aside>

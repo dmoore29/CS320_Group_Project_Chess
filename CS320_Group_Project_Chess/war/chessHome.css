@@ -150,8 +150,8 @@ main p{
 table {
 	border-collapse: collapse;
 	display: block;
-	height: 350px;
-	width: 60%;
+	height: 425px;
+	width: 56%;
 	overflow-y: scroll;
 	margin-top: 15px;
 }
@@ -184,6 +184,7 @@ table > td > a[hdr-beach]{
 }
 .opponent{
 	float: right;
+	margin-right: 20%;
 }
 th, td {
 	padding: 15px;

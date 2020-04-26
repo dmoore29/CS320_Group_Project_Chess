@@ -1,5 +1,6 @@
 package edu.ycp.cs320.Group_Project_Chess.controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import edu.ycp.cs320.Group_Project_Chess.database.DerbyDatabase;
@@ -17,5 +18,9 @@ public class GameHomeController {
 	public ArrayList<Game> getGameswithUsername(String name) {
 		games = db.findGameswithUser(name);
 		return games;
+	}
+	
+	public void deleteGame(int gameId) throws SQLException {
+		db.deleteGame(gameId);
 	}
 }

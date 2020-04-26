@@ -492,6 +492,66 @@ public class DerbyDatabase implements IDatabase{
 		});
 	}
 	
+	public Integer deleteGame(final int gameId) throws SQLException {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet rs = null;
+				int boards_id = 0;
+				
+				//get boards_id
+				stmt = conn.prepareStatement(
+						"select boards_id from games "
+						+ "where games_id = ?"
+				);
+				
+				stmt.setInt(1, gameId);
+				
+				rs = stmt.executeQuery();
+				
+				while (rs.next()) {
+					boards_id = rs.getInt(1);
+				}
+				
+				System.out.println("FOUND BOARD ID: " + boards_id);
+				System.out.println("FOUND BOARD ID: " + boards_id);
+				System.out.println("FOUND BOARD ID: " + boards_id);
+
+				DBUtil.closeQuietly(stmt);
+				DBUtil.closeQuietly(rs);
+				
+				//delete game
+				stmt = conn.prepareStatement(
+						"delete from games "
+						+ "where games_id = ?"
+				);
+				
+				stmt.setInt(1, gameId);
+				
+				stmt.executeUpdate();
+		
+				DBUtil.closeQuietly(stmt);
+				DBUtil.closeQuietly(conn);
+				
+				//delete board
+				stmt = conn.prepareStatement(
+						"delete from boards "
+						+ "where boards_id = ?"
+				);
+				
+				stmt.setInt(1, boards_id);
+				
+				stmt.executeUpdate();
+		
+				DBUtil.closeQuietly(stmt);
+				DBUtil.closeQuietly(conn);
+				
+				return 1;
+			}
+		});
+	}
+	
 	public Integer newBoard(final Board board) throws SQLException {
 		return executeTransaction(new Transaction<Integer>() {
 			@Override

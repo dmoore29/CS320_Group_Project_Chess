@@ -28,6 +28,8 @@
 	                    <li><input name="chessGame" type="submit" value="New Chess Game" /></li>
 	                    <li><input name="profile" type="submit" value="Profile" /></li>
 						<li><input name="logout" type="submit" value="Log Out" /></a></li>
+						<label for="fname">Opponent:</label>
+						<li><input name="opponent" type="text"</li>
 	                </ul>
 	            </nav>
             </form>

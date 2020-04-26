@@ -65,15 +65,17 @@ public class ChessHomeServlet extends HttpServlet {
 			GameController controller = new GameController();
 			String username = (String) req.getSession().getAttribute("name");
 			User u1 = controller.loadUser(username);
-			
-			//TODO: SPECIFY USER 2
 			User u2;
-			if(username == "user1") {
-				u2 = controller.loadUser("user2");
+			
+			if (req.getParameter("opponent") != null) {
+				u2 = controller.loadUser(req.getParameter("opponent"));
 			} else {
-				u2 = controller.loadUser("user1");
+				if(username == "user1") {
+					u2 = controller.loadUser("user2");
+				} else {
+					u2 = controller.loadUser("user1");
+				}
 			}
-			//TODO: SPECIFY USER 2
 
 			Player p1 = new Player(u1, 0);
 			p1.setPlayerId(u1.getUserId());

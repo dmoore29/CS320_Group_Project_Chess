@@ -282,6 +282,7 @@ public class DerbyDatabase implements IDatabase{
 		});
 	}
 	
+	//Testing merge conficts
 	// transaction that retrieves a game with a specific game_id 
 	public Game findGamewithGameId(final int gameId) {
 		return executeTransaction(new Transaction<Game>() {

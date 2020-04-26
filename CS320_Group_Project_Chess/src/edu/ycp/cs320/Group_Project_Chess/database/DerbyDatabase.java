@@ -221,7 +221,6 @@ public class DerbyDatabase implements IDatabase{
 	}
 	
 	// transaction that retrieves all games with a specific user 
-	//testing merge
 	public ArrayList<Game> findGameswithUser(final String username) {
 		return executeTransaction(new Transaction<ArrayList<Game>>() {
 			@Override
@@ -238,6 +237,7 @@ public class DerbyDatabase implements IDatabase{
 //							+ " where games.PLAYER1ID = users.USER_ID and "
 //							+ "((games.player2Id = 1 and games.player1Id = 2) or "
 //							+ "(games.player2Id = 2 and games.player1Id = 1)) "
+
 
 							" select games.*, users.* from games, users " +
 							" where games.player2Id = users.user_id " +

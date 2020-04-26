@@ -72,5 +72,21 @@ public class ProfileServlet extends HttpServlet {
 			System.out.println("Home Servlet: forwarding to login");
 			resp.sendRedirect(req.getContextPath() + "/login");
 		}
+		if (req.getParameter("editBio") != null) {
+			System.out.println("Profile Servlet: editing bio");
+			controller = new ProfileController();
+			User user = controller.getProfile((String) req.getSession().getAttribute("name"));
+			req.setAttribute("profile", user);
+			req.setAttribute("editBioFlag", 1);
+			req.getRequestDispatcher("/_view/profile.jsp").forward(req, resp);
+		}
+		if (req.getParameter("editPic") != null) {
+			System.out.println("Profile Servlet: editing picture");
+			controller = new ProfileController();
+			User user = controller.getProfile((String) req.getSession().getAttribute("name"));
+			req.setAttribute("profile", user);
+			req.setAttribute("editPicFlag", 1);
+			req.getRequestDispatcher("/_view/profile.jsp").forward(req, resp);
+		}
 	}
 }

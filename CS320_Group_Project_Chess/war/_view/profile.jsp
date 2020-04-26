@@ -73,12 +73,14 @@
 		    </div>
             <p> About Me: </p>
             <p class="bio">${profile.getProfile().getBio()}</p>
-            <div class="menu">
-            	<ul>
-            		<li><input name="editBio" type="submit" value="Edit Your Bio" /></li>
-            		<li><input name="editPic" type="submit" value="Edit Your Picture" /></li>
-            	</ul>    
-            </div>
+            <form action="${pageContext.servletContext.contextPath}/profile" method="post">
+	            <div class="menu">
+	            	<ul>
+	            		<li><input name="editBio" type="submit" value="Edit Your Bio" /></li>
+	            		<li><input name="editPic" type="submit" value="Edit Your Picture" /></li>
+	            	</ul>    
+	            </div>
+	        </form>
         </main>
         <aside class="websiteName">
 	    	<h2> VELOCITY </h2>

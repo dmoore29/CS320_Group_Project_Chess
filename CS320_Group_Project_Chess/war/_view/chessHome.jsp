@@ -52,11 +52,15 @@
 		            	<label for="fname">Opponent:</label>
 						<li><input name="opponent" type="text"</li>
 		           	</ul>
-	            	<table class="gamesList">
-	            		<th>
-	            			<td>Username</td>
-	            			<td># Of Moves</td>
-	            		</th>
+	            	<table>
+	            		<thead>
+	            		<tr>
+	            			<th></th>
+	            			<th><b>Opponent</b></th>
+	            			<th><b># Of Moves</b></th>
+	            		</tr>
+	            		</thead>
+	            		<tbody>
 		            	<% for (Game game: games){ %>
 		            	<% int gameId = game.getGameId(); %>
 		            		<tr>
@@ -65,7 +69,7 @@
 		            			<td><%=game.getTurn() %></td>
 		            		</tr>
 		            	<% } %>
-	            
+	            		</tbody>
 	            	</table>
             	</form>
             </div>

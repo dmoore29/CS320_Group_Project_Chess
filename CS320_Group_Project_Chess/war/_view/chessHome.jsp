@@ -45,7 +45,7 @@
             			}
             		}
             	} %>
-            	<form action="${pageContext.servletContext.contextPath}/chessHome" method="post">
+            	<form class="gameSelect" action="${pageContext.servletContext.contextPath}/chessHome" method="post">
 	            	<input name="oldChessGame" type="submit" value="Load Chess Game" />
 	            	<input name="deleteOldChessGame" type="submit" value="Delete Chess Game" />
 	            	<ul class="opponent">

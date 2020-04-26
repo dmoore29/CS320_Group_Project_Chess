@@ -20,10 +20,6 @@ header > img {
     float: left;
     margin-left: 10%;
 }
-#GPC{
-    height: 100%;
-    width: 100%;    
-}
 #Title1{
     text-decoration: underline;
 }
@@ -135,17 +131,6 @@ nav ul li + li {
 nav ul li .current {
     text-decoration: none;
 }
-#planning{
-    background-color:lightblue;
-    width:50%;
-    margin-top:1em;
-    margin-bottom:1em;
-    margin-right:auto;
-    margin-left:auto;
-    box-shadow: 2px 2px grey;
-    border-radius: 10px;
-    text-align:center;
-}
 main a{
     text-decoration:none;
 }
@@ -165,16 +150,14 @@ main p{
 table {
     border-collapse: collapse;
     width: 60%;
+    margin-top: 10px;
 }
 table td {
     border-style: solid;
-    border-width: 1px;
-    border-color: grey;
+    border-width: 5px;
+    border-color: black;
 }
 table th {
-    border-style: solid;
-    border-width: 1px;
-    border-color: grey;
 }
 table > td > a[hdr-beach]{
     text-align: right;
@@ -196,13 +179,26 @@ table > td > a[hdr-beach]{
 .opponent{
 	float: right;
 }
-.gamesList tr{
+.gamesList{
 	padding: 15px;
 	text-align: left;
+	border: 5px solid 644BBF;
 }
 th, td {
 	padding: 15px;
 	text-align: left;
+}
+
+.gameSelect input{
+	margin-top: 10px;
+	display:inline-block;
+    padding:.5em;
+    width:150px;
+    background-color:#644BBF;
+    color:black;
+    text-decoration:none;
+    border-radius:5px;
+    border-color:#644BBF;
 }
 
 @media only screen and (max-width: 959px) {

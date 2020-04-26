@@ -21,7 +21,7 @@
         </header>
         <main>
         	<form action="${pageContext.servletContext.contextPath}/profile" method="post">
-	            <nav id="menu">
+	            <nav class="menu">
 	                <ul>
 	                    <li><input name="home" type="submit" value="Home Page" /></li>
 	                    <li><input name="chessHome" type="submit" value="Chess Home" /></li>
@@ -36,45 +36,90 @@
             	<% if (obj instanceof User) {
             		profile = (User) obj;
             	} %>
-            <!-- <aside class="profilePicture">
-            	<% String rank = null; %>
-	    		<% switch(profile.getProfile().getPictureNumber()){
-							case 1:
-								rank = "Pawn";
-								break;
-							case 2:
-								rank = "Rook";
-								break;
-							case 3:
-								rank = "Horse";
-								break;
-							case 4:
-								rank = "Bishop";
-								break;
-							case 5:
-								rank = "King";
-								break;
-							case 6:
-								rank = "Queen";
-				} %>
-				<% String color = "White"; %>
-				<% String source = "images/" + color + rank + ".png"; %>
-				<img src=<%= source %> alt=" images/WhitePawn.png">
-	    	</aside> -->
-            <p> About Me: </p>
+            <div class="rightSide">
+	            <aside class="profilePicture">
+	            	<% String rank = null; %>
+		    		<% switch(profile.getProfile().getPictureNumber()){
+								case 1:
+									rank = "Pawn";
+									break;
+								case 2:
+									rank = "Rook";
+									break;
+								case 3:
+									rank = "Horse";
+									break;
+								case 4:
+									rank = "Bishop";
+									break;
+								case 5:
+									rank = "King";
+									break;
+								case 6:
+									rank = "Queen";
+					} %>
+					<% String color = "White"; %>
+					<% String source = "images/" + color + rank + ".png"; %>
+					<img src=<%= source %> alt=" images/WhitePawn.png">
+		    	</aside>
+		    	<aside class="playerStats">
+			    	<h2> ELO </h2>
+			    	<p class="elo">${profile.getStats().getElo()}</p>
+			    	<h2> WINS </h2>
+			    	<p class="wins">${profile.getStats().getWins()}</p>
+			    	<h2> LOSSES </h2>
+			    	<p class="losses">${profile.getStats().getLosses()}</p>
+		    	</aside>
+		    </div>
+            <% Integer bioFlag = (Integer) request.getAttribute("editBioFlag");
+           	   Integer picFlag = (Integer) request.getAttribute("editPicFlag"); %>
+           	<% if (bioFlag != null || picFlag != null){ %>
+           		<% if (bioFlag != null){ %>
+           		<form action="${pageContext.servletContext.contextPath}/profile" method="post">
+	           		<p> Enter Bio Here: </p>
+	            	<input name="bioField" type="text" maxlength="100" size="30" value="${profile.getProfile().getBio()}" />
+	            	<input name="bioFieldSubmit" type="submit" value="Submit Bio"/>
+	            </form>
+           		<% } else if (picFlag != null){ %>
+           		<form action="${pageContext.servletContext.contextPath}/profile" method="post">
+	           		<p> Pick Profile Picture Here: </p>
+	           		<table>
+	           			<tr>
+	           				<td><img src="images/WhitePawn.png"><input name="picSelection" type="radio" value="WhitePawn"/></td>
+	           				<td><img src="images/WhiteHorse.png"><input name="picSelection" type="radio" value="WhiteHorse"/></td>
+	           			</tr>
+	           			<tr>
+	           				<td><img src="images/WhiteBishop.png"><input name="picSelection" type="radio" value="WhiteBishop"/></td>
+	           				<td><img src="images/WhiteRook.png"><input name="picSelection" type="radio" value="WhiteRook"/></td>
+	           			</tr>
+	           			<tr>
+	           				<td><img src="images/WhiteQueen.png"><input name="picSelection" type="radio" value="WhiteQueen"/></td>
+	           				<td><img src="images/WhiteKing.png"><input name="picSelection" type="radio" value="WhiteKing"/></td>
+	           			</tr>
+	           			<tr>
+	           				<td><img src="images/Cheese.jpg"><input name="picSelection" type="radio" value="Cheese"/></td>
+	           				<td><img src="images/chess_logo.png"><input name="picSelection" type="radio" value="chess_logo"/></td>
+	           			</tr>
+	           		</table>
+	           		<input name="picSelectionSubmit" type="submit" value="Confirm Picture"/>
+	           	</form>
+           		<% } %>
+           	<% } else { %>
+           	<p> About Me: </p>
             <p class="bio">${profile.getProfile().getBio()}</p>
+           	<form action="${pageContext.servletContext.contextPath}/profile" method="post">
+	            <div class="menu">
+	            	<ul>
+	            		<li><input name="editBio" type="submit" value="Edit Your Bio" /></li>
+	            		<li><input name="editPic" type="submit" value="Edit Your Picture" /></li>
+	            	</ul>    
+	            </div>
+	        </form>
+            <% } %>
         </main>
         <aside class="websiteName">
 	    	<h2> VELOCITY </h2>
 	        <h2> VELOCITY </h2>          
-	    </aside>
-	    <aside class="playerStats">
-	    	<h2> ELO </h2>
-	    	<p class="elo">${profile.getStats().getElo()}</p>
-	    	<h2> WINS </h2>
-	    	<p class="wins">${profile.getStats().getWins()}</p>
-	    	<h2> LOSSES </h2>
-	    	<p class="losses">${profile.getStats().getLosses()}</p>
 	    </aside>
         <footer>
             <p>&copy; Velocity Games Inc.</p>

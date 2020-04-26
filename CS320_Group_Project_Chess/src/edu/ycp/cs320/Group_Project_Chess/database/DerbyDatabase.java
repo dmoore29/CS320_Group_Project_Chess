@@ -233,11 +233,10 @@ public class DerbyDatabase implements IDatabase{
 					User player1 = findUserwithUsername(username);
 					
 					stmt = conn.prepareStatement(
-//							" select games.*, users.* from games, users "
+//						" select games.*, users.* from games, users "
 //							+ " where games.PLAYER1ID = users.USER_ID and "
 //							+ "((games.player2Id = 1 and games.player1Id = 2) or "
 //							+ "(games.player2Id = 2 and games.player1Id = 1)) "
-
 
 							" select games.*, users.* from games, users " +
 							" where games.player2Id = users.user_id " +
@@ -286,8 +285,6 @@ public class DerbyDatabase implements IDatabase{
 								" where games.player1Id = users.user_id " +
 								" 	and games.player2Id = ? "
 						);
-						
-						result = new ArrayList<Game>();
 						
 						stmt2.setInt(1, player2.getUserId());
 						

@@ -28,8 +28,6 @@
 	                    <li><input name="chessGame" type="submit" value="New Chess Game" /></li>
 	                    <li><input name="profile" type="submit" value="Profile" /></li>
 						<li><input name="logout" type="submit" value="Log Out" /></a></li>
-						<label for="fname">Opponent:</label>
-						<li><input name="opponent" type="text"</li>
 	                </ul>
 	            </nav>
             </form>
@@ -50,7 +48,15 @@
             	<form action="${pageContext.servletContext.contextPath}/chessHome" method="post">
 	            	<input name="oldChessGame" type="submit" value="Load Chess Game" />
 	            	<input name="deleteOldChessGame" type="submit" value="Delete Chess Game" />
+	            	<ul class="opponent">
+		            	<label for="fname">Opponent:</label>
+						<li><input name="opponent" type="text"</li>
+		           	</ul>
 	            	<table class="gamesList">
+	            		<th>
+	            			<td>Username</td>
+	            			<td># Of Moves</td>
+	            		</th>
 		            	<% for (Game game: games){ %>
 		            	<% int gameId = game.getGameId(); %>
 		            		<tr>

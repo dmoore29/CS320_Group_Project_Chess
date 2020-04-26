@@ -117,23 +117,6 @@ main {
 footer {
     clear: both;
 }
-#hamburger-button {
-    background: #644BBF;
-    color: black;
-    float: right;
-    border-style: none;
-    border-radius: 3px;
-    display: none;
-    position: absolute;
-    top: 1.875%;
-    right: 3.5%;
-}
-#hamburger-button div {
-    width: 20px;
-    height: 2px;
-    background-color: white;
-    margin: 6px 0;
-}
 nav ul {
     list-style-type: none;
     text-align: center;
@@ -210,10 +193,18 @@ table > td > a[hdr-beach]{
     background-color:lightblue;
     color:blue;
 }
-#CS{
-    height:75%;
-    width:75%
+.opponent{
+	float: right;
 }
+.gamesList tr{
+	padding: 15px;
+	text-align: left;
+}
+th, td {
+	padding: 15px;
+	text-align: left;
+}
+
 @media only screen and (max-width: 959px) {
     #hamburger-button {
         display: block;

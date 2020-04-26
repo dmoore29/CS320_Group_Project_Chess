@@ -230,7 +230,7 @@ public class DerbyDatabase implements IDatabase{
 				ResultSet resultSet = null;
 				
 				try {
-					User player1 = findUserwithUsername(username);
+					User player1a = findUserwithUsername(username);
 					
 					stmt = conn.prepareStatement(
 //						" select games.*, users.* from games, users "
@@ -245,7 +245,7 @@ public class DerbyDatabase implements IDatabase{
 					
 					ArrayList<Game> result = new ArrayList<Game>();
 					
-					stmt.setInt(1, player1.getUserId());
+					stmt.setInt(1, player1a.getUserId());
 					
 					resultSet = stmt.executeQuery();
 										
@@ -259,24 +259,66 @@ public class DerbyDatabase implements IDatabase{
 
 						loadGame(game, resultSet, 1);
 
-						User player2 = new User();
-						loadUser(player2, resultSet, 9);
+						User player2a = new User();
+						loadUser(player2a, resultSet, 9);
 						
-						game.setPlayer1(new Player(player1, 0, game.getPlayer1().getPlayerId()));
-						game.setPlayer2(new Player(player2, 1, game.getPlayer2().getPlayerId()));
+						game.setPlayer1(new Player(player1a, 0, game.getPlayer1().getPlayerId()));
+						game.setPlayer2(new Player(player2a, 1, game.getPlayer2().getPlayerId()));
 						
 						result.add(game);
 					}
 					
 					// check if any games were found
 					if (!found) {
-						System.out.println("No games with user " + username + " were found in the database");
+						System.out.println("No games with user " + username + " were found in the database1");
+					}
+					
+					User player2b = findUserwithUsername(username);
+					
+					stmt2 = conn.prepareStatement(
+//						" select games.*, users.* from games, users "
+//							+ " where games.PLAYER1ID = users.USER_ID and "
+//							+ "((games.player2Id = 1 and games.player1Id = 2) or "
+//							+ "(games.player2Id = 2 and games.player1Id = 1)) "
+
+							" select games.*, users.* from games, users " +
+							" where games.player1Id = users.user_id " +
+							" 	and games.player2Id = ? "
+					);
+					
+					stmt2.setInt(1, player2b.getUserId());
+					
+					resultSet = stmt2.executeQuery();
+										
+					// for testing that a result was returned
+					found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						Game game = new Game();
+
+						loadGame(game, resultSet, 1);
+
+						User player1b = new User();
+						loadUser(player2b, resultSet, 9);
+						
+						game.setPlayer1(new Player(player1b, 0, game.getPlayer1().getPlayerId()));
+						game.setPlayer2(new Player(player2b, 1, game.getPlayer2().getPlayerId()));
+						
+						result.add(game);
+					}
+					
+					// check if any games were found
+					if (!found) {
+						System.out.println("No games with user " + username + " were found in the database2");
 					}
 									
 					return result;
 				} finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(stmt2);
 				}
 			}
 		});

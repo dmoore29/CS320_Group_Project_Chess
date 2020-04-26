@@ -27,4 +27,28 @@ public class LoginController {
 		
 		return false;
 	}
+
+	// returns true if a user already exists in the database with the given username
+	public boolean existingUsername(String username) {
+		if (db.findUserwithUsername(username).getUserId() > 0) {
+			System.out.println("User with username of " + username + " already exists");
+			return true;
+		}
+		return false;
+	}
+
+	// returns true if a user already exists in the database with the given email
+	public boolean existingEmail(String email) {
+		if (db.findUserwithEmail(email).getUserId() > 0) {
+			System.out.println("User with email of " + email + " already exists");
+			return true;
+		}
+		return false;
+	}
+
+	// generates a new user into the database with the given credentials
+	public void registerNewUser(Credentials credentials) {
+		// TODO Auto-generated method stub
+		
+	}
 }

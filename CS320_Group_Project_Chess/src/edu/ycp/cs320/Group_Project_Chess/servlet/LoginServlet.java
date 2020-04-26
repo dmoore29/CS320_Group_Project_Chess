@@ -62,7 +62,14 @@ public class LoginServlet extends HttpServlet {
 			if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
 				errorMessage = "Please enter a Username, Password, and Email Address";
 				destination = "/_view/login.jsp";
+			} else if (controller.existingUsername(username)){
+				errorMessage = "Username already taken";
+				destination = "/_view/login.jsp";
+			} else if (controller.existingEmail(email)) {
+				errorMessage = "Email already registered to an account";
+				destination = "/_view/login.jsp";
 			} else {
+				controller.registerNewUser(new Credentials(username, password, email));
 				testLogin = true;
 			}
 		} else {
@@ -78,7 +85,6 @@ public class LoginServlet extends HttpServlet {
 			credentials = new Credentials(email, username, password);
 			if (controller.validLogin(credentials)) {
 				destination = "/_view/home.jsp";
-				user = new User(credentials, new Stats(), new FriendsList(), new Profile());
 			} else {
 				errorMessage = "Invalid Login";
 				destination = "/_view/login.jsp";
@@ -86,7 +92,6 @@ public class LoginServlet extends HttpServlet {
 		}
 		
 		req.setAttribute("errorMessage", errorMessage);
-		req.setAttribute("user", user);
 		req.setAttribute("username", username);
 		req.setAttribute("email", email);
 		

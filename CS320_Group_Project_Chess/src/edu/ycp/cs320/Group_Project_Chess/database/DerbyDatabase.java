@@ -172,6 +172,52 @@ public class DerbyDatabase implements IDatabase{
 		});
 	}
 	
+	// transaction that retrieves Users with specific email
+	public User findUserwithEmail(final String email) {
+		return executeTransaction(new Transaction<User>() {
+			@Override
+			public User execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							" select * from users " +
+							" where users.email = ? "
+					);
+					
+					User result = new User();
+					
+					stmt.setString(1, email);
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						User user = new User();
+						loadUser(user, resultSet, 1);
+						
+						result = user;
+					}
+					
+					// check if any users were found
+					if (!found) {
+						System.out.println("No users with email " + email + " were found in the database");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
 	// transaction that retrieves all games with a specific user 
 	public ArrayList<Game> findGameswithUser(final String username) {
 		return executeTransaction(new Transaction<ArrayList<Game>>() {

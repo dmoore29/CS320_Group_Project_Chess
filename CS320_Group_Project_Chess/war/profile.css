@@ -136,7 +136,7 @@ nav ul li {
 }
 main section ul li{
     display: inline;
-    padding-right:20px
+    padding-right:20px;
 }
 nav ul li + li {
     padding-left: 20px;
@@ -159,14 +159,14 @@ main a{
     text-decoration:none;
 }
 
-#menu{
+.menu{
     float:left;
 }
-#menu ul{
+.menu ul{
     list-style-type:none;
     padding-left:0;
 }
-#menu ul li{
+.menu ul li{
     margin:5px;
 }
 table {
@@ -186,7 +186,7 @@ table th {
 table > td > a[hdr-beach]{
     text-align: right;
 }
-#menu ul li input{
+.menu ul li input{
     display:inline-block;
     padding:.5em;
     width:150px;
@@ -196,7 +196,7 @@ table > td > a[hdr-beach]{
     border-radius:5px;
     border-color:#644BBF;
 }
-#menu ul li input.current{
+.menu ul li input.current{
     background-color:lightblue;
     color:blue;
 }

@@ -21,7 +21,7 @@
         </header>
         <main>
         	<form action="${pageContext.servletContext.contextPath}/profile" method="post">
-	            <nav id="menu">
+	            <nav class="menu">
 	                <ul>
 	                    <li><input name="home" type="submit" value="Home Page" /></li>
 	                    <li><input name="chessHome" type="submit" value="Chess Home" /></li>
@@ -73,6 +73,12 @@
 		    </div>
             <p> About Me: </p>
             <p class="bio">${profile.getProfile().getBio()}</p>
+            <div class="menu">
+            	<ul>
+            		<li><input name="editBio" type="submit" value="Edit Your Bio" /></li>
+            		<li><input name="editPic" type="submit" value="Edit Your Picture" /></li>
+            	</ul>    
+            </div>
         </main>
         <aside class="websiteName">
 	    	<h2> VELOCITY </h2>

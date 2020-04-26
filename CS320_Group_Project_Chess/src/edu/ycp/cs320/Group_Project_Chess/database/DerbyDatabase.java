@@ -226,13 +226,14 @@ public class DerbyDatabase implements IDatabase{
 			@Override
 			public ArrayList<Game> execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
+				PreparedStatement stmt2 = null;
 				ResultSet resultSet = null;
 				
 				try {
 					User player1 = findUserwithUsername(username);
 					
 					stmt = conn.prepareStatement(
-//							" select games.*, users.* from games, users "
+//						" select games.*, users.* from games, users "
 //							+ " where games.PLAYER1ID = users.USER_ID and "
 //							+ "((games.player2Id = 1 and games.player1Id = 2) or "
 //							+ "(games.player2Id = 2 and games.player1Id = 1)) "
@@ -271,7 +272,7 @@ public class DerbyDatabase implements IDatabase{
 					if (!found) {
 						System.out.println("No games with user " + username + " were found in the database");
 					}
-					
+									
 					return result;
 				} finally {
 					DBUtil.closeQuietly(resultSet);

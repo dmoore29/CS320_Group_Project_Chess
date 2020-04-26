@@ -54,5 +54,11 @@ public class HomeServlet extends HttpServlet {
 			System.out.println("Home Servlet: forwarding to friends");
 			resp.sendRedirect(req.getContextPath() + "/friends");
 		}
+		
+		if (req.getParameter("logout") != null) {
+			req.getSession().setAttribute("name", null);
+			System.out.println("Home Servlet: forwarding to login");
+			resp.sendRedirect(req.getContextPath() + "/login");
+		}
 	}
 }

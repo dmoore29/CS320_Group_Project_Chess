@@ -27,6 +27,7 @@
 	                    <li><input name="home" type="submit" value="Home Page" /></li>
 	                    <li><input name="chessGame" type="submit" value="New Chess Game" /></li>
 	                    <li><input name="profile" type="submit" value="Profile" /></li>
+						<li><input name="logout" type="submit" value="Log Out" /></a></li>
 	                </ul>
 	            </nav>
             </form>

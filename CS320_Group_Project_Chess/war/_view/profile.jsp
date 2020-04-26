@@ -36,45 +36,47 @@
             	<% if (obj instanceof User) {
             		profile = (User) obj;
             	} %>
-            <!-- <aside class="profilePicture">
-            	<% String rank = null; %>
-	    		<% switch(profile.getProfile().getPictureNumber()){
-							case 1:
-								rank = "Pawn";
-								break;
-							case 2:
-								rank = "Rook";
-								break;
-							case 3:
-								rank = "Horse";
-								break;
-							case 4:
-								rank = "Bishop";
-								break;
-							case 5:
-								rank = "King";
-								break;
-							case 6:
-								rank = "Queen";
-				} %>
-				<% String color = "White"; %>
-				<% String source = "images/" + color + rank + ".png"; %>
-				<img src=<%= source %> alt=" images/WhitePawn.png">
-	    	</aside> -->
+            <div class="rightSide">
+	            <aside class="profilePicture">
+	            	<% String rank = null; %>
+		    		<% switch(profile.getProfile().getPictureNumber()){
+								case 1:
+									rank = "Pawn";
+									break;
+								case 2:
+									rank = "Rook";
+									break;
+								case 3:
+									rank = "Horse";
+									break;
+								case 4:
+									rank = "Bishop";
+									break;
+								case 5:
+									rank = "King";
+									break;
+								case 6:
+									rank = "Queen";
+					} %>
+					<% String color = "White"; %>
+					<% String source = "images/" + color + rank + ".png"; %>
+					<img src=<%= source %> alt=" images/WhitePawn.png">
+		    	</aside>
+		    	<aside class="playerStats">
+			    	<h2> ELO </h2>
+			    	<p class="elo">${profile.getStats().getElo()}</p>
+			    	<h2> WINS </h2>
+			    	<p class="wins">${profile.getStats().getWins()}</p>
+			    	<h2> LOSSES </h2>
+			    	<p class="losses">${profile.getStats().getLosses()}</p>
+		    	</aside>
+		    </div>
             <p> About Me: </p>
             <p class="bio">${profile.getProfile().getBio()}</p>
         </main>
         <aside class="websiteName">
 	    	<h2> VELOCITY </h2>
 	        <h2> VELOCITY </h2>          
-	    </aside>
-	    <aside class="playerStats">
-	    	<h2> ELO </h2>
-	    	<p class="elo">${profile.getStats().getElo()}</p>
-	    	<h2> WINS </h2>
-	    	<p class="wins">${profile.getStats().getWins()}</p>
-	    	<h2> LOSSES </h2>
-	    	<p class="losses">${profile.getStats().getLosses()}</p>
 	    </aside>
         <footer>
             <p>&copy; Velocity Games Inc.</p>

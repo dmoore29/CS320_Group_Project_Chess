@@ -221,19 +221,19 @@ public class DerbyDatabase implements IDatabase{
 	}
 	
 	// transaction that retrieves all games with a specific user 
-	//testing merge
 	public ArrayList<Game> findGameswithUser(final String username) {
 		return executeTransaction(new Transaction<ArrayList<Game>>() {
 			@Override
 			public ArrayList<Game> execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
+				PreparedStatement stmt2 = null;
 				ResultSet resultSet = null;
 				
 				try {
 					User player1 = findUserwithUsername(username);
 					
 					stmt = conn.prepareStatement(
-//							" select games.*, users.* from games, users "
+//						" select games.*, users.* from games, users "
 //							+ " where games.PLAYER1ID = users.USER_ID and "
 //							+ "((games.player2Id = 1 and games.player1Id = 2) or "
 //							+ "(games.player2Id = 2 and games.player1Id = 1)) "
@@ -272,7 +272,7 @@ public class DerbyDatabase implements IDatabase{
 					if (!found) {
 						System.out.println("No games with user " + username + " were found in the database");
 					}
-					
+									
 					return result;
 				} finally {
 					DBUtil.closeQuietly(resultSet);
@@ -752,8 +752,8 @@ public class DerbyDatabase implements IDatabase{
 	}
 	
 	private Connection connect() throws SQLException {
-		Connection conn = DriverManager.getConnection("jdbc:derby:/Users/davidmoore777/CS-320/DB/chess.db;create=true");		
-//		Connection conn = DriverManager.getConnection("jdbc:derby:C:/CS320-Group_Project_Chess/chess.db;create=true");		
+//		Connection conn = DriverManager.getConnection("jdbc:derby:/Users/davidmoore777/CS-320/DB/chess.db;create=true");		
+		Connection conn = DriverManager.getConnection("jdbc:derby:C:/CS320-Group_Project_Chess/chess.db;create=true");		
 		///Users/davidmoore777/CS-320/DB/chess.db;
 		// Set autocommit() to false to allow the execution of
 		// multiple queries/statements as part of the same transaction.

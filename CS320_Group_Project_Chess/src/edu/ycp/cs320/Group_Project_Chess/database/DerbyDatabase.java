@@ -221,12 +221,12 @@ public class DerbyDatabase implements IDatabase{
 	}
 	
 	// transaction that retrieves all games with a specific user 
-	//testing merge
 	public ArrayList<Game> findGameswithUser(final String username) {
 		return executeTransaction(new Transaction<ArrayList<Game>>() {
 			@Override
 			public ArrayList<Game> execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
+				PreparedStatement stmt2 = null;
 				ResultSet resultSet = null;
 				
 				try {
@@ -237,6 +237,7 @@ public class DerbyDatabase implements IDatabase{
 //							+ " where games.PLAYER1ID = users.USER_ID and "
 //							+ "((games.player2Id = 1 and games.player1Id = 2) or "
 //							+ "(games.player2Id = 2 and games.player1Id = 1)) "
+
 
 							" select games.*, users.* from games, users " +
 							" where games.player2Id = users.user_id " +
@@ -272,7 +273,50 @@ public class DerbyDatabase implements IDatabase{
 					if (!found) {
 						System.out.println("No games with user " + username + " were found in the database");
 					}
-					
+
+						User player2 = findUserwithUsername(username);
+						
+						stmt2 = conn.prepareStatement(
+//								" select games.*, users.* from games, users "
+//								+ " where games.PLAYER2ID = users.USER_ID and "
+//								+ "((games.player1Id = 1 and games.player2Id = 2) or "
+//								+ "(games.player1Id = 2 and games.player2Id = 1)) "
+
+								" select games.*, users.* from games, users " +
+								" where games.player1Id = users.user_id " +
+								" 	and games.player2Id = ? "
+						);
+						
+						result = new ArrayList<Game>();
+						
+						stmt2.setInt(1, player2.getUserId());
+						
+						resultSet = stmt2.executeQuery();
+											
+						// for testing that a result was returned
+						found = false;
+						
+						while (resultSet.next()) {
+							found = true;
+							
+							Game game = new Game();
+
+							loadGame(game, resultSet, 1);
+
+							player1 = new User();
+							loadUser(player1, resultSet, 9);
+							
+							game.setPlayer2(new Player(player2, 0, game.getPlayer2().getPlayerId()));
+							game.setPlayer1(new Player(player1, 1, game.getPlayer1().getPlayerId()));
+							
+							result.add(game);
+						}
+						
+						// check if any games were found
+						if (!found) {
+							System.out.println("No games with user " + username + " were found in the database");
+						}
+									
 					return result;
 				} finally {
 					DBUtil.closeQuietly(resultSet);

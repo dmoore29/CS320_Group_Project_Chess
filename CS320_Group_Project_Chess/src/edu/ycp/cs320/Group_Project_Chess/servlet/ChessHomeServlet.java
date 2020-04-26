@@ -76,9 +76,9 @@ public class ChessHomeServlet extends HttpServlet {
 			//TODO: SPECIFY USER 2
 
 			Player p1 = new Player(u1, 0);
-			p1.setPlayerId(1);
+			p1.setPlayerId(u1.getUserId());
 			Player p2 = new Player(u2, 1);
-			p2.setPlayerId(2);
+			p2.setPlayerId(u2.getUserId());
 			Game game = new Game(p1, p2);
 			int newId = 0;
 			

@@ -1,5 +1,6 @@
 package edu.ycp.cs320.Group_Project_Chess.controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import edu.ycp.cs320.Group_Project_Chess.database.DerbyDatabase;
@@ -47,8 +48,7 @@ public class LoginController {
 	}
 
 	// generates a new user into the database with the given credentials
-	public void registerNewUser(Credentials credentials) {
-		// TODO Auto-generated method stub
-		
+	public void registerNewUser(Credentials credentials) throws SQLException {
+		db.registerUser(credentials);
 	}
 }

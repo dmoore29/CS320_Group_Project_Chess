@@ -103,6 +103,12 @@ public class ChessHomeServlet extends HttpServlet {
 			resp.sendRedirect(req.getContextPath() + "/profile");
 		}
 		
+		if (req.getParameter("logout") != null) {
+			req.getSession().setAttribute("name", null);
+			System.out.println("Home Servlet: forwarding to login");
+			resp.sendRedirect(req.getContextPath() + "/login");
+		}
+		
 		if (req.getParameter("oldChessGame") != null) {
 			
 			if (req.getParameter("oldChessGameRadio") != null) { //loading existing game

@@ -221,6 +221,7 @@ public class DerbyDatabase implements IDatabase{
 	}
 	
 	// transaction that retrieves all games with a specific user 
+	//testing merge
 	public ArrayList<Game> findGameswithUser(final String username) {
 		return executeTransaction(new Transaction<ArrayList<Game>>() {
 			@Override

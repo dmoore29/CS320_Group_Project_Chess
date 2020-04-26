@@ -46,7 +46,7 @@
             	} %>
             	<form action="${pageContext.servletContext.contextPath}/chessHome" method="post">
 	            	<input name="oldChessGame" type="submit" value="Load Chess Game" />
-	            	
+	            	<input name="deleteOldChessGame" type="submit" value="Delete Chess Game" />
 	            	<table class="gamesList">
 		            	<% for (Game game: games){ %>
 		            	<% int gameId = game.getGameId(); %>

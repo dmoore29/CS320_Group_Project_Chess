@@ -119,7 +119,31 @@ public class ChessHomeServlet extends HttpServlet {
 				resp.sendRedirect(req.getContextPath() + "/chessHome");
 			}
 			
-		}	
+		}
+		
+		if (req.getParameter("deleteOldChessGame") != null) {
+			
+			if (req.getParameter("oldChessGameRadio") != null) { //selecting existing game
+				int gameId = Integer.parseInt(req.getParameter("oldChessGameRadio"));
+				System.out.println("game " + gameId + " selected");
+				
+				GameHomeController controller = new GameHomeController();
+				
+				try {
+					controller.deleteGame(gameId);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				System.out.println("ChessHome Servlet: reloading chessHome");
+				resp.sendRedirect(req.getContextPath() + "/chessHome");
+			} else {
+				System.out.println("ChessHome Servlet: reloading chessHome");
+				resp.sendRedirect(req.getContextPath() + "/chessHome");
+			}
+			
+		}
 	}
 }
 

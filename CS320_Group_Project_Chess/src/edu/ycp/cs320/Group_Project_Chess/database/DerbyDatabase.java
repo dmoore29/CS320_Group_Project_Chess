@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import edu.ycp.cs320.Group_Project_Chess.model.Bishop;
 import edu.ycp.cs320.Group_Project_Chess.model.Board;
+import edu.ycp.cs320.Group_Project_Chess.model.Credentials;
 import edu.ycp.cs320.Group_Project_Chess.model.Game;
 import edu.ycp.cs320.Group_Project_Chess.model.King;
 import edu.ycp.cs320.Group_Project_Chess.model.Knight;
@@ -36,6 +37,7 @@ public class DerbyDatabase implements IDatabase{
 	private interface Transaction<ResultType> {
 		public ResultType execute(Connection conn) throws SQLException;
 	}
+// from library example
 	
 	// transaction that retrieves all Users in database
 	public ArrayList<User> findAllUsers() {
@@ -161,6 +163,52 @@ public class DerbyDatabase implements IDatabase{
 					// check if any users were found
 					if (!found) {
 						System.out.println("No users with userId " + userId + " were found in the database");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	// transaction that retrieves Users with specific email
+	public User findUserwithEmail(final String email) {
+		return executeTransaction(new Transaction<User>() {
+			@Override
+			public User execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							" select * from users " +
+							" where users.email = ? "
+					);
+					
+					User result = new User();
+					
+					stmt.setString(1, email);
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						User user = new User();
+						loadUser(user, resultSet, 1);
+						
+						result = user;
+					}
+					
+					// check if any users were found
+					if (!found) {
+						System.out.println("No users with email " + email + " were found in the database");
 					}
 					
 					return result;
@@ -329,88 +377,45 @@ public class DerbyDatabase implements IDatabase{
 			}
 		});
 	}
-
-	private static final int MAX_ATTEMPTS = 10;
 	
-	// wrapper SQL transaction function that calls actual transaction function (which has retries)
-	public<ResultType> ResultType executeTransaction(Transaction<ResultType> txn) {
-		try {
-			return doExecuteTransaction(txn);
-		} catch (SQLException e) {
-			throw new PersistenceException("Transaction failed", e);
-		}
-	}
-		
-	// SQL transaction function which retries the transaction MAX_ATTEMPTS times before failing
-	public<ResultType> ResultType doExecuteTransaction(Transaction<ResultType> txn) throws SQLException {
-		Connection conn = connect();
-		
-		try {
-			int numAttempts = 0;
-			boolean success = false;
-			ResultType result = null;
-			
-			while (!success && numAttempts < MAX_ATTEMPTS) {
+	// adds a new user to the database
+	public Integer registerUser(final Credentials creds) throws SQLException {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
 				try {
-					result = txn.execute(conn);
-					conn.commit();
-					success = true;
-				} catch (SQLException e) {
-					if (e.getSQLState() != null && e.getSQLState().equals("41000")) {
-						// Deadlock: retry (unless max retry count has been reached)
-						numAttempts++;
-					} else {
-						// Some other kind of SQLException
-						throw e;
+					stmt = conn.prepareStatement(
+							"insert into users (friendsId, email, username, password, wins, losses, elo, bio, pictureNumber) "
+							+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?) ", Statement.RETURN_GENERATED_KEYS
+					);
+					
+					stmt.setInt(1, 1);
+					stmt.setString(2, creds.getEmail());
+					stmt.setString(3, creds.getUsername());
+					stmt.setString(4, creds.getPassword());
+					stmt.setInt(5, 0);
+					stmt.setInt(6, 0);
+					stmt.setInt(7, 100);
+					stmt.setString(8, "Tell the world about yourself!");
+					stmt.setInt(9, 1);
+					
+					stmt.execute();
+					
+					ResultSet rs = stmt.getGeneratedKeys();
+					int generatedKey = 0;
+					if (rs.next()) {
+					    generatedKey = rs.getInt(1);
 					}
+					
+					return generatedKey;
+		
+				} finally {
+					DBUtil.closeQuietly(stmt);
 				}
 			}
-			
-			if (!success) {
-				throw new SQLException("Transaction failed (too many retries)");
-			}
-			
-			// Success!
-			return result;
-		} finally {
-			DBUtil.closeQuietly(conn);
-		}
-	}
-	
-	private Connection connect() throws SQLException {
-//		Connection conn = DriverManager.getConnection("jdbc:derby:/Users/davidmoore777/CS-320/DB/chess.db;create=true");		
-		Connection conn = DriverManager.getConnection("jdbc:derby:C:/CS320-Group_Project_Chess/chess.db;create=true");		
-		///Users/davidmoore777/CS-320/DB/chess.db;
-		// Set autocommit() to false to allow the execution of
-		// multiple queries/statements as part of the same transaction.
-		conn.setAutoCommit(false);
-		
-		return conn;
-	}
-// from library example
-	
-	private void loadUser(User user, ResultSet resultSet, int index) throws SQLException {
-		user.setUserId(resultSet.getInt(index++));
-		user.getFriends().setFriendsId(resultSet.getInt(index++));
-		user.getCredentials().setEmail(resultSet.getString(index++));
-		user.getCredentials().setUsername(resultSet.getString(index++));
-		user.getCredentials().setPassword(resultSet.getString(index++));
-		user.getStats().setWins(resultSet.getInt(index++));
-		user.getStats().setLosses(resultSet.getInt(index++));
-		user.getStats().setElo(resultSet.getInt(index++));
-		user.getProfile().setBio(resultSet.getString(index++));
-		user.getProfile().setPictureNumber(resultSet.getInt(index++));
-	}
-	
-	private void loadGame(Game game, ResultSet resultSet, int index) throws SQLException {
-		game.setGameId(resultSet.getInt(index++));
-		game.getBoard().setBoardId(resultSet.getInt(index++));
-		game.getPlayer1().setPlayerId(resultSet.getInt(index++));
-		game.getPlayer2().setPlayerId(resultSet.getInt(index++));
-		game.setTurn(resultSet.getInt(index++));
-		game.setPromo(resultSet.getInt(index++));
-		game.setEnPx(resultSet.getInt(index++));
-		game.setEnPy(resultSet.getInt(index++));
+		});
 	}
 	
 //	@Override
@@ -634,6 +639,90 @@ public class DerbyDatabase implements IDatabase{
 				}
 			}
 		}
+	}
+	
+// from library example
+	private static final int MAX_ATTEMPTS = 10;
+	
+	// wrapper SQL transaction function that calls actual transaction function (which has retries)
+	public<ResultType> ResultType executeTransaction(Transaction<ResultType> txn) {
+		try {
+			return doExecuteTransaction(txn);
+		} catch (SQLException e) {
+			throw new PersistenceException("Transaction failed", e);
+		}
+	}
+		
+	// SQL transaction function which retries the transaction MAX_ATTEMPTS times before failing
+	public<ResultType> ResultType doExecuteTransaction(Transaction<ResultType> txn) throws SQLException {
+		Connection conn = connect();
+		
+		try {
+			int numAttempts = 0;
+			boolean success = false;
+			ResultType result = null;
+			
+			while (!success && numAttempts < MAX_ATTEMPTS) {
+				try {
+					result = txn.execute(conn);
+					conn.commit();
+					success = true;
+				} catch (SQLException e) {
+					if (e.getSQLState() != null && e.getSQLState().equals("41000")) {
+						// Deadlock: retry (unless max retry count has been reached)
+						numAttempts++;
+					} else {
+						// Some other kind of SQLException
+						throw e;
+					}
+				}
+			}
+			
+			if (!success) {
+				throw new SQLException("Transaction failed (too many retries)");
+			}
+			
+			// Success!
+			return result;
+		} finally {
+			DBUtil.closeQuietly(conn);
+		}
+	}
+	
+	private Connection connect() throws SQLException {
+//		Connection conn = DriverManager.getConnection("jdbc:derby:/Users/davidmoore777/CS-320/DB/chess.db;create=true");		
+		Connection conn = DriverManager.getConnection("jdbc:derby:C:/CS320-Group_Project_Chess/chess.db;create=true");		
+		///Users/davidmoore777/CS-320/DB/chess.db;
+		// Set autocommit() to false to allow the execution of
+		// multiple queries/statements as part of the same transaction.
+		conn.setAutoCommit(false);
+		
+		return conn;
+	}
+// from library example
+	
+	private void loadUser(User user, ResultSet resultSet, int index) throws SQLException {
+		user.setUserId(resultSet.getInt(index++));
+		user.getFriends().setFriendsId(resultSet.getInt(index++));
+		user.getCredentials().setEmail(resultSet.getString(index++));
+		user.getCredentials().setUsername(resultSet.getString(index++));
+		user.getCredentials().setPassword(resultSet.getString(index++));
+		user.getStats().setWins(resultSet.getInt(index++));
+		user.getStats().setLosses(resultSet.getInt(index++));
+		user.getStats().setElo(resultSet.getInt(index++));
+		user.getProfile().setBio(resultSet.getString(index++));
+		user.getProfile().setPictureNumber(resultSet.getInt(index++));
+	}
+	
+	private void loadGame(Game game, ResultSet resultSet, int index) throws SQLException {
+		game.setGameId(resultSet.getInt(index++));
+		game.getBoard().setBoardId(resultSet.getInt(index++));
+		game.getPlayer1().setPlayerId(resultSet.getInt(index++));
+		game.getPlayer2().setPlayerId(resultSet.getInt(index++));
+		game.setTurn(resultSet.getInt(index++));
+		game.setPromo(resultSet.getInt(index++));
+		game.setEnPx(resultSet.getInt(index++));
+		game.setEnPy(resultSet.getInt(index++));
 	}
 	
 	public void createTables() {

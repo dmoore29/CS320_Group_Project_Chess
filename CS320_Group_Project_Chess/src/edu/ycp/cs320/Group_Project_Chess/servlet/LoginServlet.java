@@ -1,6 +1,7 @@
 package edu.ycp.cs320.Group_Project_Chess.servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -8,11 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.Group_Project_Chess.controller.LoginController;
-import edu.ycp.cs320.Group_Project_Chess.database.FakeDatabase;
 import edu.ycp.cs320.Group_Project_Chess.model.Credentials;
-import edu.ycp.cs320.Group_Project_Chess.model.FriendsList;
-import edu.ycp.cs320.Group_Project_Chess.model.Profile;
-import edu.ycp.cs320.Group_Project_Chess.model.Stats;
 import edu.ycp.cs320.Group_Project_Chess.model.User;
 
 public class LoginServlet extends HttpServlet {
@@ -62,8 +59,20 @@ public class LoginServlet extends HttpServlet {
 			if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
 				errorMessage = "Please enter a Username, Password, and Email Address";
 				destination = "/_view/login.jsp";
+			} else if (controller.existingUsername(username)){
+				errorMessage = "Username already taken";
+				destination = "/_view/login.jsp";
+			} else if (controller.existingEmail(email)) {
+				errorMessage = "Email already registered to an account";
+				destination = "/_view/login.jsp";
 			} else {
+				try {
+				controller.registerNewUser(new Credentials(email, username, password));
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
 				testLogin = true;
+				}
 			}
 		} else {
 			if (username.isEmpty() || password.isEmpty()) {
@@ -78,7 +87,6 @@ public class LoginServlet extends HttpServlet {
 			credentials = new Credentials(email, username, password);
 			if (controller.validLogin(credentials)) {
 				destination = "/_view/home.jsp";
-				user = new User(credentials, new Stats(), new FriendsList(), new Profile());
 			} else {
 				errorMessage = "Invalid Login";
 				destination = "/_view/login.jsp";
@@ -86,7 +94,6 @@ public class LoginServlet extends HttpServlet {
 		}
 		
 		req.setAttribute("errorMessage", errorMessage);
-		req.setAttribute("user", user);
 		req.setAttribute("username", username);
 		req.setAttribute("email", email);
 		

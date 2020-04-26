@@ -148,12 +148,12 @@ main p{
     margin:5px;
 }
 table {
-    border-collapse: collapse;
-    width: 60%;
-    margin-top: 10px;
-}
-table tbody{
-	overflow: scroll;
+	border-collapse: collapse;
+	display: block;
+	height: 350px;
+	width: 60%;
+	overflow-y: scroll;
+	margin-top: 15px;
 }
 table tbody tr td {
     border-style: solid;
@@ -164,9 +164,6 @@ table thead tr th {
     border-style: solid;
     border-width: 5px;
     border-color: black;
-}
-table th {
-	width: 10px;
 }
 table > td > a[hdr-beach]{
     text-align: right;

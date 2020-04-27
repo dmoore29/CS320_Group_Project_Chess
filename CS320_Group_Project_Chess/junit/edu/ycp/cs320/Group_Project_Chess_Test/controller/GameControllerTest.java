@@ -19,12 +19,14 @@ import edu.ycp.cs320.Group_Project_Chess.model.Space;
 public class GameControllerTest {
 
 	private GameController controller;
-	private Game game;
+	private Game game, gameCheck;
 	private Player player1, player2;
 	
 	@Before
 	public void setUp() {
 		game = new Game(player1, player2);
+		gameCheck = new Game();
+		gameCheck.getBoard().newGameBoard();
 		controller = new GameController(game);
 	}
 	
@@ -84,15 +86,16 @@ public class GameControllerTest {
 	@Test
 	public void testCheck() {
 		// Create a scenario; king is adjacent to an opposing rook.
-		game.getBoard().setPiece(new King(Rank.KING, 1, new Point(1,0)));
-		game.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(0,0)));
-		
+		gameCheck.getBoard().setPiece(new King(Rank.KING, 1, new Point(1,0)));
+		gameCheck.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(0,0)));
+		controller = new GameController(gameCheck);
 		
 		// The rook is able to capture the king, the king should be in check.
 		assertTrue(controller.check(1));
 		
 		// Remove the opposing rook.
-		game.getBoard().getSpace(0,0).setPiece(null);
+		gameCheck.getBoard().getSpace(0,0).setPiece(null);
+		controller = new GameController(gameCheck);
 		
 		// The king should no longer be in check.
 		assertFalse(controller.check(1));

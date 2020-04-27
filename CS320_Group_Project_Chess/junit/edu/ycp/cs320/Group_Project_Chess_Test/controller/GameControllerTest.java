@@ -10,6 +10,7 @@ import org.junit.Test;
 import edu.ycp.cs320.Group_Project_Chess.controller.GameController;
 import edu.ycp.cs320.Group_Project_Chess.model.Game;
 import edu.ycp.cs320.Group_Project_Chess.model.King;
+import edu.ycp.cs320.Group_Project_Chess.model.Pawn;
 import edu.ycp.cs320.Group_Project_Chess.model.Piece;
 import edu.ycp.cs320.Group_Project_Chess.model.Player;
 import edu.ycp.cs320.Group_Project_Chess.model.Rank;
@@ -85,20 +86,36 @@ public class GameControllerTest {
 	
 	@Test
 	public void testCheck() {
-		// Create a scenario; king is adjacent to an opposing rook.
+		//START CHECK ROOK
 		gameCheck.getBoard().setPiece(new King(Rank.KING, 1, new Point(1,0)));
 		gameCheck.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(0,0)));
 		controller = new GameController(gameCheck);
 		
-		// The rook is able to capture the king, the king should be in check.
+		// The piece is able to capture the king, the king should be in check.
 		assertTrue(controller.check(1));
 		
-		// Remove the opposing rook.
+		// Remove the opposing piece.
 		gameCheck.getBoard().getSpace(0,0).setPiece(null);
 		controller = new GameController(gameCheck);
 		
 		// The king should no longer be in check.
 		assertFalse(controller.check(1));
+		//END CHECK ROOK
+		
+		//START CHECK PAWN
+		gameCheck.getBoard().setPiece(new Pawn(Rank.PAWN, 0, new Point(0,1)));
+		controller = new GameController(gameCheck);
+		
+		// The piece is able to capture the king, the king should be in check.
+		assertTrue(controller.check(1));
+		
+		// Remove the opposing piece.
+		gameCheck.getBoard().getSpace(0,1).setPiece(null);
+		controller = new GameController(gameCheck);
+		
+		// The king should no longer be in check.
+		assertFalse(controller.check(1));
+		//END CHECK PAWN
 	}
 	
 	@Test

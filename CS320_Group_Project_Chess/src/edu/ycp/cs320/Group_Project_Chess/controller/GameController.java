@@ -151,9 +151,9 @@ public class GameController {
 		Piece king = null;
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
-				if(model.getBoard().getPiece(i, j) != null) {	
-					if( (model.getBoard().getSpace(i, j).getPiece().getColor() == player) && (model.getBoard().getSpace(i, j).getPiece().getRank() == Rank.KING) ) {
-						king = model.getBoard().getSpace(i, j).getPiece();
+				if(model.getBoard().getPiece(j, i) != null) {	
+					if( (model.getBoard().getSpace(j, i).getPiece().getColor() == player) && (model.getBoard().getSpace(j, i).getPiece().getRank() == Rank.KING) ) {
+						king = model.getBoard().getSpace(j, i).getPiece();
 					}
 				}
 			}

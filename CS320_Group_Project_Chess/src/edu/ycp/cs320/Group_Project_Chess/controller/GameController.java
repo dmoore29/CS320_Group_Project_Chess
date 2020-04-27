@@ -112,9 +112,9 @@ public class GameController {
 		Piece king = null;
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
-				if(model.getBoard().getPiece(i, j) != null) {	
-					if( (model.getBoard().getSpace(i, j).getPiece().getColor() == player) && (model.getBoard().getSpace(i, j).getPiece().getRank() == Rank.KING) ) {
-						king = model.getBoard().getSpace(i, j).getPiece();
+				if(model.getBoard().getPiece(j, i) != null) {	
+					if( (model.getBoard().getSpace(j, i).getPiece().getColor() == player) && (model.getBoard().getSpace(j, i).getPiece().getRank() == Rank.KING) ) {
+						king = model.getBoard().getSpace(j, i).getPiece();
 					}
 				}
 			}
@@ -124,11 +124,11 @@ public class GameController {
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
 				// If the space contains a piece.
-				if(model.getBoard().getPiece(i, j) != null) {
+				if(model.getBoard().getPiece(j, i) != null) {
 					// If the piece that the space contains belongs to the opposing player.
-					if((model.getBoard().getSpace(i, j).getPiece().getColor() != player)) {
+					if((model.getBoard().getSpace(j, i).getPiece().getColor() != player)) {
 						// If the opposing player's piece is able to move to the provided player's king, the current player is in check.
-						if(model.getBoard().getSpace(i, j).getPiece().validMove(king.getLocation(), model.getBoard())) {
+						if(model.getBoard().getSpace(j, i).getPiece().validMove(king.getLocation(), model.getBoard())) {
 							return true;
 						}
 					}

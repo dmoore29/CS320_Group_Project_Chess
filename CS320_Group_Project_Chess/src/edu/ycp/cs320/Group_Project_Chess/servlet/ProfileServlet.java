@@ -1,6 +1,7 @@
 package edu.ycp.cs320.Group_Project_Chess.servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -67,11 +68,13 @@ public class ProfileServlet extends HttpServlet {
 			System.out.println("Profile Servlet: forwarding to friends");
 			resp.sendRedirect(req.getContextPath() + "/friends");
 		}
+		
 		if (req.getParameter("logout") != null) {
 			req.getSession().setAttribute("name", null);
 			System.out.println("Home Servlet: forwarding to login");
 			resp.sendRedirect(req.getContextPath() + "/login");
 		}
+		
 		if (req.getParameter("editBio") != null) {
 			System.out.println("Profile Servlet: editing bio");
 			controller = new ProfileController();
@@ -80,6 +83,7 @@ public class ProfileServlet extends HttpServlet {
 			req.setAttribute("editBioFlag", 1);
 			req.getRequestDispatcher("/_view/profile.jsp").forward(req, resp);
 		}
+		
 		if (req.getParameter("editPic") != null) {
 			System.out.println("Profile Servlet: editing picture");
 			controller = new ProfileController();
@@ -87,6 +91,32 @@ public class ProfileServlet extends HttpServlet {
 			req.setAttribute("profile", user);
 			req.setAttribute("editPicFlag", 1);
 			req.getRequestDispatcher("/_view/profile.jsp").forward(req, resp);
+		}
+		
+		if(req.getParameter("bioFieldSubmit") != null) {
+			System.out.println("Profile Servlet: submitting bio updates");
+			controller = new ProfileController();
+			User user = controller.getProfile((String) req.getSession().getAttribute("name"));
+			try {
+				controller.updateBio(req.getParameter("bioField"), user.getUserId());
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			resp.sendRedirect(req.getContextPath() + "/profile");
+		}
+		
+		if(req.getParameter("picSelectionSubmit") != null) {
+			System.out.println("Profile Servlet: submitting picture updates");
+			controller = new ProfileController();
+			User user = controller.getProfile((String) req.getSession().getAttribute("name"));
+			try {
+				controller.updatePic(Integer.parseInt(req.getParameter("picSelection")), user.getUserId());
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			resp.sendRedirect(req.getContextPath() + "/profile");
 		}
 	}
 }

@@ -462,6 +462,90 @@ public class DerbyDatabase implements IDatabase{
 		});
 	}
 	
+	// updates the user's bio
+	public Integer updateBio(final String newBio, final int Id) throws SQLException {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
+				User user = findUserwithUserId(Id);
+				
+				stmt = conn.prepareStatement(
+						"update users "
+						+ "set friendsId = ?, "
+						+ "email = ?, "
+						+ "username = ?, "
+						+ "password = ?, "
+						+ "wins = ?, "
+						+ "losses = ?, "
+						+ "elo = ?, "
+						+ "bio = ?, "
+						+ "pictureNumber = ? "
+						+ "where user_id = ?"
+				);
+				
+				stmt.setInt(1, user.getFriends().getFriendsId());
+				stmt.setString(2, user.getCredentials().getEmail());
+				stmt.setString(3, user.getCredentials().getUsername());
+				stmt.setString(4, user.getCredentials().getPassword());
+				stmt.setInt(5, user.getStats().getWins());
+				stmt.setInt(6, user.getStats().getLosses());
+				stmt.setInt(7, user.getStats().getElo());
+				stmt.setString(8, newBio);
+				stmt.setInt(9, user.getProfile().getPictureNumber());
+				stmt.setInt(10, user.getUserId());
+				
+				stmt.executeUpdate();
+		
+				DBUtil.closeQuietly(stmt);
+				return 1;
+			}
+		});
+	}
+	
+	// updates the user's picNum
+	public Integer updatePicNum(final int picNum, final int Id) throws SQLException {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
+				User user = findUserwithUserId(Id);
+				
+				stmt = conn.prepareStatement(
+						"update users "
+						+ "set friendsId = ?, "
+						+ "email = ?, "
+						+ "username = ?, "
+						+ "password = ?, "
+						+ "wins = ?, "
+						+ "losses = ?, "
+						+ "elo = ?, "
+						+ "bio = ?, "
+						+ "pictureNumber = ? "
+						+ "where user_id = ?"
+				);
+				
+				stmt.setInt(1, user.getFriends().getFriendsId());
+				stmt.setString(2, user.getCredentials().getEmail());
+				stmt.setString(3, user.getCredentials().getUsername());
+				stmt.setString(4, user.getCredentials().getPassword());
+				stmt.setInt(5, user.getStats().getWins());
+				stmt.setInt(6, user.getStats().getLosses());
+				stmt.setInt(7, user.getStats().getElo());
+				stmt.setString(8, user.getProfile().getBio());
+				stmt.setInt(9, picNum);
+				stmt.setInt(10, user.getUserId());
+				
+				stmt.executeUpdate();
+		
+				DBUtil.closeQuietly(stmt);
+				return 1;
+			}
+		});
+	}
+	
 //	@Override
 	public Integer newGame(final Game game) throws SQLException {
 		return executeTransaction(new Transaction<Integer>() {

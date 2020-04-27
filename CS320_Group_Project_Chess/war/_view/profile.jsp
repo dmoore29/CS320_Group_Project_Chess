@@ -41,25 +41,30 @@
 	            	<% String rank = null; %>
 		    		<% switch(profile.getProfile().getPictureNumber()){
 								case 1:
-									rank = "Pawn";
+									rank = "WhitePawn.png";
 									break;
 								case 2:
-									rank = "Rook";
+									rank = "WhiteRook.png";
 									break;
 								case 3:
-									rank = "Horse";
+									rank = "WhiteHorse.png";
 									break;
 								case 4:
-									rank = "Bishop";
+									rank = "WhiteBishop.png";
 									break;
 								case 5:
-									rank = "King";
+									rank = "WhiteKing.png";
 									break;
 								case 6:
-									rank = "Queen";
+									rank = "WhiteQueen.png";
+									break;
+								case 7:
+									rank = "Cheese.jpg";
+									break;
+								case 8:
+									rank = "chess_logo.png";
 					} %>
-					<% String color = "White"; %>
-					<% String source = "images/" + color + rank + ".png"; %>
+					<% String source = "images/" + rank; %>
 					<img src=<%= source %> alt=" images/WhitePawn.png">
 		    	</aside>
 		    	<aside class="playerStats">
@@ -85,20 +90,20 @@
 	           		<p> Pick Profile Picture Here: </p>
 	           		<table>
 	           			<tr>
-	           				<td><img src="images/WhitePawn.png"><input name="picSelection" type="radio" value="WhitePawn"/></td>
-	           				<td><img src="images/WhiteHorse.png"><input name="picSelection" type="radio" value="WhiteHorse"/></td>
+	           				<td><img src="images/WhitePawn.png"><input name="picSelection" type="radio" value="1"/></td>
+	           				<td><img src="images/WhiteHorse.png"><input name="picSelection" type="radio" value="3"/></td>
 	           			</tr>
 	           			<tr>
-	           				<td><img src="images/WhiteBishop.png"><input name="picSelection" type="radio" value="WhiteBishop"/></td>
-	           				<td><img src="images/WhiteRook.png"><input name="picSelection" type="radio" value="WhiteRook"/></td>
+	           				<td><img src="images/WhiteBishop.png"><input name="picSelection" type="radio" value="4"/></td>
+	           				<td><img src="images/WhiteRook.png"><input name="picSelection" type="radio" value="2"/></td>
 	           			</tr>
 	           			<tr>
-	           				<td><img src="images/WhiteQueen.png"><input name="picSelection" type="radio" value="WhiteQueen"/></td>
-	           				<td><img src="images/WhiteKing.png"><input name="picSelection" type="radio" value="WhiteKing"/></td>
+	           				<td><img src="images/WhiteQueen.png"><input name="picSelection" type="radio" value="6"/></td>
+	           				<td><img src="images/WhiteKing.png"><input name="picSelection" type="radio" value="5"/></td>
 	           			</tr>
 	           			<tr>
-	           				<td><img src="images/Cheese.jpg"><input name="picSelection" type="radio" value="Cheese"/></td>
-	           				<td><img src="images/chess_logo.png"><input name="picSelection" type="radio" value="chess_logo"/></td>
+	           				<td><img src="images/Cheese.jpg"><input name="picSelection" type="radio" value="7"/></td>
+	           				<td><img src="images/chess_logo.png"><input name="picSelection" type="radio" value="8"/></td>
 	           			</tr>
 	           		</table>
 	           		<input name="picSelectionSubmit" type="submit" value="Confirm Picture"/>

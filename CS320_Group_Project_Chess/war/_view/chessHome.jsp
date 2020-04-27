@@ -25,7 +25,6 @@
 	            <nav id="menu">
 	                <ul>
 	                    <li><input name="home" type="submit" value="Home Page" /></li>
-	                    <li><input name="chessGame" type="submit" value="New Chess Game" /></li>
 	                    <li><input name="profile" type="submit" value="Profile" /></li>
 						<li><input name="logout" type="submit" value="Log Out" /></a></li>
 	                </ul>
@@ -46,11 +45,12 @@
             		}
             	} %>
             	<form class="gameSelect" action="${pageContext.servletContext.contextPath}/chessHome" method="post">
-	            	<input name="oldChessGame" type="submit" value="Load Chess Game" />
-	            	<input name="deleteOldChessGame" type="submit" value="Delete Chess Game" />
 	            	<ul class="opponent">
-		            	<label for="fname">Opponent:</label>
+		            	<label for="fname">Challenge New Opponent:</label>
 						<li><input name="opponent" type="text"</li>
+						<li><input name="chessGame" type="submit" value="New Chess Game" /></li>
+						<li><input name="oldChessGame" type="submit" value="Load Chess Game" /></li>
+	            		<li><input name="deleteOldChessGame" type="submit" value="Delete Chess Game" /></li>
 		           	</ul>
 	            	<table>
 	            		<thead>

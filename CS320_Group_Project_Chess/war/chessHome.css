@@ -192,6 +192,7 @@ th, td {
 }
 
 .gameSelect input{
+	margin-left: 15%;
 	margin-top: 10px;
 	display:inline-block;
     padding:.5em;

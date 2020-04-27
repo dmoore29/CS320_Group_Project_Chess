@@ -10,6 +10,7 @@ import org.junit.Test;
 import edu.ycp.cs320.Group_Project_Chess.controller.GameController;
 import edu.ycp.cs320.Group_Project_Chess.model.Game;
 import edu.ycp.cs320.Group_Project_Chess.model.King;
+import edu.ycp.cs320.Group_Project_Chess.model.Piece;
 import edu.ycp.cs320.Group_Project_Chess.model.Player;
 import edu.ycp.cs320.Group_Project_Chess.model.Rank;
 import edu.ycp.cs320.Group_Project_Chess.model.Rook;
@@ -88,13 +89,13 @@ public class GameControllerTest {
 		
 		
 		// The rook is able to capture the king, the king should be in check.
-		assertTrue(controller.check());
+		assertTrue(controller.check(1));
 		
 		// Remove the opposing rook.
 		game.getBoard().getSpace(0,0).setPiece(null);
 		
 		// The king should no longer be in check.
-		assertFalse(controller.check());
+		assertFalse(controller.check(1));
 	}
 	
 	@Test
@@ -104,17 +105,16 @@ public class GameControllerTest {
 		game.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(0,0)));
 		game.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(2,0)));
 		game.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(0,1)));
-		game.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(1,1)));
 		game.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(2,1)));
 		
 		// King should be in check.
-		assertTrue(controller.checkmate());
+		assertTrue(controller.checkmate(1));
 		
 		// Get rid of the piece directly in front of the king.
 		game.getBoard().getSpace(1, 1).setPiece(null);
 		
 		// The king should NOT be in check.
-		assertFalse(controller.checkmate());
+		assertFalse(controller.checkmate(1));
 	}
 	
 	

@@ -83,12 +83,12 @@
            		<form action="${pageContext.servletContext.contextPath}/profile" method="post">
 	           		<p> Enter Bio Here: </p>
 	            	<input name="bioField" type="text" maxlength="100" size="30" value="${profile.getProfile().getBio()}" />
-	            	<input name="bioFieldSubmit" type="submit" value="Submit Bio"/>
+	            	<input class="editButton" name="bioFieldSubmit" type="submit" value="Submit Bio"/>
 	            </form>
            		<% } else if (picFlag != null){ %>
            		<form action="${pageContext.servletContext.contextPath}/profile" method="post">
 	           		<p> Pick Profile Picture Here: </p>
-	           		<table>
+	           		<table class="picEditor">
 	           			<tr>
 	           				<td><img src="images/WhitePawn.png"><input name="picSelection" type="radio" value="1"/></td>
 	           				<td><img src="images/WhiteHorse.png"><input name="picSelection" type="radio" value="3"/></td>
@@ -106,7 +106,7 @@
 	           				<td><img src="images/chess_logo.png"><input name="picSelection" type="radio" value="8"/></td>
 	           			</tr>
 	           		</table>
-	           		<input name="picSelectionSubmit" type="submit" value="Confirm Picture"/>
+	           		<input class="editButton" name="picSelectionSubmit" type="submit" value="Confirm Picture"/>
 	           	</form>
            		<% } %>
            	<% } else { %>

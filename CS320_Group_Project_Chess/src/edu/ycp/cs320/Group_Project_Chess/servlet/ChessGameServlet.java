@@ -20,17 +20,6 @@ public class ChessGameServlet extends HttpServlet {
 	private int sourceY;
 	private int destX;
 	private int destY;
-	
-	//TEMPORARY PERSISTANT MEMORY
-//  	Profile pr1 = new Profile();
-//  	FriendsList f1 = new FriendsList();
-//  	Stats s1 = new Stats();
-//  	Credentials c1 = new Credentials("a", "b", "c");
-//  	Credentials c2 = new Credentials("d", "e", "f");
-//	User u1 = new User(c1, s1, f1, pr1);
-//	User u2 = new User(c2, s1, f1, pr1);
-//	Player p1 = new Player(u1, 0);
-//	Player p2 = new Player(u2, 1);
 	Game game = null;
 	GameController controller = null;
 	
@@ -102,7 +91,7 @@ public class ChessGameServlet extends HttpServlet {
 			System.out.println("ChessGame Servlet: forwarding to friends");
 			resp.sendRedirect(req.getContextPath() + "/friends");
 		}
-		if(req.getParameter("rank") != null) {
+		if(req.getParameter("rank") != null) { //promotion
 			System.out.println("Recieved Promotion Piece");
 			String r = (String)req.getParameter("rank");
 			int color;
@@ -182,6 +171,26 @@ public class ChessGameServlet extends HttpServlet {
 					controller.movePiece(game.getBoard().getSpace(sourceX, sourceY), game.getBoard().getSpace(destX, destY)); //moves piece
 					game.setEnPx(8);
 					game.setEnPy(8);
+					Boolean check;
+					if(game.getBoard().getPiece(destX, destY).getColor() == 0) {
+						check = controller.check(1);
+					} else {
+						check = controller.check(0);
+					}
+					if(check) {
+						System.out.println("CHECK");
+						System.out.println("CHECK");
+						System.out.println("CHECK");
+						System.out.println("CHECK");
+						System.out.println("CHECK");
+						System.out.println("CHECK");
+						System.out.println("CHECK");
+						System.out.println("CHECK");
+						System.out.println("CHECK");
+						System.out.println("CHECK");
+						System.out.println("CHECK");
+						System.out.println("CHECK");
+					}
 					if(game.getBoard().getPiece(destX, destY).getRank() == Rank.PAWN) { //if piece is a pawn
 						Pawn p = (Pawn) game.getBoard().getPiece(destX, destY); //creates temporary pawn to call game.getPromo()tion
 						if(p.promotion(game.getBoard())) { //if pawn is at y0 or y7

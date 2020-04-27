@@ -4,6 +4,8 @@ import java.sql.SQLException;
 
 import edu.ycp.cs320.Group_Project_Chess.database.DerbyDatabase;
 import edu.ycp.cs320.Group_Project_Chess.model.Game;
+import edu.ycp.cs320.Group_Project_Chess.model.Piece;
+import edu.ycp.cs320.Group_Project_Chess.model.Rank;
 import edu.ycp.cs320.Group_Project_Chess.model.Space;
 import edu.ycp.cs320.Group_Project_Chess.model.User; 
 
@@ -104,8 +106,36 @@ public class GameController {
 	 * @return false if the move did not set the player in check,
 	 *     true if the move did set the player in check.
 	 */
-	public boolean check() {
-		throw new UnsupportedOperationException("TODO - implement");
+	public boolean check(int player) {
+		// Obtain the player's king piece.
+		// King is set to null in order to avoid provoking Java.
+		Piece king = null;
+		for(int i = 0; i < 8; i++) {
+			for(int j = 0; j < 8; j++) {
+				if(model.getBoard().getPiece(i, j) != null) {	
+					if( (model.getBoard().getSpace(i, j).getPiece().getColor() == player) && (model.getBoard().getSpace(i, j).getPiece().getRank() == Rank.KING) ) {
+						king = model.getBoard().getSpace(i, j).getPiece();
+					}
+				}
+			}
+		}
+		
+		// Iterate through all of the player's chess pieces.
+		for(int i = 0; i < 8; i++) {
+			for(int j = 0; j < 8; j++) {
+				// If the space contains a piece.
+				if(model.getBoard().getPiece(i, j) != null) {
+					// If the piece that the space contains belongs to the opposing player.
+					if((model.getBoard().getSpace(i, j).getPiece().getColor() != player)) {
+						// If the opposing player's piece is able to move to the provided player's king, the current player is in check.
+						if(model.getBoard().getSpace(i, j).getPiece().validMove(king.getLocation(), model.getBoard())) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -115,7 +145,45 @@ public class GameController {
 	 * @return false if the move did not set the player in checkmate,
 	 *     true if the move did set the player in checkmate.
 	 */
-	public boolean checkmate() {
-		throw new UnsupportedOperationException("TODO - implement");
+	public boolean checkmate(int player) {
+		// Obtain the player's king piece.
+		// King is set to null in order to avoid provoking Java.
+		Piece king = null;
+		for(int i = 0; i < 8; i++) {
+			for(int j = 0; j < 8; j++) {
+				if(model.getBoard().getPiece(i, j) != null) {	
+					if( (model.getBoard().getSpace(i, j).getPiece().getColor() == player) && (model.getBoard().getSpace(i, j).getPiece().getRank() == Rank.KING) ) {
+						king = model.getBoard().getSpace(i, j).getPiece();
+					}
+				}
+			}
+		}
+		
+		// Check possible moves using the X and Y location of the determined king.
+		int kingX = king.getLocation().x;
+		int kingY = king.getLocation().y;
+		
+		// Row above king AND if the piece is already in the top row.
+		if(kingY != 0) {
+			if(model.getBoard().getSpace(kingX, kingY - 1).getPiece() == null || model.getBoard().getSpace(kingX - 1, kingY - 1).getPiece() == null || model.getBoard().getSpace(kingX, kingY - 1).getPiece() == null) {
+				return false;
+			}
+		}
+		// Row below king AND if the piece is already in the bottom row.
+		else if(kingX != 7){
+			if(model.getBoard().getSpace(kingX, kingY + 1).getPiece() == null || model.getBoard().getSpace(kingX - 1, kingY + 1).getPiece() == null || model.getBoard().getSpace(kingX + 1, kingY + 1).getPiece() == null) {
+				return false;
+			}
+		}
+		// Left of king AND if the piece is to the left-most space.
+		else if(model.getBoard().getPiece(kingX - 1, kingY) == null && kingX != 0) {
+			return false;
+		}
+		// Right of king AND if the piece is to the right-most space.
+		else if(model.getBoard().getPiece(kingX + 1, kingY) == null && kingX != 7) {
+			return false;
+		}
+		// If everything else fails.
+		return true;
 	}
 }

@@ -278,3 +278,24 @@ p{
     height: auto;
     width: 100%;
 }
+
+.editButton{
+	padding:.5em;
+    width:150px;
+    background-color:#644BBF;
+    color:black;
+    text-decoration:none;
+    border-radius:5px;
+    border-color:#644BBF;
+}
+
+.picEditor tr{
+	width: 50%;
+}
+.picEditor td{
+	width: 50%;
+}
+.picEditor tr td img{
+	height: auto;
+	width: 100%;
+}

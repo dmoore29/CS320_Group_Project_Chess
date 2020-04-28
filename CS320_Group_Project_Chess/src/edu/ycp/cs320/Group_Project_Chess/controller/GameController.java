@@ -1,11 +1,18 @@
 package edu.ycp.cs320.Group_Project_Chess.controller;
 
+import java.awt.Point;
 import java.sql.SQLException;
 
 import edu.ycp.cs320.Group_Project_Chess.database.DerbyDatabase;
+import edu.ycp.cs320.Group_Project_Chess.model.Bishop;
 import edu.ycp.cs320.Group_Project_Chess.model.Game;
+import edu.ycp.cs320.Group_Project_Chess.model.King;
+import edu.ycp.cs320.Group_Project_Chess.model.Knight;
+import edu.ycp.cs320.Group_Project_Chess.model.Pawn;
 import edu.ycp.cs320.Group_Project_Chess.model.Piece;
+import edu.ycp.cs320.Group_Project_Chess.model.Queen;
 import edu.ycp.cs320.Group_Project_Chess.model.Rank;
+import edu.ycp.cs320.Group_Project_Chess.model.Rook;
 import edu.ycp.cs320.Group_Project_Chess.model.Space;
 import edu.ycp.cs320.Group_Project_Chess.model.User; 
 
@@ -167,29 +174,52 @@ public class GameController {
 			}
 		}
 		
-		// Check possible moves using the X and Y location of the determined king.
-		int kingX = king.getLocation().x;
-		int kingY = king.getLocation().y;
-		
-		// Row above king AND if the piece is already in the top row.
-		if(kingY != 0) {
-			if(model.getBoard().getSpace(kingX, kingY - 1).getPiece() == null || model.getBoard().getSpace(kingX - 1, kingY - 1).getPiece() == null || model.getBoard().getSpace(kingX, kingY - 1).getPiece() == null) {
-				return false;
+		for (int y = -1; y < 2; y++) {
+			for (int x = -1; x < 2; x++) {
+				if ((x + king.getLocation().x >= 0 && x + king.getLocation().x <= 7) && (y + king.getLocation().y >= 0 && y + king.getLocation().y <= 7) && !(x == 0 && y == 0)) {
+					System.out.println((x + king.getLocation().x) + " " + (y + king.getLocation().y));
+					if (model.getBoard().getSpace(king.getLocation().x, king.getLocation().y).getPiece().validMove(new Point(x + king.getLocation().x, y + king.getLocation().y), model.getBoard())) {
+						Piece temp = null;
+						if (model.getBoard().getSpace(x + king.getLocation().x, y + king.getLocation().y).getPiece() != null) {
+							switch(model.getBoard().getSpace(x + king.getLocation().x, y + king.getLocation().y).getPiece().getRank()) {
+							case PAWN:
+								temp = new Pawn(Rank.PAWN, model.getBoard().getSpace(x + king.getLocation().x, y + king.getLocation().y).getPiece().getColor(), model.getBoard().getSpace(x + king.getLocation().x, y + king.getLocation().y).getPiece().getLocation());
+								break;
+							case ROOK:
+								temp = new Rook(Rank.ROOK, model.getBoard().getSpace(x + king.getLocation().x, y + king.getLocation().y).getPiece().getColor(), model.getBoard().getSpace(x + king.getLocation().x, y + king.getLocation().y).getPiece().getLocation());
+								break;
+							case KNIGHT:
+								temp = new Knight(Rank.KNIGHT, model.getBoard().getSpace(x + king.getLocation().x, y + king.getLocation().y).getPiece().getColor(), model.getBoard().getSpace(x + king.getLocation().x, y + king.getLocation().y).getPiece().getLocation());
+								break;
+							case BISHOP:
+								temp = new Bishop(Rank.BISHOP, model.getBoard().getSpace(x + king.getLocation().x, y + king.getLocation().y).getPiece().getColor(), model.getBoard().getSpace(x + king.getLocation().x, y + king.getLocation().y).getPiece().getLocation());
+								break;
+							case QUEEN:
+								temp = new Queen(Rank.QUEEN, model.getBoard().getSpace(x + king.getLocation().x, y + king.getLocation().y).getPiece().getColor(), model.getBoard().getSpace(x + king.getLocation().x, y + king.getLocation().y).getPiece().getLocation());
+								break;
+							case KING:
+								temp = new King(Rank.KING, model.getBoard().getSpace(x + king.getLocation().x, y + king.getLocation().y).getPiece().getColor(), model.getBoard().getSpace(x + king.getLocation().x, y + king.getLocation().y).getPiece().getLocation());
+								break;
+							default:
+								temp = null;
+							}
+						}
+						movePiece(model.getBoard().getSpace(king.getLocation().x, king.getLocation().y), model.getBoard().getSpace(x + king.getLocation().x, y + king.getLocation().y));
+						if (!check(king.getColor())) {
+							movePiece(model.getBoard().getSpace(king.getLocation().x, king.getLocation().y), model.getBoard().getSpace(king.getLocation().x - x, king.getLocation().y - y));
+							if (temp != null) {
+								model.getBoard().setPiece(temp);
+							}
+							return false;
+						} else {
+							movePiece(model.getBoard().getSpace(king.getLocation().x, king.getLocation().y), model.getBoard().getSpace(king.getLocation().x - x, king.getLocation().y - y));
+							if (temp != null) {
+								model.getBoard().setPiece(temp);
+							}
+						}
+					}
+				}
 			}
-		}
-		// Row below king AND if the piece is already in the bottom row.
-		else if(kingX != 7){
-			if(model.getBoard().getSpace(kingX, kingY + 1).getPiece() == null || model.getBoard().getSpace(kingX - 1, kingY + 1).getPiece() == null || model.getBoard().getSpace(kingX + 1, kingY + 1).getPiece() == null) {
-				return false;
-			}
-		}
-		// Left of king AND if the piece is to the left-most space.
-		else if(model.getBoard().getPiece(kingX - 1, kingY) == null && kingX != 0) {
-			return false;
-		}
-		// Right of king AND if the piece is to the right-most space.
-		else if(model.getBoard().getPiece(kingX + 1, kingY) == null && kingX != 7) {
-			return false;
 		}
 		// If everything else fails.
 		return true;

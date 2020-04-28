@@ -20,17 +20,7 @@ public class ChessGameServlet extends HttpServlet {
 	private int sourceY;
 	private int destX;
 	private int destY;
-	
-	//TEMPORARY PERSISTANT MEMORY
-//  	Profile pr1 = new Profile();
-//  	FriendsList f1 = new FriendsList();
-//  	Stats s1 = new Stats();
-//  	Credentials c1 = new Credentials("a", "b", "c");
-//  	Credentials c2 = new Credentials("d", "e", "f");
-//	User u1 = new User(c1, s1, f1, pr1);
-//	User u2 = new User(c2, s1, f1, pr1);
-//	Player p1 = new Player(u1, 0);
-//	Player p2 = new Player(u2, 1);
+	private int checkFlag;
 	Game game = null;
 	GameController controller = null;
 	
@@ -54,6 +44,16 @@ public class ChessGameServlet extends HttpServlet {
 			game = controller.loadGame((int) req.getSession().getAttribute("gameId"));
 		}
 		
+		controller.setGame(game);
+		if(controller.check(0)) {
+			checkFlag = 1;
+		} else if(controller.check(1)){
+			checkFlag = 1;
+		} else {
+			checkFlag = 0;
+		}
+		
+		req.setAttribute("checkFlag", checkFlag);
 		req.setAttribute("model", game);
 		System.out.println("ChessGame Servlet: doGet");
 		
@@ -102,7 +102,14 @@ public class ChessGameServlet extends HttpServlet {
 			System.out.println("ChessGame Servlet: forwarding to friends");
 			resp.sendRedirect(req.getContextPath() + "/friends");
 		}
-		if(req.getParameter("rank") != null) {
+		
+		if (req.getParameter("logout") != null) {
+			req.getSession().setAttribute("name", null);
+			System.out.println("Home Servlet: forwarding to login");
+			resp.sendRedirect(req.getContextPath() + "/login");
+		}
+		
+		if(req.getParameter("rank") != null) { //promotion
 			System.out.println("Recieved Promotion Piece");
 			String r = (String)req.getParameter("rank");
 			int color;
@@ -113,43 +120,44 @@ public class ChessGameServlet extends HttpServlet {
 			}
 			switch(r) { //replaces pawn with relative piece
 				case "Queen":
-				game.getBoard().setPiece(new Queen(Rank.QUEEN, color, new Point(destX, destY)));
+				controller.getGame().getBoard().setPiece(new Queen(Rank.QUEEN, color, new Point(destX, destY)));
 				System.out.println("Setting Piece");
 				break;
 				
 				case "Rook":
-				game.getBoard().setPiece(new Rook(Rank.ROOK, color, new Point(destX, destY)));
+				controller.getGame().getBoard().setPiece(new Rook(Rank.ROOK, color, new Point(destX, destY)));
 				System.out.println("Setting Piece");
 				break;
 				
 				case "Knight":
-				game.getBoard().setPiece(new Knight(Rank.KNIGHT, color, new Point(destX, destY)));
+				controller.getGame().getBoard().setPiece(new Knight(Rank.KNIGHT, color, new Point(destX, destY)));
 				System.out.println("Setting Piece");
 				break;
 				
 				case "Bishop":
-				game.getBoard().setPiece(new Bishop(Rank.BISHOP, color, new Point(destX, destY)));
+				controller.getGame().getBoard().setPiece(new Bishop(Rank.BISHOP, color, new Point(destX, destY)));
 				System.out.println("Setting Piece");
 				break;
 			}
 			
-			game.setPromo(0);
+			controller.getGame().setPromo(0);
 			
-			req.setAttribute("promotionFlag", game.getPromo());
-			req.setAttribute("model", game);
+			req.setAttribute("checkFlag", checkFlag);
+			req.setAttribute("promotionFlag", controller.getGame().getPromo());
+			req.setAttribute("model", controller.getGame());
 			System.out.println("ChessGame Servlet: doGet");
 			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
 			
 		}
-		if(req.getParameter("x1") != null && pos1Recieved == false && game.getPromo() == 0) { //if position 1 is received
+		if(req.getParameter("x1") != null && pos1Recieved == false && controller.getGame().getPromo() == 0) { //if position 1 is received
 			pos1Recieved = true; //sets position 1 received flag to true
 			System.out.println("Recieved Source");
 			
 			sourceX = Integer.parseInt(req.getParameter("x1"));
 			sourceY = Integer.parseInt(req.getParameter("y1"));
 			
-			if(game.getBoard().getSpace(sourceX, sourceY).getPiece() != null) { //if space has a piece
-				if(game.getTurn()%2 != game.getBoard().getSpace(sourceX, sourceY).getPiece().getColor()) { //if not player's turn
+			if(controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece() != null) { //if space has a piece
+				if(controller.getGame().getTurn()%2 != controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece().getColor()) { //if not player's turn
 					sourceX = 8;
 					sourceY = 8;
 					pos1Recieved = false;
@@ -160,10 +168,11 @@ public class ChessGameServlet extends HttpServlet {
 				pos1Recieved = false;
 			}
 			
-			req.setAttribute("promotionFlag", game.getPromo());
+			req.setAttribute("checkFlag", checkFlag);
+			req.setAttribute("promotionFlag", controller.getGame().getPromo());
 			req.setAttribute("pos1x", sourceX);
 			req.setAttribute("pos1y", sourceY);
-			req.setAttribute("model", game);
+			req.setAttribute("model", controller.getGame());
 			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
 		} 
 		
@@ -174,63 +183,86 @@ public class ChessGameServlet extends HttpServlet {
 			destX = Integer.parseInt(req.getParameter("x1"));
 			destY = Integer.parseInt(req.getParameter("y1"));
 			
-			if(game.getBoard().getSpace(sourceX, sourceY).getPiece() != null) { //if space has a piece
+			Piece revert = controller.getGame().getBoard().getSpace(destX, destY).getPiece();
+			if(controller.getGame().getBoard().getSpace(destX, destY).getPiece() != null)
+			System.err.println("SPACE COLOR: " + revert.getColor());
+
+			
+			if(controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece() != null) { //if space has a piece
 				if(sourceX == destX && sourceY == destY) { //if source is destination
 					System.out.println("NOT VALID");
 				}
-				if(game.getBoard().getSpace(sourceX, sourceY).getPiece().validMove(new Point(destX, destY), game.getBoard()) == true ) {	//if move is valid			
-					controller.movePiece(game.getBoard().getSpace(sourceX, sourceY), game.getBoard().getSpace(destX, destY)); //moves piece
-					game.setEnPx(8);
-					game.setEnPy(8);
-					if(game.getBoard().getPiece(destX, destY).getRank() == Rank.PAWN) { //if piece is a pawn
-						Pawn p = (Pawn) game.getBoard().getPiece(destX, destY); //creates temporary pawn to call game.getPromo()tion
-						if(p.promotion(game.getBoard())) { //if pawn is at y0 or y7
-							game.setPromo(1);
+				if(controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece().validMove(new Point(destX, destY), controller.getGame().getBoard()) == true) {	//if move is valid			
+					controller.movePiece(controller.getGame().getBoard().getSpace(sourceX, sourceY), controller.getGame().getBoard().getSpace(destX, destY)); //moves piece
+					if(!controller.check(controller.getGame().getBoard().getPiece(destX, destY).getColor())) {
+						controller.getGame().setEnPx(8);
+						controller.getGame().setEnPy(8);
+						Boolean check;
+						checkFlag = 0;
+						if(controller.getGame().getBoard().getPiece(destX, destY).getColor() == 0) {
+							check = controller.check(1);
+						} else {
+							check = controller.check(0);
 						}
-						if(Math.abs(sourceY - destY) == 2){ //if its a pawn and its first move
-							game.setEnPx(sourceX);
-							if(p.getColor() == 0) { //if piece is white
-								game.setEnPy(5);
-							} else {
-								game.setEnPy(2);
+						if(check) {
+							checkFlag = 1;
+						}
+						if(controller.getGame().getBoard().getPiece(destX, destY).getRank() == Rank.PAWN) { //if piece is a pawn
+							Pawn p = (Pawn) controller.getGame().getBoard().getPiece(destX, destY); //creates temporary pawn to call controller.getGame().getPromo()tion
+							if(p.promotion(controller.getGame().getBoard())) { //if pawn is at y0 or y7
+								controller.getGame().setPromo(1);
+							}
+							if(Math.abs(sourceY - destY) == 2){ //if its a pawn and its first move
+								controller.getGame().setEnPx(sourceX);
+								if(p.getColor() == 0) { //if piece is white
+									controller.getGame().setEnPy(5);
+								} else {
+									controller.getGame().setEnPy(2);
+								}
 							}
 						}
+						System.out.println("VALID");
+						controller.getGame().setTurn(controller.getGame().getTurn()+1); //increments turn counter
+					} else {
+						controller.movePiece(controller.getGame().getBoard().getSpace(destX, destY), controller.getGame().getBoard().getSpace(sourceX, sourceY));
+						controller.getGame().getBoard().getSpace(destX, destY).setPiece(revert);
+						System.out.println("NOT VALID");
 					}
-					System.out.println("VALID");
-					game.setTurn(game.getTurn()+1); //increments turn counter
 				//if selecting piece of same color after selecting source (makes moving smoother)
-				} else if(game.getBoard().getPiece(destX, destY) != null && game.getBoard().getPiece(destX, destY).getColor() == game.getBoard().getPiece(sourceX, sourceY).getColor()){
+				} else if(controller.getGame().getBoard().getPiece(destX, destY) != null && controller.getGame().getBoard().getPiece(destX, destY).getColor() == controller.getGame().getBoard().getPiece(sourceX, sourceY).getColor()){
 					sourceX = destX;
 					sourceY = destY;
 					req.setAttribute("pos1x", sourceX);
 					req.setAttribute("pos1y", sourceY);
 					pos1Recieved = true;
-				} else if(game.getBoard().getSpace(sourceX, sourceY).getPiece().getRank() == Rank.PAWN && destX == game.getEnPx() && destY == game.getEnPy()) {
-					controller.movePiece(game.getBoard().getSpace(sourceX, sourceY), game.getBoard().getSpace(destX, destY)); //moves piece
-					if(game.getEnPy() == 2) {
-						game.getBoard().getSpace(game.getEnPx(), 3).setPiece(null);
+				} else if(controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece().getRank() == Rank.PAWN && destX == controller.getGame().getEnPx() && destY == controller.getGame().getEnPy()) {
+					controller.movePiece(controller.getGame().getBoard().getSpace(sourceX, sourceY), controller.getGame().getBoard().getSpace(destX, destY)); //moves piece
+					if(controller.getGame().getEnPy() == 2) {
+						controller.getGame().getBoard().getSpace(controller.getGame().getEnPx(), 3).setPiece(null);
 					} else {
-						game.getBoard().getSpace(game.getEnPx(), 4).setPiece(null);
+						controller.getGame().getBoard().getSpace(controller.getGame().getEnPx(), 4).setPiece(null);
 					}
-					game.setTurn(game.getTurn()+1); //increments turn on En Passant move
-					game.setEnPx(8);
-					game.setEnPy(8);
+					controller.getGame().setTurn(controller.getGame().getTurn()+1); //increments turn on En Passant move
+					controller.getGame().setEnPx(8);
+					controller.getGame().setEnPy(8);
 				}	else {
 					System.out.println("NOT VALID ");
 				}
 			}
-			req.setAttribute("promotionFlag", game.getPromo());
-			req.setAttribute("model", game);
+			req.setAttribute("checkFlag", checkFlag);
+			req.setAttribute("promotionFlag", controller.getGame().getPromo());
+			req.setAttribute("model", controller.getGame());
 			System.out.println("ChessGame Servlet: doGet");
 			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
 		} else {
-			req.setAttribute("promotionFlag", game.getPromo());
-			req.setAttribute("model", game);
+			req.setAttribute("checkFlag", checkFlag);
+			req.setAttribute("promotionFlag", controller.getGame().getPromo());
+			req.setAttribute("model", controller.getGame());
 			System.out.println("ChessGame Servlet: doGet");
 			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
 		}
 		try {
-			controller.updateGame(game);
+			controller.updateGame(controller.getGame());
 			System.out.println("UPDATED GAME");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

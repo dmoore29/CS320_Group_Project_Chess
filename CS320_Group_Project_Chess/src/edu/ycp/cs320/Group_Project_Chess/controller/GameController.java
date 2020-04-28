@@ -33,6 +33,14 @@ public class GameController {
 		return model;
 	}
 	
+	public void setGame(Game model) {
+		this.model = model;
+	}
+	
+	public Game getGame() {
+		return model;
+	}
+	
 	/**
 	 * Stores the game in the database.
 	 * 

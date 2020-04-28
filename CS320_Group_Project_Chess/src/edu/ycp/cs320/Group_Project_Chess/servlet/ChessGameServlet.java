@@ -20,6 +20,7 @@ public class ChessGameServlet extends HttpServlet {
 	private int sourceY;
 	private int destX;
 	private int destY;
+	private int checkFlag;
 	Game game = null;
 	GameController controller = null;
 	
@@ -43,6 +44,16 @@ public class ChessGameServlet extends HttpServlet {
 			game = controller.loadGame((int) req.getSession().getAttribute("gameId"));
 		}
 		
+		controller.setGame(game);
+		if(controller.check(0)) {
+			checkFlag = 1;
+		} else if(controller.check(1)){
+			checkFlag = 1;
+		} else {
+			checkFlag = 0;
+		}
+		
+		req.setAttribute("checkFlag", checkFlag);
 		req.setAttribute("model", game);
 		System.out.println("ChessGame Servlet: doGet");
 		
@@ -131,6 +142,7 @@ public class ChessGameServlet extends HttpServlet {
 			
 			controller.getGame().setPromo(0);
 			
+			req.setAttribute("checkFlag", checkFlag);
 			req.setAttribute("promotionFlag", controller.getGame().getPromo());
 			req.setAttribute("model", controller.getGame());
 			System.out.println("ChessGame Servlet: doGet");
@@ -156,6 +168,7 @@ public class ChessGameServlet extends HttpServlet {
 				pos1Recieved = false;
 			}
 			
+			req.setAttribute("checkFlag", checkFlag);
 			req.setAttribute("promotionFlag", controller.getGame().getPromo());
 			req.setAttribute("pos1x", sourceX);
 			req.setAttribute("pos1y", sourceY);
@@ -185,24 +198,14 @@ public class ChessGameServlet extends HttpServlet {
 						controller.getGame().setEnPx(8);
 						controller.getGame().setEnPy(8);
 						Boolean check;
+						checkFlag = 0;
 						if(controller.getGame().getBoard().getPiece(destX, destY).getColor() == 0) {
 							check = controller.check(1);
 						} else {
 							check = controller.check(0);
 						}
 						if(check) {
-							System.out.println("CHECK");
-							System.out.println("CHECK");
-							System.out.println("CHECK");
-							System.out.println("CHECK");
-							System.out.println("CHECK");
-							System.out.println("CHECK");
-							System.out.println("CHECK");
-							System.out.println("CHECK");
-							System.out.println("CHECK");
-							System.out.println("CHECK");
-							System.out.println("CHECK");
-							System.out.println("CHECK");
+							checkFlag = 1;
 						}
 						if(controller.getGame().getBoard().getPiece(destX, destY).getRank() == Rank.PAWN) { //if piece is a pawn
 							Pawn p = (Pawn) controller.getGame().getBoard().getPiece(destX, destY); //creates temporary pawn to call controller.getGame().getPromo()tion
@@ -246,11 +249,13 @@ public class ChessGameServlet extends HttpServlet {
 					System.out.println("NOT VALID ");
 				}
 			}
+			req.setAttribute("checkFlag", checkFlag);
 			req.setAttribute("promotionFlag", controller.getGame().getPromo());
 			req.setAttribute("model", controller.getGame());
 			System.out.println("ChessGame Servlet: doGet");
 			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
 		} else {
+			req.setAttribute("checkFlag", checkFlag);
 			req.setAttribute("promotionFlag", controller.getGame().getPromo());
 			req.setAttribute("model", controller.getGame());
 			System.out.println("ChessGame Servlet: doGet");

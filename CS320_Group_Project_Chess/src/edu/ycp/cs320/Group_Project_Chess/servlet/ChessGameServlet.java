@@ -216,7 +216,7 @@ public class ChessGameServlet extends HttpServlet {
 					} else {
 						controller.movePiece(controller.getGame().getBoard().getSpace(destX, destY), controller.getGame().getBoard().getSpace(sourceX, sourceY));
 						controller.getGame().getBoard().getSpace(destX, destY).setPiece(revert);
-						System.out.println("NOT VALID AT CHECK A");
+						System.out.println("NOT VALID");
 					}
 				//if selecting piece of same color after selecting source (makes moving smoother)
 				} else if(controller.getGame().getBoard().getPiece(destX, destY) != null && controller.getGame().getBoard().getPiece(destX, destY).getColor() == controller.getGame().getBoard().getPiece(sourceX, sourceY).getColor()){

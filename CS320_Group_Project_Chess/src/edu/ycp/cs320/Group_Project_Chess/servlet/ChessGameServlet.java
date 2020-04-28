@@ -91,6 +91,13 @@ public class ChessGameServlet extends HttpServlet {
 			System.out.println("ChessGame Servlet: forwarding to friends");
 			resp.sendRedirect(req.getContextPath() + "/friends");
 		}
+		
+		if (req.getParameter("logout") != null) {
+			req.getSession().setAttribute("name", null);
+			System.out.println("Home Servlet: forwarding to login");
+			resp.sendRedirect(req.getContextPath() + "/login");
+		}
+		
 		if(req.getParameter("rank") != null) { //promotion
 			System.out.println("Recieved Promotion Piece");
 			String r = (String)req.getParameter("rank");

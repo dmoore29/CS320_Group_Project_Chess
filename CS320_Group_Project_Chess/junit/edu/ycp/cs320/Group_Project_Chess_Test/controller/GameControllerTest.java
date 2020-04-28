@@ -20,7 +20,7 @@ import edu.ycp.cs320.Group_Project_Chess.model.Space;
 public class GameControllerTest {
 
 	private GameController controller;
-	private Game game, gameCheck;
+	private Game game, gameCheck, gameCheckmate;
 	private Player player1, player2;
 	
 	@Before
@@ -28,6 +28,8 @@ public class GameControllerTest {
 		game = new Game(player1, player2);
 		gameCheck = new Game();
 		gameCheck.getBoard().newGameBoard();
+		gameCheckmate = new Game();
+		gameCheckmate.getBoard().newGameBoard();
 		controller = new GameController(game);
 	}
 	
@@ -121,20 +123,17 @@ public class GameControllerTest {
 	@Test
 	public void testCheckMate() {
 		// Create a scenario; king is surrounded by rooks on all sides.
-		game.getBoard().setPiece(new King(Rank.KING, 1, new Point(1,0)));
-		game.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(0,0)));
-		game.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(2,0)));
-		game.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(0,1)));
-		game.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(2,1)));
+		gameCheckmate.getBoard().setPiece(new King(Rank.KING, 1, new Point(1,0)));
+		gameCheckmate.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(0,0)));
+		gameCheckmate.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(2,0)));
+		gameCheckmate.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(0,1)));
+		gameCheckmate.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(2,1)));
+		controller = new GameController(gameCheckmate);
 		
-		// King should be in check.
+		// King should be in checkmate.
 		assertTrue(controller.checkmate(1));
 		
-		// Get rid of the piece directly in front of the king.
-		game.getBoard().getSpace(1, 1).setPiece(null);
 		
-		// The king should NOT be in check.
-		assertFalse(controller.checkmate(1));
 	}
 	
 	

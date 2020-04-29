@@ -15,6 +15,7 @@ import edu.ycp.cs320.Group_Project_Chess.model.Knight;
 import edu.ycp.cs320.Group_Project_Chess.model.Pawn;
 import edu.ycp.cs320.Group_Project_Chess.model.Piece;
 import edu.ycp.cs320.Group_Project_Chess.model.Player;
+import edu.ycp.cs320.Group_Project_Chess.model.Queen;
 import edu.ycp.cs320.Group_Project_Chess.model.Rank;
 import edu.ycp.cs320.Group_Project_Chess.model.Rook;
 import edu.ycp.cs320.Group_Project_Chess.model.Space;
@@ -90,8 +91,10 @@ public class GameControllerTest {
 	
 	@Test
 	public void testCheck() {
-		//START CHECK ROOK
+		//PLACE KING
 		gameCheck.getBoard().setPiece(new King(Rank.KING, 1, new Point(1,0)));
+		
+		//START CHECK ROOK
 		gameCheck.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(0,0)));
 		controller = new GameController(gameCheck);
 		
@@ -145,6 +148,19 @@ public class GameControllerTest {
 		// The king should no longer be in check.
 		assertFalse(controller.check(1));
 		//END CHECK KNIGHT
+		
+		//START CHECK QUEEN
+		gameCheck.getBoard().setPiece(new Queen(Rank.QUEEN, 0, new Point(5,4)));
+		
+		// The piece is able to capture the king, the king should be in check.
+		assertTrue(controller.check(1));
+		
+		// Remove the opposing piece.
+		gameCheck.getBoard().getSpace(5,4).setPiece(null);
+		
+		// The king should no longer be in check.
+		assertFalse(controller.check(1));
+		//END CHECK QUEEN
 	}
 	
 	@Test

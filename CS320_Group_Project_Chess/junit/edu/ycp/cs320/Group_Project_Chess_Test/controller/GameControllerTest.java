@@ -93,17 +93,16 @@ public class GameControllerTest {
 	public void testCheck() {
 		//PLACE KING
 		gameCheck.getBoard().setPiece(new King(Rank.KING, 1, new Point(1,0)));
+		controller = new GameController(gameCheck);
 		
 		//START CHECK ROOK
 		gameCheck.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(0,0)));
-		controller = new GameController(gameCheck);
 		
 		// The piece is able to capture the king, the king should be in check.
 		assertTrue(controller.check(1));
 		
 		// Remove the opposing piece.
 		gameCheck.getBoard().getSpace(0,0).setPiece(null);
-		controller = new GameController(gameCheck);
 		
 		// The king should no longer be in check.
 		assertFalse(controller.check(1));
@@ -165,16 +164,27 @@ public class GameControllerTest {
 	
 	@Test
 	public void testCheckMate() {
-		// Create a scenario; king is surrounded by rooks on all sides.
+		//PLACE KING 
 		gameCheckmate.getBoard().setPiece(new King(Rank.KING, 1, new Point(1,0)));
-		gameCheckmate.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(0,0)));
-		gameCheckmate.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(2,0)));
-		gameCheckmate.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(0,1)));
-		gameCheckmate.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(2,1)));
 		controller = new GameController(gameCheckmate);
+		
+		//CHECKMATE SCENARIO 1
+		gameCheckmate.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(0,2)));
+		gameCheckmate.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(1,2)));
+		gameCheckmate.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(2,2)));
 		
 		// King should be in checkmate.
 		assertTrue(controller.checkmate(1));
+		
+		// Remove the opposing piece.
+		gameCheckmate.getBoard().getSpace(0,2).setPiece(null);
+		gameCheckmate.getBoard().getSpace(1,2).setPiece(null);
+		gameCheckmate.getBoard().getSpace(2,2).setPiece(null);
+		
+		// The king should no longer be in check.
+		assertFalse(controller.checkmate(1));
+		
+		//END CHACKMATE SCENARIO 1
 		
 		
 	}

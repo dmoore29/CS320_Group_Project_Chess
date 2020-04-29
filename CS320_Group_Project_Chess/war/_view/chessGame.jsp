@@ -64,7 +64,14 @@
 		<input type="hidden" name="x1">
 		<input type="hidden" name="y1">
 		<div class='space'>
-			<%Integer checkFlag = (Integer)request.getAttribute("checkFlag");%>
+			<%Integer checkMateFlag = (Integer)request.getAttribute("checkMateFlag");%>
+				<%if(checkMateFlag != null){ %>
+					<%if(checkMateFlag == 1){ %>
+						<div class="turn">
+						CHECKMATE!!
+						</div>
+					<%} else {%>
+						<%Integer checkFlag = (Integer)request.getAttribute("checkFlag");%>
 				<%if(checkFlag != null){ %>
 					<%if(checkFlag == 1){ %>
 						<div class="turn">
@@ -72,6 +79,9 @@
 						</div>
 					<%}%>
 				<%}%>
+				<%}%>
+				<%}%>
+
 			<div class='turn'>
 				Turn: <%=model.getTurn() %>
 			</div>

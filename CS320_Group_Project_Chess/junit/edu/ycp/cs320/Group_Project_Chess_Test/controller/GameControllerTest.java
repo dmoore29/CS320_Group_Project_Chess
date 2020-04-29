@@ -8,8 +8,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.ycp.cs320.Group_Project_Chess.controller.GameController;
+import edu.ycp.cs320.Group_Project_Chess.model.Bishop;
 import edu.ycp.cs320.Group_Project_Chess.model.Game;
 import edu.ycp.cs320.Group_Project_Chess.model.King;
+import edu.ycp.cs320.Group_Project_Chess.model.Knight;
 import edu.ycp.cs320.Group_Project_Chess.model.Pawn;
 import edu.ycp.cs320.Group_Project_Chess.model.Piece;
 import edu.ycp.cs320.Group_Project_Chess.model.Player;
@@ -106,7 +108,6 @@ public class GameControllerTest {
 		
 		//START CHECK PAWN
 		gameCheck.getBoard().setPiece(new Pawn(Rank.PAWN, 0, new Point(0,1)));
-		controller = new GameController(gameCheck);
 		
 		// The piece is able to capture the king, the king should be in check.
 		assertTrue(controller.check(1));
@@ -118,6 +119,32 @@ public class GameControllerTest {
 		// The king should no longer be in check.
 		assertFalse(controller.check(1));
 		//END CHECK PAWN
+		
+		//START CHECK BISHOP
+		gameCheck.getBoard().setPiece(new Bishop(Rank.BISHOP, 0, new Point(4,3)));
+		
+		// The piece is able to capture the king, the king should be in check.
+		assertTrue(controller.check(1));
+		
+		// Remove the opposing piece.
+		gameCheck.getBoard().getSpace(4,3).setPiece(null);
+		
+		// The king should no longer be in check.
+		assertFalse(controller.check(1));
+		//END CHECK BISHOP
+		
+		//START CHECK KNIGHT
+		gameCheck.getBoard().setPiece(new Knight(Rank.KNIGHT, 0, new Point(2,2)));
+		
+		// The piece is able to capture the king, the king should be in check.
+		assertTrue(controller.check(1));
+		
+		// Remove the opposing piece.
+		gameCheck.getBoard().getSpace(2,2).setPiece(null);
+		
+		// The king should no longer be in check.
+		assertFalse(controller.check(1));
+		//END CHECK KNIGHT
 	}
 	
 	@Test

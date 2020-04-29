@@ -205,7 +205,7 @@ public class GameController {
 							}
 						}
 						movePiece(model.getBoard().getSpace(king.getLocation().x, king.getLocation().y), model.getBoard().getSpace(x + king.getLocation().x, y + king.getLocation().y));
-						if (!check(king.getColor())) {
+						if (!check(player)) {
 							movePiece(model.getBoard().getSpace(king.getLocation().x, king.getLocation().y), model.getBoard().getSpace(king.getLocation().x - x, king.getLocation().y - y));
 							if (temp != null) {
 								model.getBoard().setPiece(temp);
@@ -221,6 +221,63 @@ public class GameController {
 				}
 			}
 		}
+		/*
+		for(int i = 0; i < 8; i++) {
+			for(int j = 0; j < 8; j++) {
+				if(model.getBoard().getPiece(j, i) != null) {	
+					if(model.getBoard().getSpace(j, i).getPiece().getColor() == player) {
+						Piece piece = model.getBoard().getSpace(j, i).getPiece();
+						Point origin = new Point(j, i);
+						for (int y = 0; y < 8; y++) {
+							for (int x = 0; x < 8; x++) {
+								if (x != piece.getLocation().x && y != piece.getLocation().y) {
+									if (model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y).getPiece().validMove(new Point(x, y), model.getBoard())) {
+										Piece temp = null;
+										if (model.getBoard().getSpace(x, y).getPiece() != null) {
+											switch(model.getBoard().getSpace(x, y).getPiece().getRank()) {
+											case PAWN:
+												temp = new Pawn(Rank.PAWN, model.getBoard().getSpace(x, y).getPiece().getColor(), model.getBoard().getSpace(x, y).getPiece().getLocation());
+												break;
+											case ROOK:
+												temp = new Rook(Rank.ROOK, model.getBoard().getSpace(x, y).getPiece().getColor(), model.getBoard().getSpace(x, y).getPiece().getLocation());
+												break;
+											case KNIGHT:
+												temp = new Knight(Rank.KNIGHT, model.getBoard().getSpace(x, y).getPiece().getColor(), model.getBoard().getSpace(x, y).getPiece().getLocation());
+												break;
+											case BISHOP:
+												temp = new Bishop(Rank.BISHOP, model.getBoard().getSpace(x, y).getPiece().getColor(), model.getBoard().getSpace(x, y).getPiece().getLocation());
+												break;
+											case QUEEN:
+												temp = new Queen(Rank.QUEEN, model.getBoard().getSpace(x, y).getPiece().getColor(), model.getBoard().getSpace(x, y).getPiece().getLocation());
+												break;
+											case KING:
+												temp = new King(Rank.KING, model.getBoard().getSpace(x, y).getPiece().getColor(), model.getBoard().getSpace(x, y).getPiece().getLocation());
+												break;
+											default:
+												temp = null;
+											}
+										}
+										movePiece(model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y), model.getBoard().getSpace(x, y));
+										if (!check(player)) {
+											movePiece(model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y), model.getBoard().getSpace(origin.x, origin.y));
+											if (temp != null) {
+												model.getBoard().setPiece(temp);
+											}
+											return false;
+										} else {
+											movePiece(model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y), model.getBoard().getSpace(origin.x, origin.y));
+											if (temp != null) {
+												model.getBoard().setPiece(temp);
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}*/
 		// If everything else fails.
 		return true;
 	}

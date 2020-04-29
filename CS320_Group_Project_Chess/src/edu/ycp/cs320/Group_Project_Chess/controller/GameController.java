@@ -174,10 +174,9 @@ public class GameController {
 			}
 		}
 		
-		for (int y = -1; y < 2; y++) {
+		/*for (int y = -1; y < 2; y++) {			//this is the test for if the king can move out of checkmate. This test is subsequently done in the crude test below.
 			for (int x = -1; x < 2; x++) {
 				if ((x + king.getLocation().x >= 0 && x + king.getLocation().x <= 7) && (y + king.getLocation().y >= 0 && y + king.getLocation().y <= 7) && !(x == 0 && y == 0)) {
-					System.out.println((x + king.getLocation().x) + " " + (y + king.getLocation().y));
 					if (model.getBoard().getSpace(king.getLocation().x, king.getLocation().y).getPiece().validMove(new Point(x + king.getLocation().x, y + king.getLocation().y), model.getBoard())) {
 						Piece temp = null;
 						if (model.getBoard().getSpace(x + king.getLocation().x, y + king.getLocation().y).getPiece() != null) {
@@ -220,19 +219,34 @@ public class GameController {
 					}
 				}
 			}
-		}
+		}*/
 		
+		// finds a piece of the player being tested for
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
 				if(model.getBoard().getPiece(j, i) != null) {	
 					if(model.getBoard().getSpace(j, i).getPiece().getColor() == player) {
+						
+						// stores found piece in temp piece reference
 						Piece piece = model.getBoard().getSpace(j, i).getPiece();
+						
+						// also stores the location in a new point
 						Point origin = new Point(j, i);
+						
+						// for loops that run over every board space
 						for (int y = 0; y < 8; y++) {
 							for (int x = 0; x < 8; x++) {
-								if (x != piece.getLocation().x && y != piece.getLocation().y) {
+								
+								// makes sure that the tested board space is not where the piece is currently located
+								if (!(x == piece.getLocation().x && y == piece.getLocation().y)) {
+									
+									// tests if the piece can make a valid move to the iterated space
 									if (model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y).getPiece().validMove(new Point(x, y), model.getBoard())) {
+										
+										// if the valid move passes, we need to store the contents of the space being moved to by placing it into this temp Piece
 										Piece temp = null;
+										
+										// switch statement to determine rank of the piece in the iterated space
 										if (model.getBoard().getSpace(x, y).getPiece() != null) {
 											switch(model.getBoard().getSpace(x, y).getPiece().getRank()) {
 											case PAWN:
@@ -257,14 +271,23 @@ public class GameController {
 												temp = null;
 											}
 										}
+										// move the found piece to the iterated space
 										movePiece(model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y), model.getBoard().getSpace(x, y));
+										
+										// test if this movement results in the player still being in check
 										if (!check(player)) {
+											
+											// if the player is not in check anymore, then there is no checkmate. we restore the model state by replacing the found piece and the temp piece
 											movePiece(model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y), model.getBoard().getSpace(origin.x, origin.y));
 											if (temp != null) {
 												model.getBoard().setPiece(temp);
 											}
+											
+											// no checkmate
 											return false;
 										} else {
+											
+											// if the player is still in check, then we need to continue testing. Restore the model state same way as above
 											movePiece(model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y), model.getBoard().getSpace(origin.x, origin.y));
 											if (temp != null) {
 												model.getBoard().setPiece(temp);
@@ -278,6 +301,7 @@ public class GameController {
 				}
 			}
 		}
+		
 		// If everything else fails.
 		return true;
 	}

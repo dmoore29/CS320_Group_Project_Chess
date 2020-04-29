@@ -221,7 +221,7 @@ public class GameController {
 				}
 			}
 		}
-		/*
+		
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
 				if(model.getBoard().getPiece(j, i) != null) {	
@@ -277,7 +277,7 @@ public class GameController {
 					}
 				}
 			}
-		}*/
+		}
 		// If everything else fails.
 		return true;
 	}

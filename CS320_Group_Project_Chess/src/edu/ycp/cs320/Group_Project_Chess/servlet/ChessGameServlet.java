@@ -21,6 +21,7 @@ public class ChessGameServlet extends HttpServlet {
 	private int destX;
 	private int destY;
 	private int checkFlag;
+	private int checkMateFlag;
 	Game game = null;
 	GameController controller = null;
 	
@@ -47,12 +48,24 @@ public class ChessGameServlet extends HttpServlet {
 		controller.setGame(game);
 		if(controller.check(0)) {
 			checkFlag = 1;
+			if(controller.checkmate(0)) {
+				checkMateFlag = 1;
+			} else {
+				checkMateFlag = 0;
+			}
 		} else if(controller.check(1)){
 			checkFlag = 1;
+			if(controller.checkmate(1)) {
+				checkMateFlag = 1;
+			} else {
+				checkMateFlag = 0;
+			}
 		} else {
 			checkFlag = 0;
+			checkMateFlag = 0;
 		}
 		
+		req.setAttribute("checkMateFlag", checkMateFlag);
 		req.setAttribute("checkFlag", checkFlag);
 		req.setAttribute("model", game);
 		System.out.println("ChessGame Servlet: doGet");
@@ -142,6 +155,7 @@ public class ChessGameServlet extends HttpServlet {
 			
 			controller.getGame().setPromo(0);
 			
+			req.setAttribute("checkMateFlag", checkMateFlag);
 			req.setAttribute("checkFlag", checkFlag);
 			req.setAttribute("promotionFlag", controller.getGame().getPromo());
 			req.setAttribute("model", controller.getGame());
@@ -168,6 +182,7 @@ public class ChessGameServlet extends HttpServlet {
 				pos1Recieved = false;
 			}
 			
+			req.setAttribute("checkMateFlag", checkMateFlag);
 			req.setAttribute("checkFlag", checkFlag);
 			req.setAttribute("promotionFlag", controller.getGame().getPromo());
 			req.setAttribute("pos1x", sourceX);
@@ -198,6 +213,7 @@ public class ChessGameServlet extends HttpServlet {
 						controller.getGame().setEnPx(8);
 						controller.getGame().setEnPy(8);
 						Boolean check;
+						Boolean checkMate = false;
 						checkFlag = 0;
 						if(controller.getGame().getBoard().getPiece(destX, destY).getColor() == 0) {
 							check = controller.check(1);
@@ -206,7 +222,24 @@ public class ChessGameServlet extends HttpServlet {
 						}
 						if(check) {
 							checkFlag = 1;
+							if(controller.getGame().getBoard().getPiece(destX, destY).getColor() == 0) {
+								checkMate = controller.checkmate(1);
+							} else {
+								checkMate = controller.checkmate(0);
+							}						
 						}
+						
+						if(checkMate) {
+							checkMateFlag = 1;
+							System.out.println("CHECKMATE");
+							System.out.println("CHECKMATE");
+							System.out.println("CHECKMATE");
+							System.out.println("CHECKMATE");
+							System.out.println("CHECKMATE");
+							System.out.println("CHECKMATE");
+							System.out.println("CHECKMATE");
+						}
+						
 						if(controller.getGame().getBoard().getPiece(destX, destY).getRank() == Rank.PAWN) { //if piece is a pawn
 							Pawn p = (Pawn) controller.getGame().getBoard().getPiece(destX, destY); //creates temporary pawn to call controller.getGame().getPromo()tion
 							if(p.promotion(controller.getGame().getBoard())) { //if pawn is at y0 or y7
@@ -249,12 +282,14 @@ public class ChessGameServlet extends HttpServlet {
 					System.out.println("NOT VALID ");
 				}
 			}
+			req.setAttribute("checkMateFlag", checkMateFlag);
 			req.setAttribute("checkFlag", checkFlag);
 			req.setAttribute("promotionFlag", controller.getGame().getPromo());
 			req.setAttribute("model", controller.getGame());
 			System.out.println("ChessGame Servlet: doGet");
 			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
 		} else {
+			req.setAttribute("checkMateFlag", checkMateFlag);
 			req.setAttribute("checkFlag", checkFlag);
 			req.setAttribute("promotionFlag", controller.getGame().getPromo());
 			req.setAttribute("model", controller.getGame());

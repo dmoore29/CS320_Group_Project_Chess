@@ -184,7 +184,7 @@ public class GameControllerTest {
 		// The king should no longer be in check.
 		assertFalse(controller.checkmate(1));
 		
-		//END CHACKMATE SCENARIO 2
+		//END CHACKMATE SCENARIO 1
 		
 		//CHECKMATE SCENARIO 2
 		gameCheckmate.getBoard().setPiece(new Queen(Rank.QUEEN, 0, new Point(7,5)));
@@ -225,6 +225,54 @@ public class GameControllerTest {
 		assertFalse(controller.checkmate(1));
 		
 		//END CHACKMATE SCENARIO 3
+		
+		//CHECKMATE SCENARIO 4
+		gameCheckmate.getBoard().setPiece(new Pawn(Rank.PAWN, 1, new Point(0,0)));
+		gameCheckmate.getBoard().setPiece(new Pawn(Rank.PAWN, 1, new Point(2,0)));
+		gameCheckmate.getBoard().setPiece(new Pawn(Rank.PAWN, 1, new Point(0,1)));
+		gameCheckmate.getBoard().setPiece(new Pawn(Rank.PAWN, 1, new Point(2,1)));
+		gameCheckmate.getBoard().setPiece(new Rook(Rank.ROOK, 0, new Point(1,7)));
+		gameCheckmate.getBoard().setPiece(new Queen(Rank.QUEEN, 0, new Point(7,6)));
+		
+		// King should be in checkmate.
+		assertTrue(controller.checkmate(1));
+		
+		// Remove the opposing piece.
+		gameCheckmate.getBoard().getSpace(0,0).setPiece(null);
+		gameCheckmate.getBoard().getSpace(2,0).setPiece(null);
+		gameCheckmate.getBoard().getSpace(0,1).setPiece(null);
+		gameCheckmate.getBoard().getSpace(2,1).setPiece(null);
+		gameCheckmate.getBoard().getSpace(1,7).setPiece(null);
+		gameCheckmate.getBoard().getSpace(7,6).setPiece(null);
+		
+		// The king should no longer be in check.
+		assertFalse(controller.checkmate(1));
+		
+		//END CHACKMATE SCENARIO 4
+		
+		//CHECKMATE SCENARIO 5
+		gameCheckmate.getBoard().setPiece(new Pawn(Rank.PAWN, 1, new Point(0,0)));
+		gameCheckmate.getBoard().setPiece(new Pawn(Rank.PAWN, 1, new Point(2,0)));
+		gameCheckmate.getBoard().setPiece(new Pawn(Rank.PAWN, 1, new Point(0,1)));
+		gameCheckmate.getBoard().setPiece(new Pawn(Rank.PAWN, 1, new Point(2,1)));
+		gameCheckmate.getBoard().setPiece(new Knight(Rank.KNIGHT, 0, new Point(2,2)));
+		gameCheckmate.getBoard().setPiece(new Knight(Rank.KNIGHT, 0, new Point(3,2)));
+		
+		// King should be in checkmate.
+		assertTrue(controller.checkmate(1));
+		
+		// Remove the opposing piece.
+		gameCheckmate.getBoard().getSpace(0,0).setPiece(null);
+		gameCheckmate.getBoard().getSpace(2,0).setPiece(null);
+		gameCheckmate.getBoard().getSpace(0,1).setPiece(null);
+		gameCheckmate.getBoard().getSpace(2,1).setPiece(null);
+		gameCheckmate.getBoard().getSpace(2,3).setPiece(null);
+		gameCheckmate.getBoard().getSpace(3,2).setPiece(null);
+		
+		// The king should no longer be in check.
+		assertFalse(controller.checkmate(1));
+		
+		//END CHACKMATE SCENARIO 5
 		
 		
 	}

@@ -184,7 +184,47 @@ public class GameControllerTest {
 		// The king should no longer be in check.
 		assertFalse(controller.checkmate(1));
 		
-		//END CHACKMATE SCENARIO 1
+		//END CHACKMATE SCENARIO 2
+		
+		//CHECKMATE SCENARIO 2
+		gameCheckmate.getBoard().setPiece(new Queen(Rank.QUEEN, 0, new Point(7,5)));
+		gameCheckmate.getBoard().setPiece(new Queen(Rank.QUEEN, 0, new Point(7,6)));
+		gameCheckmate.getBoard().setPiece(new Queen(Rank.QUEEN, 0, new Point(7,7)));
+		gameCheckmate.getBoard().setPiece(new Queen(Rank.QUEEN, 0, new Point(6,7)));
+		
+		// King should be in checkmate.
+		assertTrue(controller.checkmate(1));
+		
+		// Remove the opposing piece.
+		gameCheckmate.getBoard().getSpace(7,5).setPiece(null);
+		gameCheckmate.getBoard().getSpace(7,6).setPiece(null);
+		gameCheckmate.getBoard().getSpace(7,7).setPiece(null);
+		gameCheckmate.getBoard().getSpace(6,7).setPiece(null);
+		
+		// The king should no longer be in check.
+		assertFalse(controller.checkmate(1));
+		
+		//END CHACKMATE SCENARIO 2
+		
+		//CHECKMATE SCENARIO 3
+		gameCheckmate.getBoard().setPiece(new Queen(Rank.QUEEN, 0, new Point(7,5)));
+		gameCheckmate.getBoard().setPiece(new Queen(Rank.QUEEN, 0, new Point(7,6)));
+		gameCheckmate.getBoard().setPiece(new Queen(Rank.QUEEN, 0, new Point(7,7)));
+		gameCheckmate.getBoard().setPiece(new Queen(Rank.QUEEN, 0, new Point(6,7)));
+		
+		// King should be in checkmate.
+		assertTrue(controller.checkmate(1));
+		
+		// Remove the opposing piece.
+		gameCheckmate.getBoard().getSpace(7,5).setPiece(null);
+		gameCheckmate.getBoard().getSpace(7,6).setPiece(null);
+		gameCheckmate.getBoard().getSpace(7,7).setPiece(null);
+		gameCheckmate.getBoard().getSpace(6,7).setPiece(null);
+		
+		// The king should no longer be in check.
+		assertFalse(controller.checkmate(1));
+		
+		//END CHACKMATE SCENARIO 3
 		
 		
 	}

@@ -47,6 +47,16 @@
 	                <li><input name="profile" type="submit" value="Profile" /></li>
 	                <li><input name="friends" type="submit" value="Friends" /></li>
 					<li><input name="logout" type="submit" value="Log Out" /></a></li>
+					<%Integer restrictTurn = (Integer)request.getAttribute("restrictTurn");%>
+				<%if(restrictTurn != null){ %>
+					<%if(restrictTurn == 1){ %>
+						<li><input name="restrictTurn" type="submit" value="Restrict Move To Player" /></a></li>
+					<%} else {%>
+						<li><input name="restrictTurn" type="submit" value="Allow Any Player To Move" /></a></li>
+					<%} %>
+				<%} else {%>
+					<li><input name="restrictTurn" type="submit" value="Allow Any Player To Move" /></a></li>
+				<%} %>
 	            </ul>
 	    	</nav>
         </form>

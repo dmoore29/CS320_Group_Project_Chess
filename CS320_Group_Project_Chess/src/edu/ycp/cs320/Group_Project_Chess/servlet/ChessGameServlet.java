@@ -22,6 +22,7 @@ public class ChessGameServlet extends HttpServlet {
 	private int destY;
 	private int checkFlag;
 	private int checkMateFlag;
+	private int restrictTurn = 1;
 	Game game = null;
 	GameController controller = null;
 	
@@ -64,7 +65,7 @@ public class ChessGameServlet extends HttpServlet {
 			checkFlag = 0;
 			checkMateFlag = 0;
 		}
-		
+		req.setAttribute("restrictTurn", restrictTurn);
 		req.setAttribute("checkMateFlag", checkMateFlag);
 		req.setAttribute("checkFlag", checkFlag);
 		req.setAttribute("model", game);
@@ -122,6 +123,17 @@ public class ChessGameServlet extends HttpServlet {
 			resp.sendRedirect(req.getContextPath() + "/login");
 		}
 		
+		if (req.getParameter("restrictTurn") != null) {
+			System.out.println("Restricting Turns");
+			restrictTurn = (restrictTurn == 1) ? 0 : 1;
+			System.out.println("TURNS: " + restrictTurn);
+			System.out.println("TURNS: " + restrictTurn);
+			System.out.println("TURNS: " + restrictTurn);
+			System.out.println("TURNS: " + restrictTurn);
+			System.out.println("TURNS: " + restrictTurn);
+			System.out.println("TURNS: " + restrictTurn);
+		}
+		
 		if(req.getParameter("rank") != null) { //promotion
 			System.out.println("Recieved Promotion Piece");
 			String r = (String)req.getParameter("rank");
@@ -155,6 +167,7 @@ public class ChessGameServlet extends HttpServlet {
 			
 			controller.getGame().setPromo(0);
 			
+			req.setAttribute("restrictTurn", restrictTurn);
 			req.setAttribute("checkMateFlag", checkMateFlag);
 			req.setAttribute("checkFlag", checkFlag);
 			req.setAttribute("promotionFlag", controller.getGame().getPromo());
@@ -171,7 +184,19 @@ public class ChessGameServlet extends HttpServlet {
 			sourceY = Integer.parseInt(req.getParameter("y1"));
 			
 			if(controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece() != null) { //if space has a piece
-				if(controller.getGame().getTurn()%2 != controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece().getColor()) { //if not player's turn
+				String username = (String) req.getSession().getAttribute("name");
+				User u = controller.loadUser(username); //current user
+				Boolean turn = false;
+				
+				if(controller.getGame().getPlayer1().getColor() == controller.getGame().getTurn()%2) { //if player1's turn
+					if(controller.getGame().getPlayer1().getPlayerId() == u.getUserId()) { //if player 1 is user and their turn
+						turn = true;
+					}
+				}  else if(controller.getGame().getPlayer2().getPlayerId() == u.getUserId()) { //if player2's turn and player2 is user
+					turn = true;
+				}
+				
+				if(controller.getGame().getTurn()%2 != controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece().getColor() || !turn && restrictTurn == 1) { //if not player's turn
 					sourceX = 8;
 					sourceY = 8;
 					pos1Recieved = false;
@@ -182,6 +207,7 @@ public class ChessGameServlet extends HttpServlet {
 				pos1Recieved = false;
 			}
 			
+			req.setAttribute("restrictTurn", restrictTurn);
 			req.setAttribute("checkMateFlag", checkMateFlag);
 			req.setAttribute("checkFlag", checkFlag);
 			req.setAttribute("promotionFlag", controller.getGame().getPromo());
@@ -282,6 +308,7 @@ public class ChessGameServlet extends HttpServlet {
 					System.out.println("NOT VALID ");
 				}
 			}
+			req.setAttribute("restrictTurn", restrictTurn);
 			req.setAttribute("checkMateFlag", checkMateFlag);
 			req.setAttribute("checkFlag", checkFlag);
 			req.setAttribute("promotionFlag", controller.getGame().getPromo());
@@ -289,6 +316,7 @@ public class ChessGameServlet extends HttpServlet {
 			System.out.println("ChessGame Servlet: doGet");
 			req.getRequestDispatcher("/_view/chessGame.jsp").forward(req, resp);
 		} else {
+			req.setAttribute("restrictTurn", restrictTurn);
 			req.setAttribute("checkMateFlag", checkMateFlag);
 			req.setAttribute("checkFlag", checkFlag);
 			req.setAttribute("promotionFlag", controller.getGame().getPromo());

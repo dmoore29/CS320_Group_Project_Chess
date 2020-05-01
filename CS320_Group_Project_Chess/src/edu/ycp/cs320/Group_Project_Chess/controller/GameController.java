@@ -14,6 +14,7 @@ import edu.ycp.cs320.Group_Project_Chess.model.Queen;
 import edu.ycp.cs320.Group_Project_Chess.model.Rank;
 import edu.ycp.cs320.Group_Project_Chess.model.Rook;
 import edu.ycp.cs320.Group_Project_Chess.model.Space;
+import edu.ycp.cs320.Group_Project_Chess.model.Stats;
 import edu.ycp.cs320.Group_Project_Chess.model.User; 
 
 public class GameController {
@@ -81,6 +82,23 @@ public class GameController {
 		return database.newGame(game);
 	}
 	
+	/**
+	 * Stores a new game in the database.
+	 * 
+	 * @param Game   the game you want to store
+	 * @throws SQLException 
+	 */
+	public int updateUserStats(boolean win, User user) throws SQLException {
+		Stats newStats = null;
+		if (win) {
+			newStats = new Stats(user.getStats().getWins() + 1, user.getStats().getLosses(), user.getStats().getElo() + 5);
+		} else if (user.getStats().getElo() < 4){
+			newStats = new Stats(user.getStats().getWins(), user.getStats().getLosses() + 1, 0);
+		} else {
+			newStats = new Stats(user.getStats().getWins(), user.getStats().getLosses() + 1, user.getStats().getElo() - 3);
+		}
+		return database.updateStats(newStats, user.getUserId());
+	}
 	
 	/**
 	 * Return true if the intended move is allowed.

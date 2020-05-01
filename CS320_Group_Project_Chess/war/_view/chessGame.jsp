@@ -32,11 +32,6 @@
 
 <body>
         <header>
-            <img src="images/chess_logo.png" alt="Logo">
-            <section id="title-subtitle">
-                <h2>Welcome to Chess</h2>
-                <h3>Make Your Move!</h3>
-            </section>
         </header>
 	<main>
 		<form action="${pageContext.servletContext.contextPath}/chessGame" method="post">

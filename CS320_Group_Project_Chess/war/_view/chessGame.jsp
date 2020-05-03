@@ -45,9 +45,9 @@
 					<%Integer restrictTurn = (Integer)request.getAttribute("restrictTurn");%>
 				<%if(restrictTurn != null){ %>
 					<%if(restrictTurn == 1){ %>
-						<li><input name="restrictTurn" type="submit" value="Restrict Move To Player" /></a></li>
+						<li><input name="restrictTurn" type="submit" value="Restrict User Move" /></a></li>
 					<%} else {%>
-						<li><input name="restrictTurn" type="submit" value="Allow Any Player To Move" /></a></li>
+						<li><input name="restrictTurn" type="submit" value="All Users Move" /></a></li>
 					<%} %>
 				<%} else {%>
 					<li><input name="restrictTurn" type="submit" value="Allow Any Player To Move" /></a></li>

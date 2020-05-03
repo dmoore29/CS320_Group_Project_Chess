@@ -59,12 +59,14 @@ img {
 }
 
 .promotion{
-    float: right;
-    width: 21.25%;
+	margin-right: 50%;
+    width: 100%;
+    text-align: center;
     color: #644BBF;
-	text-align: center;
+    border-style: solid;
+    border-radius: 5px;
 	border-color: #644BBF; 
-	margin-top: 25%;
+	margin-top: 15%;
 }
 
 .promotionOption{

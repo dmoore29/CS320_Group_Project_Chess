@@ -53,24 +53,6 @@
 					<li><input name="restrictTurn" type="submit" value="Allow Any Player To Move" /></a></li>
 				<%} %>
 	            </ul>
-	    <form name="promotionForm" method="post">
-		<input type="hidden" name="rank">
-		<div class="promotion">
-			<%Integer promotionFlag = (Integer)request.getAttribute("promotionFlag");%>
-			<%if(promotionFlag != null){ %>
-			<%if(promotionFlag == 1){ %>
-			<p> Select a piece: </p>
-			<ul>
-				<li onclick="promotionCallToServlet('Queen')" class="promotionOption">Queen</li>
-				<li onclick="promotionCallToServlet('Rook')" class="promotionOption">Rook</li>
-				<li onclick="promotionCallToServlet('Knight')" class="promotionOption">Knight</li>
-				<li onclick="promotionCallToServlet('Bishop')" class="promotionOption">Bishop</li>
-			</ul>
-			<%}%>
-			<%}%>
-		</div>
-		</input>
-		</form>
 	    	</nav>
         </form>
 	<form action="${pageContext.servletContext.contextPath}/chessGame" method="post">
@@ -159,6 +141,24 @@
 			</table>
 		</div>
 	</form>
+	<form name="promotionForm" method="post">
+		<input type="hidden" name="rank">
+		<div class="promotion">
+			<%Integer promotionFlag = (Integer)request.getAttribute("promotionFlag");%>
+			<%if(promotionFlag != null){ %>
+			<%if(promotionFlag == 1){ %>
+			<ul>
+				<p><b> Select a piece: </p></b>
+				<li onclick="promotionCallToServlet('Queen')" class="promotionOption">Queen</li>
+				<li onclick="promotionCallToServlet('Rook')" class="promotionOption">Rook</li>
+				<li onclick="promotionCallToServlet('Knight')" class="promotionOption">Knight</li>
+				<li onclick="promotionCallToServlet('Bishop')" class="promotionOption">Bishop</li>
+			</ul>
+			<%}%>
+			<%}%>
+		</div>
+		</input>
+		</form>
 		</main>
 		<aside class="websiteName">
 	    	<h2> VELOCITY </h2>

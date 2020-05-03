@@ -59,14 +59,23 @@ img {
 }
 
 .promotion{
+	float: right;
 	margin-right: 50%;
-    width: 100%;
-    text-align: center;
+    width: 35%;
+	margin-top: 15%;
+}
+
+.promotion ul{
+	text-align: center;
+	padding: 5px;
     color: #644BBF;
     border-style: solid;
     border-radius: 5px;
 	border-color: #644BBF; 
-	margin-top: 15%;
+}
+
+.promotion p {
+	margin-left: 30%;
 }
 
 .promotionOption{
@@ -162,9 +171,6 @@ footer p {
 }
 #IGN{
     font-style: italic;
-}
-header {
-
 }
 main {
     float: right;

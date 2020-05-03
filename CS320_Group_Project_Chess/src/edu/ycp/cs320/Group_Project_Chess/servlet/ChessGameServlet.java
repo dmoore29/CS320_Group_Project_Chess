@@ -264,6 +264,23 @@ public class ChessGameServlet extends HttpServlet {
 							System.out.println("CHECKMATE");
 							System.out.println("CHECKMATE");
 							System.out.println("CHECKMATE");
+							
+							boolean user1Wins = false;
+							if(controller.getGame().getBoard().getPiece(destX, destY).getColor() == 0) {
+								user1Wins = true;
+							}
+							
+							
+							try {
+								controller.updateUserStats(user1Wins, controller.getGame().getPlayer1().getUser());
+								controller.updateUserStats(!user1Wins, controller.getGame().getPlayer2().getUser());
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+							
+							
 						}
 						
 						if(controller.getGame().getBoard().getPiece(destX, destY).getRank() == Rank.PAWN) { //if piece is a pawn

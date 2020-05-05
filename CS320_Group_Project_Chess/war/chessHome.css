@@ -147,15 +147,15 @@ main p{
 #menu ul li{
     margin:5px;
 }
-table {
+/* table {
 	border-collapse: collapse;
 	display: block;
 	height: 425px;
 	width: 56%;
 	overflow-y: scroll;
 	margin-top: 15px;
-}
-table tbody tr td {
+} */
+/* table tbody tr td {
     border-style: solid;
     border-width: 5px;
     border-color: black;
@@ -167,7 +167,7 @@ table thead tr th {
 }
 table > td > a[hdr-beach]{
     text-align: right;
-}
+} */
 #menu ul li input{
     display:inline-block;
     padding:.5em;
@@ -186,12 +186,12 @@ table > td > a[hdr-beach]{
 	float: right;
 	margin-right: 20%;
 }
-th, td {
+/* th, td {
 	padding: 15px;
 	text-align: left;
-}
+} */
 
-.gameSelect input{
+.opponentContent{
 	margin-left: 15%;
 	margin-top: 10px;
 	display:inline-block;
@@ -203,6 +203,19 @@ th, td {
     border-radius:5px;
     border-color:#644BBF;
 }
+
+/* .gameSelect input{
+	margin-left: 15%;
+	margin-top: 10px;
+	display:inline-block;
+    padding:.5em;
+    width:150px;
+    background-color:#644BBF;
+    color:black;
+    text-decoration:none;
+    border-radius:5px;
+    border-color:#644BBF;
+} */
 
 @media only screen and (max-width: 959px) {
     #hamburger-button {
@@ -230,4 +243,80 @@ th, td {
         margin: 10px auto;
         display: block;
     }
+}
+
+table {
+    border-spacing: 1;
+    border-collapse: collapse;
+    background: #2a2a2a;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 40%;
+    margin: 0 auto;
+    position: relative;
+    float: left;
+    margin-top: 15px;
+}
+
+table td, table th {
+    padding-left: 8px;
+}
+
+table thead tr {
+    height: 60px;
+    background: #36304a;
+}
+
+table tbody tr {
+    height: 50px;
+}
+
+table tbody tr:last-child {
+    border: 0;
+}
+
+table td, table th {
+    text-align: left;
+}
+
+table td.l, table th.l {
+    text-align: right;
+}
+
+table td.c, table th.c {
+    text-align: center;
+}
+
+table td.r, table th.r {
+    text-align: center;
+}
+.col1{
+    text-align: left;
+    width: 15%;
+}
+
+.col2{
+    text-align: left;
+    width: 30%;
+}
+
+.col3{
+    width: 25%;
+}
+
+.col4{
+    width: 30%;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #282828;
+}
+
+tbody tr {
+    line-height: 1.2;
+    font-weight: unset;
+}
+
+tbody tr:hover {
+    background-color: #2E2E2E;
 }

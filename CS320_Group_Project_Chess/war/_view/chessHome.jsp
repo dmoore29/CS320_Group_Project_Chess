@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@page import="java.util.*" %>
 <%@page import="edu.ycp.cs320.Group_Project_Chess.model.*" %>
+<%@page import="edu.ycp.cs320.Group_Project_Chess.controller.*" %>
 <!-- java standard tag library -->
 
 <html>
@@ -70,13 +71,46 @@
 									<td class="col1"><input name="oldChessGameRadio" type="radio" value=<%=gameId%> />
 									<td class="col2"><%=game.getPlayer2().getUser().getCredentials().getUsername() %></td>
 									<td class="col3"><%=game.getTurn() %></td>
-									<%if(game.getPlayer1().getColor() == game.getTurn()%2) { //if player1's turn
-										%><td class="col4">Your Turn</td> <%
-									}  else {
+ 
+									<%
+									int checkFlag = 0;
+									int checkMateFlag = 0;
+									GameController controller = new GameController();
+									Game g = controller.loadGame(game.getGameId());
+									controller.setGame(g);
+									if(controller.check(0) == true && controller.check(0)) {
+										checkFlag = 1;
+										if(controller.checkmate(0)) {
+											checkMateFlag = 1;
+										} else {
+											checkMateFlag = 0;
+										}
+									} else if(controller.check(1)){
+										checkFlag = 1;
+										if(controller.checkmate(1)) {
+											checkMateFlag = 1;
+										} else {
+											checkMateFlag = 0;
+										}
+									}
+									%>
+
+									<%
+									if(checkMateFlag == 0){
+										if(game.getPlayer1().getColor() == game.getTurn()%2) { //if player1's turn
+											%><td class="col4">Your Turn</td> <%
+										}  else {
+											%>
+											<td class="col4">Waiting</td>
+											<%
+										}
+									} else {
 										%>
-										<td class="col4">Waiting</td>
+										<td class="col4">Game Over</td>
 										<%
-									}%>
+										}
+									%>
+
 								</tr>
 							<% } %>
 							</tbody>

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@page import="edu.ycp.cs320.Group_Project_Chess.model.*" %>
+<%@page import="java.util.*" %>
 <!-- java standard tag library -->
 
 <html>
@@ -29,6 +31,18 @@
 	                </ul>
 	            </nav>
             </form>
+            <% FriendsList friends = new FriendsList(); %>
+           	<% Object obj = request.getAttribute("friendsList"); %>
+           	<% if (obj instanceof FriendsList) {
+           		friends = (FriendsList) obj;
+           	} %>
+           	
+           	<ul>
+           		<% ArrayList<User> userList = friends.getFriendsList();
+           		   	for (User users : userList) { %>
+           				<li><p><%=users.getCredentials().getUsername() %></p></li>	
+           			<% } %>
+            </ul> 
         </main>
         <aside>
 	    	<h2> VELOCITY </h2>

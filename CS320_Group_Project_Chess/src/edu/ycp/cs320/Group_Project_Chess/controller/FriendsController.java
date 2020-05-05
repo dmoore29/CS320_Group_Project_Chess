@@ -14,6 +14,9 @@ public class FriendsController {
 	
 	public FriendsList getFriends(String name) {
 		user = db.findUserwithUsername(name);
+		for (User users : user.getFriends().getFriendsList()) {
+			System.out.println("Friend Found: " + users.getCredentials().getUsername());
+		}
 		return user.getFriends();
 	}
 

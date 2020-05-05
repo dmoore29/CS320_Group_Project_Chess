@@ -47,30 +47,41 @@
             	<form class="gameSelect" action="${pageContext.servletContext.contextPath}/chessHome" method="post">
 	            	<ul class="opponent">
 		            	<label for="fname">Challenge New Opponent:</label>
-						<li><input name="opponent" type="text"</li>
-						<li><input name="chessGame" type="submit" value="New Chess Game" /></li>
-						<li><input name="oldChessGame" type="submit" value="Load Chess Game" /></li>
-	            		<li><input name="deleteOldChessGame" type="submit" value="Delete Chess Game" /></li>
-		           	</ul>
-	            	<table>
-	            		<thead>
-	            		<tr>
-	            			<th></th>
-	            			<th><b>Opponent</b></th>
-	            			<th><b># Of Moves</b></th>
-	            		</tr>
-	            		</thead>
-	            		<tbody>
-		            	<% for (Game game: games){ %>
-		            	<% int gameId = game.getGameId(); %>
-		            		<tr>
-		            			<td><input name="oldChessGameRadio" type="radio" value=<%=gameId%> />
-		            			<td><%=game.getPlayer2().getUser().getCredentials().getUsername() %></td>
-		            			<td><%=game.getTurn() %></td>
-		            		</tr>
-		            	<% } %>
-	            		</tbody>
-	            	</table>
+						<li><input class="opponentContent" name="opponent" type="text"</li>
+						<li><input class="opponentContent" name="chessGame" type="submit" value="New Chess Game" /></li>
+						<li><input class="opponentContent" name="oldChessGame" type="submit" value="Load Chess Game" /></li>
+	            		<li><input class="opponentContent" name="deleteOldChessGame" type="submit" value="Delete Chess Game" /></li>
+					   </ul>
+					   
+					<div class="table2">
+						<table>
+							<thead>
+							<tr class="table2-head">
+								<th class="col1"></th>
+								<th class="col2"><b>Opponent</b></th>
+								<th class="col3"><b># Of Moves</b></th>
+								<th class="col4"><b>Player Turn</b></th>
+							</tr>
+							</thead>
+							<tbody>
+							<% for (Game game: games){ %>
+							<% int gameId = game.getGameId(); %>
+								<tr>
+									<td class="col1"><input name="oldChessGameRadio" type="radio" value=<%=gameId%> />
+									<td class="col2"><%=game.getPlayer2().getUser().getCredentials().getUsername() %></td>
+									<td class="col3"><%=game.getTurn() %></td>
+									<%if(game.getPlayer1().getColor() == game.getTurn()%2) { //if player1's turn
+										%><td class="col4">Your Turn</td> <%
+									}  else {
+										%>
+										<td class="col4">Waiting</td>
+										<%
+									}%>
+								</tr>
+							<% } %>
+							</tbody>
+						</table>
+					</div>
             	</form>
             </div>
         </main>

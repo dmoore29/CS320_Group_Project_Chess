@@ -326,7 +326,6 @@ public class DerbyDatabase implements IDatabase{
 		});
 	}
 	
-	//Testing merge conficts
 	// transaction that retrieves a game with a specific game_id 
 	public Game findGamewithGameId(final int gameId) {
 		return executeTransaction(new Transaction<Game>() {
@@ -419,6 +418,80 @@ public class DerbyDatabase implements IDatabase{
 				} finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	// transaction that retrieves all friends of a specific user given their Id
+	public ArrayList<User> findFriendswithUserId(final int userId) {
+		return executeTransaction(new Transaction<ArrayList<User>>() {
+			@Override
+			public ArrayList<User> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				PreparedStatement stmt2 = null;
+				ResultSet resultSet = null;
+				ResultSet resultSet2 = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							" select user2Id from friends " +
+							" where friends.user1Id = ? "
+					);
+					
+					ArrayList<User> result = new ArrayList<User>();
+					
+					stmt.setInt(1, userId);
+					
+					resultSet = stmt.executeQuery();
+										
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						User userA = findUserwithUserId(resultSet.getInt(1));
+						
+						result.add(userA);
+					}
+					
+					// check if any friends were found
+					if (!found) {
+						System.out.println("No friends with userId " + userId + " were found in the database1");
+					}
+					
+					stmt2 = conn.prepareStatement(
+							" select user1Id from friends " +
+							" where friends.user2Id = ? "
+					);
+					
+					stmt2.setInt(1, userId);
+					
+					resultSet2 = stmt2.executeQuery();
+										
+					// for testing that a result was returned
+					found = false;
+					
+					while (resultSet2.next()) {
+						found = true;
+						
+						User userB = findUserwithUserId(resultSet2.getInt(1));
+						
+						result.add(userB);
+					}
+					
+					// check if any friends were found
+					if (!found) {
+						System.out.println("No friends with userId " + userId + " were found in the database2");
+					}
+									
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(resultSet2);
+					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(stmt2);
 				}
 			}
 		});

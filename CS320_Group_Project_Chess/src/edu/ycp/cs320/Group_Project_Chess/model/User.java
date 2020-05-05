@@ -21,7 +21,7 @@ public class User {
 		this.profile = profile;
 	}
 	
-	public User(int userId, int friendsId, Credentials credentials, Stats stats, FriendsList friends, Profile profile) {
+	public User(int userId, Credentials credentials, Stats stats, FriendsList friends, Profile profile) {
 		this.userId = userId;
 		this.credentials = credentials;
 		this.stats = stats;

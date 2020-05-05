@@ -3,6 +3,7 @@ package edu.ycp.cs320.Group_Project_Chess.database;
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -36,8 +37,7 @@ public class InitialData {
 					break;
 				}
 				Iterator<String> i = tuple.iterator();
-				Integer friendsId = Integer.parseInt(i.next());
-				User user = new User(userId++, friendsId, new Credentials(i.next(), i.next(), i.next()), new Stats(Integer.parseInt(i.next()), Integer.parseInt(i.next()), Integer.parseInt(i.next())), new FriendsList(friendsId), new Profile(i.next(), Integer.parseInt(i.next())));
+				User user = new User(userId++, new Credentials(i.next(), i.next(), i.next()), new Stats(Integer.parseInt(i.next()), Integer.parseInt(i.next()), Integer.parseInt(i.next())), new FriendsList(), new Profile(i.next(), Integer.parseInt(i.next())));
 				userList.add(user);
 			}
 			return userList;
@@ -129,6 +129,26 @@ public class InitialData {
 			return gameList;
 		} finally {
 			readGames.close();
+		}
+	}
+
+	public static Collection<Integer> getFriends() throws IOException{
+		List<Integer> friendsList = new ArrayList<Integer>();
+		ReadCSV readFriends = new ReadCSV("friends.csv");
+		try {
+			//auto-generated primary key for friends table
+			while (true) {
+				List<String> tuple = readFriends.next();
+				if (tuple == null) {
+					break;
+				}
+				Iterator<String> i = tuple.iterator();
+				friendsList.add(Integer.parseInt(i.next()));
+				friendsList.add(Integer.parseInt(i.next()));
+			}
+			return friendsList;
+		} finally {
+			readFriends.close();
 		}
 	}
 }

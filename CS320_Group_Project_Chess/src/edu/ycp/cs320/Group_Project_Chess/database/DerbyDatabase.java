@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import edu.ycp.cs320.Group_Project_Chess.model.Bishop;
 import edu.ycp.cs320.Group_Project_Chess.model.Board;
@@ -66,6 +67,11 @@ public class DerbyDatabase implements IDatabase{
 						User user = new User();
 						loadUser(user, resultSet, 1);
 						
+						ArrayList<User> friends = findFriendswithUserId(user.getUserId());
+						for (User friend : friends) {
+							user.getFriends().addFriend(friend);
+						}
+						
 						result.add(user);
 					}
 					
@@ -112,6 +118,11 @@ public class DerbyDatabase implements IDatabase{
 						User user = new User();
 						loadUser(user, resultSet, 1);
 						
+						ArrayList<User> friends = findFriendswithUserId(user.getUserId());
+						for (User friend : friends) {
+							user.getFriends().addFriend(friend);
+						}
+						
 						result = user;
 					}
 					
@@ -131,6 +142,58 @@ public class DerbyDatabase implements IDatabase{
 	
 	// transaction that retrieves Users with specific user_id
 	public User findUserwithUserId(final int userId) {
+		return executeTransaction(new Transaction<User>() {
+			@Override
+			public User execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							" select * from users " +
+							" where users.user_id = ? "
+					);
+					
+					User result = new User();
+					
+					stmt.setInt(1, userId);
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						User user = new User();
+						loadUser(user, resultSet, 1);
+						
+						ArrayList<User> friends = findFriendswithUserId(user.getUserId());
+						for (User friend : friends) {
+							user.getFriends().addFriend(friend);
+						}
+						
+						result = user;
+					}
+					
+					// check if any users were found
+					if (!found) {
+						System.out.println("No users with userId " + userId + " were found in the database");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	// transaction that retrieves Users with specific user_id 
+	// used by the findFriends method
+	public User findUserwithFriendId(final int userId) {
 		return executeTransaction(new Transaction<User>() {
 			@Override
 			public User execute(Connection conn) throws SQLException {
@@ -203,6 +266,11 @@ public class DerbyDatabase implements IDatabase{
 						
 						User user = new User();
 						loadUser(user, resultSet, 1);
+						
+						ArrayList<User> friends = findFriendswithUserId(user.getUserId());
+						for (User friend : friends) {
+							user.getFriends().addFriend(friend);
+						}
 						
 						result = user;
 					}
@@ -325,7 +393,6 @@ public class DerbyDatabase implements IDatabase{
 		});
 	}
 	
-	//Testing merge conficts
 	// transaction that retrieves a game with a specific game_id 
 	public Game findGamewithGameId(final int gameId) {
 		return executeTransaction(new Transaction<Game>() {
@@ -423,6 +490,80 @@ public class DerbyDatabase implements IDatabase{
 		});
 	}
 	
+	// transaction that retrieves all friends of a specific user given their Id
+	public ArrayList<User> findFriendswithUserId(final int userId) {
+		return executeTransaction(new Transaction<ArrayList<User>>() {
+			@Override
+			public ArrayList<User> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				PreparedStatement stmt2 = null;
+				ResultSet resultSet = null;
+				ResultSet resultSet2 = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							" select user2Id from friends " +
+							" where friends.user1Id = ? "
+					);
+					
+					ArrayList<User> result = new ArrayList<User>();
+					
+					stmt.setInt(1, userId);
+					
+					resultSet = stmt.executeQuery();
+										
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						User userA = findUserwithFriendId(resultSet.getInt(1));
+						
+						result.add(userA);
+					}
+					
+					// check if any friends were found
+					if (!found) {
+						System.out.println("No friends with userId " + userId + " were found in the database1");
+					}
+					
+					stmt2 = conn.prepareStatement(
+							" select user1Id from friends " +
+							" where friends.user2Id = ? "
+					);
+					
+					stmt2.setInt(1, userId);
+					
+					resultSet2 = stmt2.executeQuery();
+										
+					// for testing that a result was returned
+					found = false;
+					
+					while (resultSet2.next()) {
+						found = true;
+						
+						User userB = findUserwithFriendId(resultSet2.getInt(1));
+						
+						result.add(userB);
+					}
+					
+					// check if any friends were found
+					if (!found) {
+						System.out.println("No friends with userId " + userId + " were found in the database2");
+					}
+									
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(resultSet2);
+					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(stmt2);
+				}
+			}
+		});
+	}
+	
 	// adds a new user to the database
 	public Integer registerUser(final Credentials creds) throws SQLException {
 		return executeTransaction(new Transaction<Integer>() {
@@ -432,19 +573,18 @@ public class DerbyDatabase implements IDatabase{
 				
 				try {
 					stmt = conn.prepareStatement(
-							"insert into users (friendsId, email, username, password, wins, losses, elo, bio, pictureNumber) "
-							+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?) ", Statement.RETURN_GENERATED_KEYS
+							"insert into users (email, username, password, wins, losses, elo, bio, pictureNumber) "
+							+ " values (?, ?, ?, ?, ?, ?, ?, ?) ", Statement.RETURN_GENERATED_KEYS
 					);
 					
-					stmt.setInt(1, 1);
-					stmt.setString(2, creds.getEmail());
-					stmt.setString(3, creds.getUsername());
-					stmt.setString(4, creds.getPassword());
+					stmt.setString(1, creds.getEmail());
+					stmt.setString(2, creds.getUsername());
+					stmt.setString(3, creds.getPassword());
+					stmt.setInt(4, 0);
 					stmt.setInt(5, 0);
-					stmt.setInt(6, 0);
-					stmt.setInt(7, 100);
-					stmt.setString(8, "Tell the world about yourself!");
-					stmt.setInt(9, 1);
+					stmt.setInt(6, 100);
+					stmt.setString(7, "Tell the world about yourself!");
+					stmt.setInt(8, 1);
 					
 					stmt.execute();
 					
@@ -474,8 +614,7 @@ public class DerbyDatabase implements IDatabase{
 				
 				stmt = conn.prepareStatement(
 						"update users "
-						+ "set friendsId = ?, "
-						+ "email = ?, "
+						+ "set email = ?, "
 						+ "username = ?, "
 						+ "password = ?, "
 						+ "wins = ?, "
@@ -486,16 +625,15 @@ public class DerbyDatabase implements IDatabase{
 						+ "where user_id = ?"
 				);
 				
-				stmt.setInt(1, user.getFriends().getFriendsId());
-				stmt.setString(2, user.getCredentials().getEmail());
-				stmt.setString(3, user.getCredentials().getUsername());
-				stmt.setString(4, user.getCredentials().getPassword());
-				stmt.setInt(5, user.getStats().getWins());
-				stmt.setInt(6, user.getStats().getLosses());
-				stmt.setInt(7, user.getStats().getElo());
-				stmt.setString(8, newBio);
-				stmt.setInt(9, user.getProfile().getPictureNumber());
-				stmt.setInt(10, user.getUserId());
+				stmt.setString(1, user.getCredentials().getEmail());
+				stmt.setString(2, user.getCredentials().getUsername());
+				stmt.setString(3, user.getCredentials().getPassword());
+				stmt.setInt(4, user.getStats().getWins());
+				stmt.setInt(5, user.getStats().getLosses());
+				stmt.setInt(6, user.getStats().getElo());
+				stmt.setString(7, newBio);
+				stmt.setInt(8, user.getProfile().getPictureNumber());
+				stmt.setInt(9, user.getUserId());
 				
 				stmt.executeUpdate();
 		
@@ -516,8 +654,7 @@ public class DerbyDatabase implements IDatabase{
 				
 				stmt = conn.prepareStatement(
 						"update users "
-						+ "set friendsId = ?, "
-						+ "email = ?, "
+						+ "set email = ?, "
 						+ "username = ?, "
 						+ "password = ?, "
 						+ "wins = ?, "
@@ -528,16 +665,15 @@ public class DerbyDatabase implements IDatabase{
 						+ "where user_id = ?"
 				);
 				
-				stmt.setInt(1, user.getFriends().getFriendsId());
-				stmt.setString(2, user.getCredentials().getEmail());
-				stmt.setString(3, user.getCredentials().getUsername());
-				stmt.setString(4, user.getCredentials().getPassword());
-				stmt.setInt(5, newStats.getWins());
-				stmt.setInt(6, newStats.getLosses());
-				stmt.setInt(7, newStats.getElo());
-				stmt.setString(8, user.getProfile().getBio());
-				stmt.setInt(9, user.getProfile().getPictureNumber());
-				stmt.setInt(10, user.getUserId());
+				stmt.setString(1, user.getCredentials().getEmail());
+				stmt.setString(2, user.getCredentials().getUsername());
+				stmt.setString(3, user.getCredentials().getPassword());
+				stmt.setInt(4, newStats.getWins());
+				stmt.setInt(5, newStats.getLosses());
+				stmt.setInt(6, newStats.getElo());
+				stmt.setString(7, user.getProfile().getBio());
+				stmt.setInt(8, user.getProfile().getPictureNumber());
+				stmt.setInt(9, user.getUserId());
 				
 				stmt.executeUpdate();
 		
@@ -558,8 +694,7 @@ public class DerbyDatabase implements IDatabase{
 				
 				stmt = conn.prepareStatement(
 						"update users "
-						+ "set friendsId = ?, "
-						+ "email = ?, "
+						+ "set email = ?, "
 						+ "username = ?, "
 						+ "password = ?, "
 						+ "wins = ?, "
@@ -570,16 +705,15 @@ public class DerbyDatabase implements IDatabase{
 						+ "where user_id = ?"
 				);
 				
-				stmt.setInt(1, user.getFriends().getFriendsId());
-				stmt.setString(2, user.getCredentials().getEmail());
-				stmt.setString(3, user.getCredentials().getUsername());
-				stmt.setString(4, user.getCredentials().getPassword());
-				stmt.setInt(5, user.getStats().getWins());
-				stmt.setInt(6, user.getStats().getLosses());
-				stmt.setInt(7, user.getStats().getElo());
-				stmt.setString(8, user.getProfile().getBio());
-				stmt.setInt(9, picNum);
-				stmt.setInt(10, user.getUserId());
+				stmt.setString(1, user.getCredentials().getEmail());
+				stmt.setString(2, user.getCredentials().getUsername());
+				stmt.setString(3, user.getCredentials().getPassword());
+				stmt.setInt(4, user.getStats().getWins());
+				stmt.setInt(5, user.getStats().getLosses());
+				stmt.setInt(6, user.getStats().getElo());
+				stmt.setString(7, user.getProfile().getBio());
+				stmt.setInt(8, picNum);
+				stmt.setInt(9, user.getUserId());
 				
 				stmt.executeUpdate();
 		
@@ -836,42 +970,6 @@ public class DerbyDatabase implements IDatabase{
 		});
 	}
 	
-	private void loadBoard(Board board, ResultSet resultSet, int index) throws SQLException {
-		board.setBoardId(resultSet.getInt(index++));
-		for (int y = 0; y < 8; y++) {
-			for (int x = 0; x < 8; x++) {
-				Point location = new Point(x, y);
-				int rank = resultSet.getInt(index++);
-				int color = resultSet.getInt(index++);
-				switch(rank) {
-				case 0:
-					board.getSpace(x, y).setPiece(new Pawn(Rank.PAWN, color, location));
-					break;
-				case 1:
-					board.getSpace(x, y).setPiece(new Rook(Rank.ROOK, color, location));
-					break;
-				case 2:
-					board.getSpace(x, y).setPiece(new Knight(Rank.KNIGHT, color, location));
-					break;
-				case 3:
-					board.getSpace(x, y).setPiece(new Bishop(Rank.BISHOP, color, location));
-					break;
-				case 4:
-					board.getSpace(x, y).setPiece(new Queen(Rank.QUEEN, color, location));
-					break;
-				case 5:
-					board.getSpace(x, y).setPiece(new King(Rank.KING, color, location));
-					break;
-				case 6:
-					board.getSpace(x, y).setPiece(null);
-					break;
-				default:
-					board.getSpace(x, y).setPiece(null);
-				}
-			}
-		}
-	}
-	
 // from library example
 	private static final int MAX_ATTEMPTS = 10;
 	
@@ -934,7 +1032,6 @@ public class DerbyDatabase implements IDatabase{
 	
 	private void loadUser(User user, ResultSet resultSet, int index) throws SQLException {
 		user.setUserId(resultSet.getInt(index++));
-		user.getFriends().setFriendsId(resultSet.getInt(index++));
 		user.getCredentials().setEmail(resultSet.getString(index++));
 		user.getCredentials().setUsername(resultSet.getString(index++));
 		user.getCredentials().setPassword(resultSet.getString(index++));
@@ -956,20 +1053,56 @@ public class DerbyDatabase implements IDatabase{
 		game.setEnPy(resultSet.getInt(index++));
 	}
 	
+	private void loadBoard(Board board, ResultSet resultSet, int index) throws SQLException {
+		board.setBoardId(resultSet.getInt(index++));
+		for (int y = 0; y < 8; y++) {
+			for (int x = 0; x < 8; x++) {
+				Point location = new Point(x, y);
+				int rank = resultSet.getInt(index++);
+				int color = resultSet.getInt(index++);
+				switch(rank) {
+				case 0:
+					board.getSpace(x, y).setPiece(new Pawn(Rank.PAWN, color, location));
+					break;
+				case 1:
+					board.getSpace(x, y).setPiece(new Rook(Rank.ROOK, color, location));
+					break;
+				case 2:
+					board.getSpace(x, y).setPiece(new Knight(Rank.KNIGHT, color, location));
+					break;
+				case 3:
+					board.getSpace(x, y).setPiece(new Bishop(Rank.BISHOP, color, location));
+					break;
+				case 4:
+					board.getSpace(x, y).setPiece(new Queen(Rank.QUEEN, color, location));
+					break;
+				case 5:
+					board.getSpace(x, y).setPiece(new King(Rank.KING, color, location));
+					break;
+				case 6:
+					board.getSpace(x, y).setPiece(null);
+					break;
+				default:
+					board.getSpace(x, y).setPiece(null);
+				}
+			}
+		}
+	}
+	
 	public void createTables() {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt1 = null;
 				PreparedStatement stmt2 = null;
-				PreparedStatement stmt3 = null;				
+				PreparedStatement stmt3 = null;	
+				PreparedStatement stmt4 = null;
 			
 				try {
 					stmt1 = conn.prepareStatement(
 						"create table users (" +
 						"	user_id integer primary key " +
 						"		generated always as identity (start with 1, increment by 1), " +	
-						"	friendsId integer, " +
 						"	email varchar(40), " +
 						"	username varchar(40), " +
 						"	password varchar(40), " +
@@ -1018,7 +1151,19 @@ public class DerbyDatabase implements IDatabase{
 					);
 					stmt3.executeUpdate();
 					
-					System.out.println("Games table created");					
+					System.out.println("Games table created");	
+					
+					stmt4 = conn.prepareStatement(
+							"create table friends (" +
+							"	friends_id integer primary key " +
+							"		generated always as identity (start with 1, increment by 1), " +
+							"	user1Id integer constraint user1Id references users, " +
+							"	user2Id integer constraint user2Id references users " +
+							")"
+					);
+					stmt4.executeUpdate();
+					
+					System.out.println("Friends table created");						
 										
 					return true;
 				} finally {
@@ -1036,11 +1181,13 @@ public class DerbyDatabase implements IDatabase{
 				ArrayList<User> userList = new ArrayList<User>();
 				ArrayList<Board> boardList = new ArrayList<Board>();
 				ArrayList<Game> gameList = new ArrayList<Game>();
+				ArrayList<Integer> friendsList = new ArrayList<Integer>();
 				
 				try {
 					userList.addAll(InitialData.getUsers());
 					boardList.addAll(InitialData.getBoards());
-					gameList.addAll(InitialData.getGames(boardList));					
+					gameList.addAll(InitialData.getGames(boardList));
+					friendsList.addAll(InitialData.getFriends());
 				} catch (IOException e) {
 					throw new SQLException("Couldn't read initial data", e);
 				}
@@ -1048,19 +1195,19 @@ public class DerbyDatabase implements IDatabase{
 				PreparedStatement insertUser = null;
 				PreparedStatement insertBoard = null;
 				PreparedStatement insertGame = null;
+				PreparedStatement insertFriend = null;
 
 				try {
-					insertUser = conn.prepareStatement("insert into users (friendsId, email, username, password, wins, losses, elo, bio, pictureNumber) values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					insertUser = conn.prepareStatement("insert into users (email, username, password, wins, losses, elo, bio, pictureNumber) values (?, ?, ?, ?, ?, ?, ?, ?)");
 					for (User user : userList) {
-						insertUser.setInt(1, user.getFriends().getFriendsId());
-						insertUser.setString(2, user.getCredentials().getEmail());
-						insertUser.setString(3, user.getCredentials().getUsername());
-						insertUser.setString(4, user.getCredentials().getPassword());
-						insertUser.setInt(5, user.getStats().getWins());
-						insertUser.setInt(6, user.getStats().getLosses());
-						insertUser.setInt(7, user.getStats().getElo());
-						insertUser.setString(8, user.getProfile().getBio());
-						insertUser.setInt(9, user.getProfile().getPictureNumber());
+						insertUser.setString(1, user.getCredentials().getEmail());
+						insertUser.setString(2, user.getCredentials().getUsername());
+						insertUser.setString(3, user.getCredentials().getPassword());
+						insertUser.setInt(4, user.getStats().getWins());
+						insertUser.setInt(5, user.getStats().getLosses());
+						insertUser.setInt(6, user.getStats().getElo());
+						insertUser.setString(7, user.getProfile().getBio());
+						insertUser.setInt(8, user.getProfile().getPictureNumber());
 						insertUser.addBatch();
 					}
 					insertUser.executeBatch();
@@ -1144,13 +1291,25 @@ public class DerbyDatabase implements IDatabase{
 					
 					insertGame.executeBatch();	
 					
-					System.out.println("Games table populated");					
+					System.out.println("Games table populated");	
+					
+					insertFriend = conn.prepareStatement("insert into friends (user1Id, user2Id) values (?, ?)");
+					Iterator<Integer> i = friendsList.iterator();
+					while (i.hasNext()) {
+						insertFriend.setInt(1, i.next());
+						insertFriend.setInt(2, i.next());
+						insertFriend.addBatch();
+					}
+					insertFriend.executeBatch();
+					
+					System.out.println("Friends table populated");
 					
 					return true;
 				} finally {
 					DBUtil.closeQuietly(insertBoard);
 					DBUtil.closeQuietly(insertUser);
-					DBUtil.closeQuietly(insertGame);					
+					DBUtil.closeQuietly(insertGame);	
+					DBUtil.closeQuietly(insertFriend);
 				}
 			}
 		});

@@ -28,11 +28,14 @@ public class DerbyDatabaseTest{
 	private ArrayList<Game> games;
 	private User u1;
 	private User u2;
+	private User u3;
 	private Board board;
 	private ArrayList<User> u;
+	private ArrayList<User> f;
 	ArrayList<Piece> pieces;
 	//1|user1@email.com|user1|password1|2|1|110|I like to play chess|1
 	//2|user2@email.com|user2|password2|1|2|104|I dont like to play chess|2
+	//user3@email.com|user3|password3|3|3|333|I sometimes like to play chess|3
 	//1|1|2|0
 	//1|1|2|1
 	//1|2|1|0
@@ -41,11 +44,16 @@ public class DerbyDatabaseTest{
 	@Before
 	public void setUp() {
 		db = new DerbyDatabase();
-		u1 = new User(1, 1, new Credentials("user1@email.com", "user1", "password1"), new Stats(2, 1, 110), new FriendsList(1), new Profile("I like to play chess", 1));
-		u2 = new User(2, 2, new Credentials("user2@email.com", "user2", "password2"), new Stats(1, 2, 104), new FriendsList(2), new Profile("I dont like to play chess", 2));
+		u1 = new User(1, new Credentials("user1@email.com", "user1", "password1"), new Stats(2, 1, 110), new FriendsList(), new Profile("I like to play chess", 1));
+		u2 = new User(2, new Credentials("user2@email.com", "user2", "password2"), new Stats(1, 2, 104), new FriendsList(), new Profile("I dont like to play chess", 2));
+		u3 = new User(3, new Credentials("user3@email.com", "user3", "password3"), new Stats(3, 3, 333), new FriendsList(), new Profile("I sometimes like to play chess", 3));
 		u = new ArrayList<User>();
+		f = new ArrayList<User>();
 		u.add(u1);
 		u.add(u2);
+		u.add(u3);
+		f.add(u3);
+		f.add(u1);
 		pieces = new ArrayList<Piece>();
 		for (int y = 0; y < 7; y++) {
 			for (int x = 0; x < 7; x++) {
@@ -226,6 +234,23 @@ public class DerbyDatabaseTest{
 				assertEquals(board.getPiece(x, y).getRank(), b.getPiece(x, y).getRank());
 				assertTrue(board.getPiece(x, y).getColor() == b.getPiece(x, y).getColor());
 			}
+		}
+	}
+	
+	@Test
+	public void testFindFriendsWithUserId() {
+		ArrayList<User> users = db.findFriendswithUserId(2);
+		
+		for (int i = 0; i < users.size(); i++) {
+			assertTrue(f.get(i).getUserId() == users.get(i).getUserId());
+			assertEquals(f.get(i).getCredentials().getEmail(), users.get(i).getCredentials().getEmail());
+			assertEquals(f.get(i).getCredentials().getPassword(), users.get(i).getCredentials().getPassword());
+			assertEquals(f.get(i).getCredentials().getUsername(), users.get(i).getCredentials().getUsername());
+			assertTrue(f.get(i).getStats().getWins() == users.get(i).getStats().getWins());
+			assertTrue(f.get(i).getStats().getLosses() == users.get(i).getStats().getLosses());
+			assertTrue(f.get(i).getStats().getElo() == users.get(i).getStats().getElo());
+			assertEquals(f.get(i).getProfile().getBio(), users.get(i).getProfile().getBio());
+			assertTrue(f.get(i).getProfile().getPictureNumber() == users.get(i).getProfile().getPictureNumber());
 		}
 	}
 }

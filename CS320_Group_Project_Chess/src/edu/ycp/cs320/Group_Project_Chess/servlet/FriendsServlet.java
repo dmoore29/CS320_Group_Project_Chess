@@ -7,8 +7,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.ycp.cs320.Group_Project_Chess.controller.FriendsController;
+
 public class FriendsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	FriendsController controller = null;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -30,6 +34,10 @@ public class FriendsServlet extends HttpServlet {
 		// proceed to handle request...
 		System.out.println("   User: <" + name + "> logged in");
 //-- structure taken from the library example
+		
+		controller = new FriendsController();
+		
+		req.setAttribute("friendsList", controller.getFriends(name));
 		
 		req.getRequestDispatcher("/_view/friends.jsp").forward(req, resp);
 		

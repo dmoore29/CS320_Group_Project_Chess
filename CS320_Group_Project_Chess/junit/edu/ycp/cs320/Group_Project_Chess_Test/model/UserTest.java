@@ -29,14 +29,14 @@ public class UserTest {
 		stats.getWins();
 		stats.getLosses();
 		stats.getElo();
-		friends = new FriendsList();
+/*		friends = new FriendsList();
 		friends.addFriend("abeddia2");
 		friends.addFriend("abeddia3");
 		friends.addFriend("abeddia4");
 		friends.getIndex(0);
 		friends.getIndex(2);
 		friends.removeFriend("abeddia4");
-		profile = new Profile();
+*/		profile = new Profile();
 		profile.setBio("yo yo yo this is a bio");
 		profile.setPicture(null);
 		model = new User(credentials, stats, friends, profile);
@@ -52,11 +52,11 @@ public class UserTest {
 		assertEquals(stats, model.getStats());
 	}
 	
-	@Test
+/*	@Test
 	public void testGetFriends() {
 		assertEquals(friends, model.getFriends());
 	}
-	
+*/	
 	@Test
 	public void testGetProfile() {
 		assertEquals(profile, model.getProfile());

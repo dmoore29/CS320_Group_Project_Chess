@@ -67,6 +67,11 @@ public class DerbyDatabase implements IDatabase{
 						User user = new User();
 						loadUser(user, resultSet, 1);
 						
+						ArrayList<User> friends = findFriendswithUserId(user.getUserId());
+						for (User friend : friends) {
+							user.getFriends().addFriend(friend);
+						}
+						
 						result.add(user);
 					}
 					
@@ -113,6 +118,11 @@ public class DerbyDatabase implements IDatabase{
 						User user = new User();
 						loadUser(user, resultSet, 1);
 						
+						ArrayList<User> friends = findFriendswithUserId(user.getUserId());
+						for (User friend : friends) {
+							user.getFriends().addFriend(friend);
+						}
+						
 						result = user;
 					}
 					
@@ -132,6 +142,58 @@ public class DerbyDatabase implements IDatabase{
 	
 	// transaction that retrieves Users with specific user_id
 	public User findUserwithUserId(final int userId) {
+		return executeTransaction(new Transaction<User>() {
+			@Override
+			public User execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							" select * from users " +
+							" where users.user_id = ? "
+					);
+					
+					User result = new User();
+					
+					stmt.setInt(1, userId);
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						User user = new User();
+						loadUser(user, resultSet, 1);
+						
+						ArrayList<User> friends = findFriendswithUserId(user.getUserId());
+						for (User friend : friends) {
+							user.getFriends().addFriend(friend);
+						}
+						
+						result = user;
+					}
+					
+					// check if any users were found
+					if (!found) {
+						System.out.println("No users with userId " + userId + " were found in the database");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	// transaction that retrieves Users with specific user_id 
+	// used by the findFriends method
+	public User findUserwithFriendId(final int userId) {
 		return executeTransaction(new Transaction<User>() {
 			@Override
 			public User execute(Connection conn) throws SQLException {
@@ -204,6 +266,11 @@ public class DerbyDatabase implements IDatabase{
 						
 						User user = new User();
 						loadUser(user, resultSet, 1);
+						
+						ArrayList<User> friends = findFriendswithUserId(user.getUserId());
+						for (User friend : friends) {
+							user.getFriends().addFriend(friend);
+						}
 						
 						result = user;
 					}
@@ -451,7 +518,7 @@ public class DerbyDatabase implements IDatabase{
 					while (resultSet.next()) {
 						found = true;
 						
-						User userA = findUserwithUserId(resultSet.getInt(1));
+						User userA = findUserwithFriendId(resultSet.getInt(1));
 						
 						result.add(userA);
 					}
@@ -476,7 +543,7 @@ public class DerbyDatabase implements IDatabase{
 					while (resultSet2.next()) {
 						found = true;
 						
-						User userB = findUserwithUserId(resultSet2.getInt(1));
+						User userB = findUserwithFriendId(resultSet2.getInt(1));
 						
 						result.add(userB);
 					}

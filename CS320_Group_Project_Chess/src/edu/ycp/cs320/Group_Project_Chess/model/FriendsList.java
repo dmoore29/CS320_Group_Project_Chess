@@ -3,26 +3,26 @@ package edu.ycp.cs320.Group_Project_Chess.model;
 import java.util.ArrayList;
 
 public class FriendsList {
-	private ArrayList<String> friendsList;
+	private ArrayList<User> friendsList;
 	
 	public FriendsList() {
-		friendsList = new ArrayList<String>();
+		friendsList = new ArrayList<User>();
 	}
 	
-	public ArrayList<String> getFriendsList() {
+	public ArrayList<User> getFriendsList() {
 		return this.friendsList;
 	}
 	
 	
-	public void addFriend(String friend) {
+	public void addFriend(User friend) {
 		this.friendsList.add(friend);
 	}
 	
-	public void removeFriend(String friend) {
+	public void removeFriend(User friend) {
 		this.friendsList.remove(friend);
 	}
 	
-	public String getIndex(int indexNumber) {
+	public User getIndex(int indexNumber) {
 		return this.friendsList.get(indexNumber);
 	}
 	

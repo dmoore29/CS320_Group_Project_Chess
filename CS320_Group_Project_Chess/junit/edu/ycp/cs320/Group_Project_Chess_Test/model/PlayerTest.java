@@ -33,14 +33,14 @@ public class PlayerTest {
 		stats.getWins();
 		stats.getLosses();
 		stats.getElo();
-		friends = new FriendsList();
+/*		friends = new FriendsList();
 		friends.addFriend("abeddia2");
 		friends.addFriend("abeddia3");
 		friends.addFriend("abeddia4");
 		friends.getIndex(0);
 		friends.getIndex(2);
 		friends.removeFriend("abeddia4");
-		profile = new Profile();
+*/		profile = new Profile();
 		profile.setBio("yo yo yo this is a bio");
 		profile.setPicture(null);
 		color = 1;

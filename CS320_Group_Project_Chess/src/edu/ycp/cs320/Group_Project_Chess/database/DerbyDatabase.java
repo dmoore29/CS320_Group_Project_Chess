@@ -432,19 +432,18 @@ public class DerbyDatabase implements IDatabase{
 				
 				try {
 					stmt = conn.prepareStatement(
-							"insert into users (friendsId, email, username, password, wins, losses, elo, bio, pictureNumber) "
-							+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?) ", Statement.RETURN_GENERATED_KEYS
+							"insert into users (email, username, password, wins, losses, elo, bio, pictureNumber) "
+							+ " values (?, ?, ?, ?, ?, ?, ?, ?) ", Statement.RETURN_GENERATED_KEYS
 					);
 					
-					stmt.setInt(1, 1);
-					stmt.setString(2, creds.getEmail());
-					stmt.setString(3, creds.getUsername());
-					stmt.setString(4, creds.getPassword());
+					stmt.setString(1, creds.getEmail());
+					stmt.setString(2, creds.getUsername());
+					stmt.setString(3, creds.getPassword());
+					stmt.setInt(4, 0);
 					stmt.setInt(5, 0);
-					stmt.setInt(6, 0);
-					stmt.setInt(7, 100);
-					stmt.setString(8, "Tell the world about yourself!");
-					stmt.setInt(9, 1);
+					stmt.setInt(6, 100);
+					stmt.setString(7, "Tell the world about yourself!");
+					stmt.setInt(8, 1);
 					
 					stmt.execute();
 					
@@ -474,8 +473,7 @@ public class DerbyDatabase implements IDatabase{
 				
 				stmt = conn.prepareStatement(
 						"update users "
-						+ "set friendsId = ?, "
-						+ "email = ?, "
+						+ "set email = ?, "
 						+ "username = ?, "
 						+ "password = ?, "
 						+ "wins = ?, "
@@ -486,16 +484,15 @@ public class DerbyDatabase implements IDatabase{
 						+ "where user_id = ?"
 				);
 				
-				stmt.setInt(1, user.getFriends().getFriendsId());
-				stmt.setString(2, user.getCredentials().getEmail());
-				stmt.setString(3, user.getCredentials().getUsername());
-				stmt.setString(4, user.getCredentials().getPassword());
-				stmt.setInt(5, user.getStats().getWins());
-				stmt.setInt(6, user.getStats().getLosses());
-				stmt.setInt(7, user.getStats().getElo());
-				stmt.setString(8, newBio);
-				stmt.setInt(9, user.getProfile().getPictureNumber());
-				stmt.setInt(10, user.getUserId());
+				stmt.setString(1, user.getCredentials().getEmail());
+				stmt.setString(2, user.getCredentials().getUsername());
+				stmt.setString(3, user.getCredentials().getPassword());
+				stmt.setInt(4, user.getStats().getWins());
+				stmt.setInt(5, user.getStats().getLosses());
+				stmt.setInt(6, user.getStats().getElo());
+				stmt.setString(7, newBio);
+				stmt.setInt(8, user.getProfile().getPictureNumber());
+				stmt.setInt(9, user.getUserId());
 				
 				stmt.executeUpdate();
 		
@@ -516,8 +513,7 @@ public class DerbyDatabase implements IDatabase{
 				
 				stmt = conn.prepareStatement(
 						"update users "
-						+ "set friendsId = ?, "
-						+ "email = ?, "
+						+ "set email = ?, "
 						+ "username = ?, "
 						+ "password = ?, "
 						+ "wins = ?, "
@@ -528,16 +524,15 @@ public class DerbyDatabase implements IDatabase{
 						+ "where user_id = ?"
 				);
 				
-				stmt.setInt(1, user.getFriends().getFriendsId());
-				stmt.setString(2, user.getCredentials().getEmail());
-				stmt.setString(3, user.getCredentials().getUsername());
-				stmt.setString(4, user.getCredentials().getPassword());
-				stmt.setInt(5, newStats.getWins());
-				stmt.setInt(6, newStats.getLosses());
-				stmt.setInt(7, newStats.getElo());
-				stmt.setString(8, user.getProfile().getBio());
-				stmt.setInt(9, user.getProfile().getPictureNumber());
-				stmt.setInt(10, user.getUserId());
+				stmt.setString(1, user.getCredentials().getEmail());
+				stmt.setString(2, user.getCredentials().getUsername());
+				stmt.setString(3, user.getCredentials().getPassword());
+				stmt.setInt(4, newStats.getWins());
+				stmt.setInt(5, newStats.getLosses());
+				stmt.setInt(6, newStats.getElo());
+				stmt.setString(7, user.getProfile().getBio());
+				stmt.setInt(8, user.getProfile().getPictureNumber());
+				stmt.setInt(9, user.getUserId());
 				
 				stmt.executeUpdate();
 		
@@ -558,8 +553,7 @@ public class DerbyDatabase implements IDatabase{
 				
 				stmt = conn.prepareStatement(
 						"update users "
-						+ "set friendsId = ?, "
-						+ "email = ?, "
+						+ "set email = ?, "
 						+ "username = ?, "
 						+ "password = ?, "
 						+ "wins = ?, "
@@ -570,16 +564,15 @@ public class DerbyDatabase implements IDatabase{
 						+ "where user_id = ?"
 				);
 				
-				stmt.setInt(1, user.getFriends().getFriendsId());
-				stmt.setString(2, user.getCredentials().getEmail());
-				stmt.setString(3, user.getCredentials().getUsername());
-				stmt.setString(4, user.getCredentials().getPassword());
-				stmt.setInt(5, user.getStats().getWins());
-				stmt.setInt(6, user.getStats().getLosses());
-				stmt.setInt(7, user.getStats().getElo());
-				stmt.setString(8, user.getProfile().getBio());
-				stmt.setInt(9, picNum);
-				stmt.setInt(10, user.getUserId());
+				stmt.setString(1, user.getCredentials().getEmail());
+				stmt.setString(2, user.getCredentials().getUsername());
+				stmt.setString(3, user.getCredentials().getPassword());
+				stmt.setInt(4, user.getStats().getWins());
+				stmt.setInt(5, user.getStats().getLosses());
+				stmt.setInt(6, user.getStats().getElo());
+				stmt.setString(7, user.getProfile().getBio());
+				stmt.setInt(8, picNum);
+				stmt.setInt(9, user.getUserId());
 				
 				stmt.executeUpdate();
 		
@@ -934,7 +927,6 @@ public class DerbyDatabase implements IDatabase{
 	
 	private void loadUser(User user, ResultSet resultSet, int index) throws SQLException {
 		user.setUserId(resultSet.getInt(index++));
-		user.getFriends().setFriendsId(resultSet.getInt(index++));
 		user.getCredentials().setEmail(resultSet.getString(index++));
 		user.getCredentials().setUsername(resultSet.getString(index++));
 		user.getCredentials().setPassword(resultSet.getString(index++));
@@ -969,7 +961,6 @@ public class DerbyDatabase implements IDatabase{
 						"create table users (" +
 						"	user_id integer primary key " +
 						"		generated always as identity (start with 1, increment by 1), " +	
-						"	friendsId integer, " +
 						"	email varchar(40), " +
 						"	username varchar(40), " +
 						"	password varchar(40), " +
@@ -1050,17 +1041,16 @@ public class DerbyDatabase implements IDatabase{
 				PreparedStatement insertGame = null;
 
 				try {
-					insertUser = conn.prepareStatement("insert into users (friendsId, email, username, password, wins, losses, elo, bio, pictureNumber) values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					insertUser = conn.prepareStatement("insert into users (email, username, password, wins, losses, elo, bio, pictureNumber) values (?, ?, ?, ?, ?, ?, ?, ?)");
 					for (User user : userList) {
-						insertUser.setInt(1, user.getFriends().getFriendsId());
-						insertUser.setString(2, user.getCredentials().getEmail());
-						insertUser.setString(3, user.getCredentials().getUsername());
-						insertUser.setString(4, user.getCredentials().getPassword());
-						insertUser.setInt(5, user.getStats().getWins());
-						insertUser.setInt(6, user.getStats().getLosses());
-						insertUser.setInt(7, user.getStats().getElo());
-						insertUser.setString(8, user.getProfile().getBio());
-						insertUser.setInt(9, user.getProfile().getPictureNumber());
+						insertUser.setString(1, user.getCredentials().getEmail());
+						insertUser.setString(2, user.getCredentials().getUsername());
+						insertUser.setString(3, user.getCredentials().getPassword());
+						insertUser.setInt(4, user.getStats().getWins());
+						insertUser.setInt(5, user.getStats().getLosses());
+						insertUser.setInt(6, user.getStats().getElo());
+						insertUser.setString(7, user.getProfile().getBio());
+						insertUser.setInt(8, user.getProfile().getPictureNumber());
 						insertUser.addBatch();
 					}
 					insertUser.executeBatch();

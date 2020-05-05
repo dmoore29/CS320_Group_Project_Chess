@@ -3,15 +3,10 @@ package edu.ycp.cs320.Group_Project_Chess.model;
 import java.util.ArrayList;
 
 public class FriendsList {
-	private int friendsId;
-	private ArrayList<String> friendsList = new ArrayList<String>();
+	private ArrayList<String> friendsList;
 	
 	public FriendsList() {
-		
-	}
-	
-	public FriendsList(int friendsId) {
-		this.friendsId = friendsId;
+		friendsList = new ArrayList<String>();
 	}
 	
 	public ArrayList<String> getFriendsList() {
@@ -31,12 +26,5 @@ public class FriendsList {
 		return this.friendsList.get(indexNumber);
 	}
 	
-	public void setFriendsId(int id) {
-		friendsId = id;
-	}
-	
-	public int getFriendsId() {
-		return friendsId;
-	}
 
 }

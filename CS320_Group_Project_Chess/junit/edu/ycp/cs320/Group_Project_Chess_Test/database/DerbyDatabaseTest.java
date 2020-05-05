@@ -28,11 +28,13 @@ public class DerbyDatabaseTest{
 	private ArrayList<Game> games;
 	private User u1;
 	private User u2;
+	private User u3;
 	private Board board;
 	private ArrayList<User> u;
 	ArrayList<Piece> pieces;
 	//1|user1@email.com|user1|password1|2|1|110|I like to play chess|1
 	//2|user2@email.com|user2|password2|1|2|104|I dont like to play chess|2
+	//user3@email.com|user3|password3|3|3|333|I sometimes like to play chess|3
 	//1|1|2|0
 	//1|1|2|1
 	//1|2|1|0
@@ -41,11 +43,13 @@ public class DerbyDatabaseTest{
 	@Before
 	public void setUp() {
 		db = new DerbyDatabase();
-		u1 = new User(1, 1, new Credentials("user1@email.com", "user1", "password1"), new Stats(2, 1, 110), new FriendsList(1), new Profile("I like to play chess", 1));
-		u2 = new User(2, 2, new Credentials("user2@email.com", "user2", "password2"), new Stats(1, 2, 104), new FriendsList(2), new Profile("I dont like to play chess", 2));
+		u1 = new User(1, new Credentials("user1@email.com", "user1", "password1"), new Stats(2, 1, 110), new FriendsList(), new Profile("I like to play chess", 1));
+		u2 = new User(2, new Credentials("user2@email.com", "user2", "password2"), new Stats(1, 2, 104), new FriendsList(), new Profile("I dont like to play chess", 2));
+		u3 = new User(3, new Credentials("user3@email.com", "user3", "password3"), new Stats(3, 3, 333), new FriendsList(), new Profile("I sometimes like to play chess", 3));
 		u = new ArrayList<User>();
 		u.add(u1);
 		u.add(u2);
+		u.add(u3);
 		pieces = new ArrayList<Piece>();
 		for (int y = 0; y < 7; y++) {
 			for (int x = 0; x < 7; x++) {

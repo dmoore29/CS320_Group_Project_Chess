@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import edu.ycp.cs320.Group_Project_Chess.model.Bishop;
 import edu.ycp.cs320.Group_Project_Chess.model.Board;
@@ -829,42 +830,6 @@ public class DerbyDatabase implements IDatabase{
 		});
 	}
 	
-	private void loadBoard(Board board, ResultSet resultSet, int index) throws SQLException {
-		board.setBoardId(resultSet.getInt(index++));
-		for (int y = 0; y < 8; y++) {
-			for (int x = 0; x < 8; x++) {
-				Point location = new Point(x, y);
-				int rank = resultSet.getInt(index++);
-				int color = resultSet.getInt(index++);
-				switch(rank) {
-				case 0:
-					board.getSpace(x, y).setPiece(new Pawn(Rank.PAWN, color, location));
-					break;
-				case 1:
-					board.getSpace(x, y).setPiece(new Rook(Rank.ROOK, color, location));
-					break;
-				case 2:
-					board.getSpace(x, y).setPiece(new Knight(Rank.KNIGHT, color, location));
-					break;
-				case 3:
-					board.getSpace(x, y).setPiece(new Bishop(Rank.BISHOP, color, location));
-					break;
-				case 4:
-					board.getSpace(x, y).setPiece(new Queen(Rank.QUEEN, color, location));
-					break;
-				case 5:
-					board.getSpace(x, y).setPiece(new King(Rank.KING, color, location));
-					break;
-				case 6:
-					board.getSpace(x, y).setPiece(null);
-					break;
-				default:
-					board.getSpace(x, y).setPiece(null);
-				}
-			}
-		}
-	}
-	
 // from library example
 	private static final int MAX_ATTEMPTS = 10;
 	
@@ -948,13 +913,50 @@ public class DerbyDatabase implements IDatabase{
 		game.setEnPy(resultSet.getInt(index++));
 	}
 	
+	private void loadBoard(Board board, ResultSet resultSet, int index) throws SQLException {
+		board.setBoardId(resultSet.getInt(index++));
+		for (int y = 0; y < 8; y++) {
+			for (int x = 0; x < 8; x++) {
+				Point location = new Point(x, y);
+				int rank = resultSet.getInt(index++);
+				int color = resultSet.getInt(index++);
+				switch(rank) {
+				case 0:
+					board.getSpace(x, y).setPiece(new Pawn(Rank.PAWN, color, location));
+					break;
+				case 1:
+					board.getSpace(x, y).setPiece(new Rook(Rank.ROOK, color, location));
+					break;
+				case 2:
+					board.getSpace(x, y).setPiece(new Knight(Rank.KNIGHT, color, location));
+					break;
+				case 3:
+					board.getSpace(x, y).setPiece(new Bishop(Rank.BISHOP, color, location));
+					break;
+				case 4:
+					board.getSpace(x, y).setPiece(new Queen(Rank.QUEEN, color, location));
+					break;
+				case 5:
+					board.getSpace(x, y).setPiece(new King(Rank.KING, color, location));
+					break;
+				case 6:
+					board.getSpace(x, y).setPiece(null);
+					break;
+				default:
+					board.getSpace(x, y).setPiece(null);
+				}
+			}
+		}
+	}
+	
 	public void createTables() {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt1 = null;
 				PreparedStatement stmt2 = null;
-				PreparedStatement stmt3 = null;				
+				PreparedStatement stmt3 = null;	
+				PreparedStatement stmt4 = null;
 			
 				try {
 					stmt1 = conn.prepareStatement(
@@ -1009,7 +1011,19 @@ public class DerbyDatabase implements IDatabase{
 					);
 					stmt3.executeUpdate();
 					
-					System.out.println("Games table created");					
+					System.out.println("Games table created");	
+					
+					stmt4 = conn.prepareStatement(
+							"create table friends (" +
+							"	friends_id integer primary key " +
+							"		generated always as identity (start with 1, increment by 1), " +
+							"	user1Id integer constraint user1Id references users, " +
+							"	user2Id integer constraint user2Id references users " +
+							")"
+					);
+					stmt4.executeUpdate();
+					
+					System.out.println("Friends table created");						
 										
 					return true;
 				} finally {
@@ -1027,11 +1041,13 @@ public class DerbyDatabase implements IDatabase{
 				ArrayList<User> userList = new ArrayList<User>();
 				ArrayList<Board> boardList = new ArrayList<Board>();
 				ArrayList<Game> gameList = new ArrayList<Game>();
+				ArrayList<Integer> friendsList = new ArrayList<Integer>();
 				
 				try {
 					userList.addAll(InitialData.getUsers());
 					boardList.addAll(InitialData.getBoards());
-					gameList.addAll(InitialData.getGames(boardList));					
+					gameList.addAll(InitialData.getGames(boardList));
+					friendsList.addAll(InitialData.getFriends());
 				} catch (IOException e) {
 					throw new SQLException("Couldn't read initial data", e);
 				}
@@ -1039,6 +1055,7 @@ public class DerbyDatabase implements IDatabase{
 				PreparedStatement insertUser = null;
 				PreparedStatement insertBoard = null;
 				PreparedStatement insertGame = null;
+				PreparedStatement insertFriend = null;
 
 				try {
 					insertUser = conn.prepareStatement("insert into users (email, username, password, wins, losses, elo, bio, pictureNumber) values (?, ?, ?, ?, ?, ?, ?, ?)");
@@ -1134,13 +1151,25 @@ public class DerbyDatabase implements IDatabase{
 					
 					insertGame.executeBatch();	
 					
-					System.out.println("Games table populated");					
+					System.out.println("Games table populated");	
+					
+					insertFriend = conn.prepareStatement("insert into friends (user1Id, user2Id) values (?, ?)");
+					Iterator<Integer> i = friendsList.iterator();
+					while (i.hasNext()) {
+						insertFriend.setInt(1, i.next());
+						insertFriend.setInt(2, i.next());
+						insertFriend.addBatch();
+					}
+					insertFriend.executeBatch();
+					
+					System.out.println("Friends table populated");
 					
 					return true;
 				} finally {
 					DBUtil.closeQuietly(insertBoard);
 					DBUtil.closeQuietly(insertUser);
-					DBUtil.closeQuietly(insertGame);					
+					DBUtil.closeQuietly(insertGame);	
+					DBUtil.closeQuietly(insertFriend);
 				}
 			}
 		});

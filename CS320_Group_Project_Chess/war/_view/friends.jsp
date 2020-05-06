@@ -37,24 +37,32 @@
            		friends = (FriendsList) obj;
            	} %>
            	<form action="${pageContext.servletContext.contextPath}/friends" method="post">
-	           	<div class="friendsListing">
-		           	<ul>
-		           		<% ArrayList<User> userList = friends.getFriendsList();
-		           		   	for (User users : userList) { %>
-		           				<li><input name="userSelection" type="radio" value="<%=users.getCredentials().getUsername()%>" /><p><%=users.getCredentials().getUsername() %></p></li>	
-		           			<% } %>
-		            </ul> 
-		        </div>
-		        <div class="friendsButtons">
+           		<div class="friendsButtons">
 	        	
 	        		<ul>
-	        			<li><input name="username" type="text" maxlength="40" size="40" value="Enter New Friend's Username" /></li>
+	        			<li><input name="username" type="text" maxlength="40" size="40" value="Enter Friend's Username" /></li>
 	                    <li><input name="add" type="submit" value="Add Friend" /></li>
 	                    <li><input name="view" type="submit" value="View Profile" /></li>
 	                    <li><input name="challenge" type="submit" value="Challenge Friend" /></li>
 	                    <li><input name="remove" type="submit" value="Remove Friend" /></li>
 	                </ul>
 	        	</div>
+	           	<table class="friendsListing">
+	           		<thead>
+	           			<tr>
+	           				<th><h2 class="list_header">Friends List</h2></th>
+	           			</tr>
+	           		</thead>
+	           		<tbody>
+	           			<tr>
+			           		<% ArrayList<User> userList = friends.getFriendsList();
+		           		   	for (User users : userList) { %>
+	           				<td><input name="userSelection" type="radio" value="<%=users.getCredentials().getUsername()%>" /><p><%=users.getCredentials().getUsername() %></p></td>
+	           				<% } %>
+	           			</tr>
+	           		</tbody>
+	           	</table>
+		           	<ul>
 	        </form>
         </main>
         <aside>

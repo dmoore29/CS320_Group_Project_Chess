@@ -130,32 +130,32 @@ public class FriendsServlet extends HttpServlet {
 			
 			if (req.getParameter("userSelection") != null) {
 				u2 = controller.loadUser(req.getParameter("userSelection"));
+				
+				Player p1 = new Player(u1, 0);
+				p1.setPlayerId(u1.getUserId());
+				Player p2 = new Player(u2, 1);
+				p2.setPlayerId(u2.getUserId());
+				Game game = new Game(p1, p2);
+				int newId = 0;
+				
+				try {
+					game.setPromo(0);
+					game.setEnPx(8);
+					game.setEnPy(8);
+					newId = controller.StoreNewGame(game);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				System.out.println("NEW ID: " + newId);
+				req.getSession().setAttribute("gameId", newId);
+				System.out.println("Friends Servlet: forwarding to chessGame");
+				resp.sendRedirect(req.getContextPath() + "/chessGame");
 			} else {
 				System.out.println("Friends Servlet: reloading friends");
 				resp.sendRedirect(req.getContextPath() + "/friends");
 			}
-
-			Player p1 = new Player(u1, 0);
-			p1.setPlayerId(u1.getUserId());
-			Player p2 = new Player(u2, 1);
-			p2.setPlayerId(u2.getUserId());
-			Game game = new Game(p1, p2);
-			int newId = 0;
-			
-			try {
-				game.setPromo(0);
-				game.setEnPx(8);
-				game.setEnPy(8);
-				newId = controller.StoreNewGame(game);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			System.out.println("NEW ID: " + newId);
-			req.getSession().setAttribute("gameId", newId);
-			System.out.println("Friends Servlet: forwarding to chessGame");
-			resp.sendRedirect(req.getContextPath() + "/chessGame");
 		}
 	}
 }

@@ -44,6 +44,7 @@ public class ProfileServlet extends HttpServlet {
 		if (friend != null) {
 			user = controller.getProfile(friend);
 			req.getSession().setAttribute("friendProfile", null);
+			req.setAttribute("viewFriends", 1);
 		} else {
 			user = controller.getProfile(name);
 		}

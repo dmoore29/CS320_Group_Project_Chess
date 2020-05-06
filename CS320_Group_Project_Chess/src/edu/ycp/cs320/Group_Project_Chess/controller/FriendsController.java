@@ -14,6 +14,10 @@ public class FriendsController {
 		db = new DerbyDatabase();
 	}
 	
+	public void setUser(String username) {
+		user = db.findUserwithUsername(username);
+	}
+	
 	public FriendsList getFriends(String name) {
 		user = db.findUserwithUsername(name);
 		for (User users : user.getFriends().getFriendsList()) {
@@ -35,8 +39,8 @@ public class FriendsController {
 		}
 	}
 	
-	public void removeFriend(int index) throws SQLException {
-		db.removeFromFriends(user.getUserId(), user.getFriends().getIndex(index).getUserId());
+	public void removeFriend(String username) throws SQLException {
+		db.removeFromFriends(user.getUserId(), db.findUserwithUsername(username).getUserId());
 	}
 
 }

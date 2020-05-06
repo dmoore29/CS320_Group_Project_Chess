@@ -603,7 +603,6 @@ public class DerbyDatabase implements IDatabase{
 			@Override
 			public Integer execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
-				ResultSet rs = null;
 				
 				stmt = conn.prepareStatement(
 						"delete from friends "

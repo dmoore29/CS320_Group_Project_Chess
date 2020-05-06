@@ -1,6 +1,7 @@
 package edu.ycp.cs320.Group_Project_Chess.servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -64,8 +65,31 @@ public class FriendsServlet extends HttpServlet {
 		}
 		if (req.getParameter("logout") != null) {
 			req.getSession().setAttribute("name", null);
-			System.out.println("Home Servlet: forwarding to login");
+			System.out.println("Friends Servlet: forwarding to login");
 			resp.sendRedirect(req.getContextPath() + "/login");
+		}
+		if (req.getParameter("remove") != null) {
+			
+			if (req.getParameter("userSelection") != null) { //loading existing game
+				String friendName = (String) req.getParameter("userSelection");
+				System.out.println("user " + friendName + " selected");
+				
+				controller = new FriendsController();
+				controller.setUser((String) req.getSession().getAttribute("name")); 
+				
+				try {
+					controller.removeFriend(friendName);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				System.out.println("Friends Servlet: reloading friends");
+				resp.sendRedirect(req.getContextPath() + "/friends");
+			} else {
+				System.out.println("Friends Servlet: no friend selected");
+				resp.sendRedirect(req.getContextPath() + "/friends");
+			}
+			
 		}
 	}
 }

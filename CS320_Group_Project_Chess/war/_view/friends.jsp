@@ -36,13 +36,26 @@
            	<% if (obj instanceof FriendsList) {
            		friends = (FriendsList) obj;
            	} %>
-           	
-           	<ul>
-           		<% ArrayList<User> userList = friends.getFriendsList();
-           		   	for (User users : userList) { %>
-           				<li><p><%=users.getCredentials().getUsername() %></p></li>	
-           			<% } %>
-            </ul> 
+           	<form action="${pageContext.servletContext.contextPath}/friends" method="post">
+	           	<div class="friendsListing">
+		           	<ul>
+		           		<% ArrayList<User> userList = friends.getFriendsList();
+		           		   	for (User users : userList) { %>
+		           				<li><input name="userSelection" type="radio" value="<%=users.getCredentials().getUsername() %>" /><p><%=users.getCredentials().getUsername() %></p></li>	
+		           			<% } %>
+		            </ul> 
+		        </div>
+		        <div class="friendsButtons">
+	        	
+	        		<ul>
+	        			<li><input name="username" type="text" maxlength="40" size="40" value="Enter New Friend's Username" /></li>
+	                    <li><input name="add" type="submit" value="Add Friend" /></li>
+	                    <li><input name="view" type="submit" value="View Profile" /></li>
+	                    <li><input name="challenge" type="submit" value="Challenge Friend" /></li>
+	                    <li><input name="remove" type="submit" value="Remove Friend" /></li>
+	                </ul>
+	        	</div>
+	        </form>
         </main>
         <aside>
 	    	<h2> VELOCITY </h2>

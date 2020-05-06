@@ -110,23 +110,6 @@ main {
 footer {
     clear: both;
 }
-#hamburger-button {
-    background: #644BBF;
-    color: black;
-    float: right;
-    border-style: none;
-    border-radius: 3px;
-    display: none;
-    position: absolute;
-    top: 1.875%;
-    right: 3.5%;
-}
-#hamburger-button div {
-    width: 20px;
-    height: 2px;
-    background-color: white;
-    margin: 6px 0;
-}
 nav ul {
     list-style-type: none;
     text-align: center;
@@ -172,23 +155,6 @@ main p{
 #menu ul li{
     margin:5px;
 }
-table {
-    border-collapse: collapse;
-    width: 60%;
-}
-table td {
-    border-style: solid;
-    border-width: 1px;
-    border-color: grey;
-}
-table th {
-    border-style: solid;
-    border-width: 1px;
-    border-color: grey;
-}
-table > td > a[hdr-beach]{
-    text-align: right;
-}
 #menu ul li input{
     display:inline-block;
     padding:.5em;
@@ -203,10 +169,36 @@ table > td > a[hdr-beach]{
     background-color:lightblue;
     color:blue;
 }
-#CS{
-    height:75%;
-    width:75%
+.friendsListing{
+	margin-top: 0%;
+	width: 50%;
 }
+.friendsListing tbody tr{
+	margin-top: 5%;
+}
+.friendsListing tbody tr > input{
+	float: right;
+}
+.list_header{
+	margin-top: 10%;
+	text-align: center;
+	text-decoration: underline;
+}
+.friendsButtons{
+	float: right;
+	margin-right: 10%;
+}
+.friendsButtons ul li input{
+	display: block;
+	margin-top: 5%;
+    padding:.5em;
+    width:150px;
+    background-color:#644BBF;
+    color:black;
+    text-decoration:none;
+    border-radius:5px;
+    border-color:#644BBF;
+} 
 @media only screen and (max-width: 959px) {
     #hamburger-button {
         display: block;
@@ -233,4 +225,79 @@ table > td > a[hdr-beach]{
         margin: 10px auto;
         display: block;
     }
+}
+table {
+    border-spacing: 1;
+    border-collapse: collapse;
+    background: #2a2a2a;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 40%;
+    margin: 0 auto;
+    position: relative;
+    float: left;
+    margin-top: 15px;
+}
+
+table td, table th {
+    padding-left: 8px;
+}
+
+table thead tr {
+    height: 60px;
+    background: #36304a;
+}
+
+table tbody tr {
+    height: 50px;
+}
+
+table tbody tr:last-child {
+    border: 0;
+}
+
+table td, table th {
+    text-align: left;
+}
+
+table td.l, table th.l {
+    text-align: right;
+}
+
+table td.c, table th.c {
+    text-align: center;
+}
+
+table td.r, table th.r {
+    text-align: center;
+}
+.col1{
+    text-align: left;
+    width: 15%;
+}
+
+.col2{
+    text-align: left;
+    width: 30%;
+}
+
+.col3{
+    width: 25%;
+}
+
+.col4{
+    width: 30%;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #282828;
+}
+
+tbody tr {
+    line-height: 1.2;
+    font-weight: unset;
+}
+
+tbody tr:hover {
+    background-color: #2E2E2E;
 }

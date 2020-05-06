@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.Group_Project_Chess.controller.FriendsController;
+import edu.ycp.cs320.Group_Project_Chess.controller.GameController;
+import edu.ycp.cs320.Group_Project_Chess.model.Game;
+import edu.ycp.cs320.Group_Project_Chess.model.Player;
+import edu.ycp.cs320.Group_Project_Chess.model.User;
 
 public class FriendsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -117,6 +121,41 @@ public class FriendsServlet extends HttpServlet {
 		if (req.getParameter("view") != null) {
 			System.out.println("Friends Servlet: forwarding to profile");
 			resp.sendRedirect(req.getContextPath() + "/profile");
+		}
+		if (req.getParameter("challenge") != null) { //creating new game
+			GameController controller = new GameController();
+			String username = (String) req.getSession().getAttribute("name");
+			User u1 = controller.loadUser(username);
+			User u2 = null;
+			
+			if (req.getParameter("userSelection") != null) {
+				u2 = controller.loadUser(req.getParameter("userSelection"));
+			} else {
+				System.out.println("Friends Servlet: reloading friends");
+				resp.sendRedirect(req.getContextPath() + "/friends");
+			}
+
+			Player p1 = new Player(u1, 0);
+			p1.setPlayerId(u1.getUserId());
+			Player p2 = new Player(u2, 1);
+			p2.setPlayerId(u2.getUserId());
+			Game game = new Game(p1, p2);
+			int newId = 0;
+			
+			try {
+				game.setPromo(0);
+				game.setEnPx(8);
+				game.setEnPy(8);
+				newId = controller.StoreNewGame(game);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			System.out.println("NEW ID: " + newId);
+			req.getSession().setAttribute("gameId", newId);
+			System.out.println("Friends Servlet: forwarding to chessGame");
+			resp.sendRedirect(req.getContextPath() + "/chessGame");
 		}
 	}
 }

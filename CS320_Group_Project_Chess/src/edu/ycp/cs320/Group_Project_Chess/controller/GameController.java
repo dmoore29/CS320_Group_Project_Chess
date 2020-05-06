@@ -179,6 +179,7 @@ public class GameController {
 	 *     true if the move did set the player in checkmate.
 	 */
 	public boolean checkmate(int player) {
+		boolean enP = false;
 		// Obtain the player's king piece.
 		// King is set to null in order to avoid provoking Java.
 		Piece king = null;
@@ -258,40 +259,32 @@ public class GameController {
 								// makes sure that the tested board space is not where the piece is currently located
 								if (!(x == piece.getLocation().x && y == piece.getLocation().y)) {
 									
-									// tests if the piece can make a valid move to the iterated space
-									if (model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y).getPiece().validMove(new Point(x, y), model.getBoard())) {
-										
-										// if the valid move passes, we need to store the contents of the space being moved to by placing it into this temp Piece
+									//if found piece is a pawn and a pawn moving forward 2 spaces put the king in check
+									if(piece.getRank() == Rank.PAWN) {
+										if(model.getEnPx() != 8 && x == model.getEnPx() && y == model.getEnPy()) {
+											enP = true;
+										} else {
+											enP = false;
+										}
+									} else {
+										enP = false;
+									}
+									
+									//if enP is possible
+									if(enP) { 
 										Piece temp = null;
-										
-										// switch statement to determine rank of the piece in the iterated space
-										if (model.getBoard().getSpace(x, y).getPiece() != null) {
-											switch(model.getBoard().getSpace(x, y).getPiece().getRank()) {
-											case PAWN:
-												temp = new Pawn(Rank.PAWN, model.getBoard().getSpace(x, y).getPiece().getColor(), model.getBoard().getSpace(x, y).getPiece().getLocation());
-												break;
-											case ROOK:
-												temp = new Rook(Rank.ROOK, model.getBoard().getSpace(x, y).getPiece().getColor(), model.getBoard().getSpace(x, y).getPiece().getLocation());
-												break;
-											case KNIGHT:
-												temp = new Knight(Rank.KNIGHT, model.getBoard().getSpace(x, y).getPiece().getColor(), model.getBoard().getSpace(x, y).getPiece().getLocation());
-												break;
-											case BISHOP:
-												temp = new Bishop(Rank.BISHOP, model.getBoard().getSpace(x, y).getPiece().getColor(), model.getBoard().getSpace(x, y).getPiece().getLocation());
-												break;
-											case QUEEN:
-												temp = new Queen(Rank.QUEEN, model.getBoard().getSpace(x, y).getPiece().getColor(), model.getBoard().getSpace(x, y).getPiece().getLocation());
-												break;
-											case KING:
-												temp = new King(Rank.KING, model.getBoard().getSpace(x, y).getPiece().getColor(), model.getBoard().getSpace(x, y).getPiece().getLocation());
-												break;
-											default:
-												temp = null;
+										if(model.getBoard().getSpace(piece.getLocation().x,piece.getLocation().y).getPiece().getRank() == Rank.PAWN 
+												&& x == model.getEnPx() 
+												&& y == model.getEnPy()) {
+											movePiece(model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y), model.getBoard().getSpace(x, y)); //moves piece
+											if(model.getEnPy() == 2) {
+												temp = new Pawn(Rank.PAWN, model.getBoard().getSpace(x, 2).getPiece().getColor(), model.getBoard().getSpace(x, 2).getPiece().getLocation());
+												model.getBoard().getSpace(model.getEnPx(), 3).setPiece(null);
+											} else {
+												temp = new Pawn(Rank.PAWN, model.getBoard().getSpace(x, 5).getPiece().getColor(), model.getBoard().getSpace(x, 5).getPiece().getLocation());
+												model.getBoard().getSpace(model.getEnPx(), 4).setPiece(null);
 											}
 										}
-										// move the found piece to the iterated space
-										movePiece(model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y), model.getBoard().getSpace(x, y));
-										
 										// test if this movement results in the player still being in check
 										if (!check(player)) {
 											
@@ -309,6 +302,62 @@ public class GameController {
 											movePiece(model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y), model.getBoard().getSpace(origin.x, origin.y));
 											if (temp != null) {
 												model.getBoard().setPiece(temp);
+											}
+										}
+									} else {
+									
+										// tests if the piece can make a valid move to the iterated space
+										if (model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y).getPiece().validMove(new Point(x, y), model.getBoard()) && enP == false) {
+											
+											// if the valid move passes, we need to store the contents of the space being moved to by placing it into this temp Piece
+											Piece temp = null;
+											
+											// switch statement to determine rank of the piece in the iterated space
+											if (model.getBoard().getSpace(x, y).getPiece() != null) {
+												switch(model.getBoard().getSpace(x, y).getPiece().getRank()) {
+												case PAWN:
+													temp = new Pawn(Rank.PAWN, model.getBoard().getSpace(x, y).getPiece().getColor(), model.getBoard().getSpace(x, y).getPiece().getLocation());
+													break;
+												case ROOK:
+													temp = new Rook(Rank.ROOK, model.getBoard().getSpace(x, y).getPiece().getColor(), model.getBoard().getSpace(x, y).getPiece().getLocation());
+													break;
+												case KNIGHT:
+													temp = new Knight(Rank.KNIGHT, model.getBoard().getSpace(x, y).getPiece().getColor(), model.getBoard().getSpace(x, y).getPiece().getLocation());
+													break;
+												case BISHOP:
+													temp = new Bishop(Rank.BISHOP, model.getBoard().getSpace(x, y).getPiece().getColor(), model.getBoard().getSpace(x, y).getPiece().getLocation());
+													break;
+												case QUEEN:
+													temp = new Queen(Rank.QUEEN, model.getBoard().getSpace(x, y).getPiece().getColor(), model.getBoard().getSpace(x, y).getPiece().getLocation());
+													break;
+												case KING:
+													temp = new King(Rank.KING, model.getBoard().getSpace(x, y).getPiece().getColor(), model.getBoard().getSpace(x, y).getPiece().getLocation());
+													break;
+												default:
+													temp = null;
+												}
+											}
+											// move the found piece to the iterated space
+											movePiece(model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y), model.getBoard().getSpace(x, y));
+	
+											// test if this movement results in the player still being in check
+											if (!check(player)) {
+												
+												// if the player is not in check anymore, then there is no checkmate. we restore the model state by replacing the found piece and the temp piece
+												movePiece(model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y), model.getBoard().getSpace(origin.x, origin.y));
+												if (temp != null) {
+													model.getBoard().setPiece(temp);
+												}
+												
+												// no checkmate
+												return false;
+											} else {
+												
+												// if the player is still in check, then we need to continue testing. Restore the model state same way as above
+												movePiece(model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y), model.getBoard().getSpace(origin.x, origin.y));
+												if (temp != null) {
+													model.getBoard().setPiece(temp);
+												}
 											}
 										}
 									}

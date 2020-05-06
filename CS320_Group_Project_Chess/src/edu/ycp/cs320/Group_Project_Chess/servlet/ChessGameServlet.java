@@ -126,12 +126,6 @@ public class ChessGameServlet extends HttpServlet {
 		if (req.getParameter("restrictTurn") != null) {
 			System.out.println("Restricting Turns");
 			restrictTurn = (restrictTurn == 1) ? 0 : 1;
-			System.out.println("TURNS: " + restrictTurn);
-			System.out.println("TURNS: " + restrictTurn);
-			System.out.println("TURNS: " + restrictTurn);
-			System.out.println("TURNS: " + restrictTurn);
-			System.out.println("TURNS: " + restrictTurn);
-			System.out.println("TURNS: " + restrictTurn);
 		}
 		
 		if(req.getParameter("rank") != null) { //promotion
@@ -236,6 +230,7 @@ public class ChessGameServlet extends HttpServlet {
 				if(controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece().validMove(new Point(destX, destY), controller.getGame().getBoard()) == true) {	//if move is valid			
 					controller.movePiece(controller.getGame().getBoard().getSpace(sourceX, sourceY), controller.getGame().getBoard().getSpace(destX, destY)); //moves piece
 					if(!controller.check(controller.getGame().getBoard().getPiece(destX, destY).getColor())) {
+						int ref;
 						controller.getGame().setEnPx(8);
 						controller.getGame().setEnPy(8);
 						Boolean check;
@@ -257,13 +252,6 @@ public class ChessGameServlet extends HttpServlet {
 						
 						if(checkMate) {
 							checkMateFlag = 1;
-							System.out.println("CHECKMATE");
-							System.out.println("CHECKMATE");
-							System.out.println("CHECKMATE");
-							System.out.println("CHECKMATE");
-							System.out.println("CHECKMATE");
-							System.out.println("CHECKMATE");
-							System.out.println("CHECKMATE");
 							
 							boolean user1Wins = false;
 							if(controller.getGame().getBoard().getPiece(destX, destY).getColor() == 0) {
@@ -275,12 +263,8 @@ public class ChessGameServlet extends HttpServlet {
 								controller.updateUserStats(user1Wins, controller.getGame().getPlayer1().getUser());
 								controller.updateUserStats(!user1Wins, controller.getGame().getPlayer2().getUser());
 							} catch (SQLException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-							
-							
-							
 						}
 						
 						if(controller.getGame().getBoard().getPiece(destX, destY).getRank() == Rank.PAWN) { //if piece is a pawn
@@ -288,6 +272,7 @@ public class ChessGameServlet extends HttpServlet {
 							if(p.promotion(controller.getGame().getBoard())) { //if pawn is at y0 or y7
 								controller.getGame().setPromo(1);
 							}
+							int refe;
 							if(Math.abs(sourceY - destY) == 2){ //if its a pawn and its first move
 								controller.getGame().setEnPx(sourceX);
 								if(p.getColor() == 0) { //if piece is white
@@ -311,6 +296,7 @@ public class ChessGameServlet extends HttpServlet {
 					req.setAttribute("pos1x", sourceX);
 					req.setAttribute("pos1y", sourceY);
 					pos1Recieved = true;
+					int ref2;
 				} else if(controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece().getRank() == Rank.PAWN && destX == controller.getGame().getEnPx() && destY == controller.getGame().getEnPy()) {
 					controller.movePiece(controller.getGame().getBoard().getSpace(sourceX, sourceY), controller.getGame().getBoard().getSpace(destX, destY)); //moves piece
 					if(controller.getGame().getEnPy() == 2) {
@@ -319,6 +305,7 @@ public class ChessGameServlet extends HttpServlet {
 						controller.getGame().getBoard().getSpace(controller.getGame().getEnPx(), 4).setPiece(null);
 					}
 					controller.getGame().setTurn(controller.getGame().getTurn()+1); //increments turn on En Passant move
+					int ref3;
 					controller.getGame().setEnPx(8);
 					controller.getGame().setEnPy(8);
 				}	else {
@@ -345,7 +332,6 @@ public class ChessGameServlet extends HttpServlet {
 			controller.updateGame(controller.getGame());
 			System.out.println("UPDATED GAME");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

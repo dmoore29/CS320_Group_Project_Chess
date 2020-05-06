@@ -28,14 +28,16 @@ public class FriendsController {
 	
 	public void addFriend(String username) throws SQLException {
 		User newFriend = db.findUserwithUsername(username);
-		boolean existingFriend = false;
-		for (User friend : user.getFriends().getFriendsList()) {
-			if (newFriend.getUserId() == friend.getUserId()) {
-				existingFriend = true;
+		if (newFriend != null) {
+			boolean existingFriend = false;
+			for (User friend : user.getFriends().getFriendsList()) {
+				if (newFriend.getUserId() == friend.getUserId()) {
+					existingFriend = true;
+				}
 			}
-		}
-		if (newFriend.getUserId() != user.getUserId() && !existingFriend) {
-			db.addToFriends(user.getUserId(), newFriend.getUserId());
+			if (newFriend.getUserId() != user.getUserId() && !existingFriend) {
+				db.addToFriends(user.getUserId(), newFriend.getUserId());
+			}
 		}
 	}
 	

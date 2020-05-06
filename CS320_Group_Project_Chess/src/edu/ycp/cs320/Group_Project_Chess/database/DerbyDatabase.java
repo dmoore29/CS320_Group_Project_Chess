@@ -129,6 +129,7 @@ public class DerbyDatabase implements IDatabase{
 					// check if any users were found
 					if (!found) {
 						System.out.println("No users with username " + username + " were found in the database");
+						result = null;
 					}
 					
 					return result;

@@ -70,7 +70,7 @@ public class FriendsServlet extends HttpServlet {
 		}
 		if (req.getParameter("remove") != null) {
 			
-			if (req.getParameter("userSelection") != null) { //loading existing game
+			if (req.getParameter("userSelection") != null) { 
 				String friendName = (String) req.getParameter("userSelection");
 				System.out.println("user " + friendName + " selected");
 				
@@ -79,6 +79,29 @@ public class FriendsServlet extends HttpServlet {
 				
 				try {
 					controller.removeFriend(friendName);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				System.out.println("Friends Servlet: reloading friends");
+				resp.sendRedirect(req.getContextPath() + "/friends");
+			} else {
+				System.out.println("Friends Servlet: no friend selected");
+				resp.sendRedirect(req.getContextPath() + "/friends");
+			}
+			
+		}
+		if (req.getParameter("add") != null) {
+			
+			if (req.getParameter("username") != null) {
+				String friendName = (String) req.getParameter("username");
+				System.out.println("user " + friendName + " will be attempted to be added");
+				
+				controller = new FriendsController();
+				controller.setUser((String) req.getSession().getAttribute("name")); 
+				
+				try {
+					controller.addFriend(friendName);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}

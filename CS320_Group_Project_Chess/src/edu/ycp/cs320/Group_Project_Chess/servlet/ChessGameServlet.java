@@ -231,7 +231,7 @@ public class ChessGameServlet extends HttpServlet {
 				if(controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece().validMove(new Point(destX, destY), controller.getGame().getBoard()) == true) {	//if move is valid			
 					controller.movePiece(controller.getGame().getBoard().getSpace(sourceX, sourceY), controller.getGame().getBoard().getSpace(destX, destY)); //moves piece
 					if(!controller.check(controller.getGame().getBoard().getPiece(destX, destY).getColor())) {
-						int ref;
+						int ref1;
 						controller.getGame().setEnPx(8);
 						controller.getGame().setEnPy(8);
 
@@ -242,7 +242,7 @@ public class ChessGameServlet extends HttpServlet {
 							if(p.promotion(controller.getGame().getBoard())) { //if pawn is at y0 or y7
 								controller.getGame().setPromo(1);
 							}
-							int refe;
+							int ref2;
 							if(Math.abs(sourceY - destY) == 2){ //if its a pawn and its first move
 								controller.getGame().setEnPx(sourceX);
 								if(p.getColor() == 0) { //if piece is white
@@ -298,8 +298,11 @@ public class ChessGameServlet extends HttpServlet {
 					req.setAttribute("pos1x", sourceX);
 					req.setAttribute("pos1y", sourceY);
 					pos1Recieved = true;
-					int ref2;
-				} else if(controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece().getRank() == Rank.PAWN && destX == controller.getGame().getEnPx() && destY == controller.getGame().getEnPy()) {
+					int ref3;
+				} else if(controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece().getRank() == Rank.PAWN 
+						&& destX == controller.getGame().getEnPx() 
+						&& destY == controller.getGame().getEnPy()
+						&& (sourceX == destX + 1 || sourceX == destX -1)) {
 					controller.movePiece(controller.getGame().getBoard().getSpace(sourceX, sourceY), controller.getGame().getBoard().getSpace(destX, destY)); //moves piece
 					if(controller.getGame().getEnPy() == 2) {
 						controller.getGame().getBoard().getSpace(controller.getGame().getEnPx(), 3).setPiece(null);
@@ -307,7 +310,7 @@ public class ChessGameServlet extends HttpServlet {
 						controller.getGame().getBoard().getSpace(controller.getGame().getEnPx(), 4).setPiece(null);
 					}
 					controller.getGame().setTurn(controller.getGame().getTurn()+1); //increments turn on En Passant move
-					int ref3;
+					int ref4;
 					controller.getGame().setEnPx(8);
 					controller.getGame().setEnPy(8);
 					

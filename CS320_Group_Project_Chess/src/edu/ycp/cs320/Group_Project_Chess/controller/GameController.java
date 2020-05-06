@@ -275,7 +275,8 @@ public class GameController {
  										Piece temp = null;
 										if(model.getBoard().getSpace(piece.getLocation().x,piece.getLocation().y).getPiece().getRank() == Rank.PAWN 
 												&& x == model.getEnPx() 
-												&& y == model.getEnPy()) {
+												&& y == model.getEnPy()
+												&& (piece.getLocation().x == x + 1 || piece.getLocation().x == x -1)) {
 											movePiece(model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y), model.getBoard().getSpace(x, y)); //moves piece
 											if(model.getEnPy() == 2) {
 												temp = new Pawn(Rank.PAWN, model.getBoard().getSpace(x, 3).getPiece().getColor(), model.getBoard().getSpace(x, 3).getPiece().getLocation());

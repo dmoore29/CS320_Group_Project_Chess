@@ -26,7 +26,8 @@
 	            <nav id="menu">
 	                <ul>
 	                    <li><input name="home" type="submit" value="Home Page" /></li>
-	                    <li><input name="profile" type="submit" value="Profile" /></li>
+						<li><input name="profile" type="submit" value="Profile" /></li>
+						<li><input name="friends" type="submit" value="Friends" /></a></li>
 						<li><input name="logout" type="submit" value="Log Out" /></a></li>
 	                </ul>
 	            </nav>
@@ -65,6 +66,7 @@
 							</tr>
 							</thead>
 							<tbody>
+							<%Integer userId = (Integer)request.getAttribute("userId");%>
 							<% for (Game game: games){ %>
 							<% int gameId = game.getGameId(); %>
 								<tr>
@@ -97,9 +99,11 @@
 
 									<%
 									if(checkMateFlag == 0){
-										if(game.getPlayer1().getColor() == game.getTurn()%2) { //if player1's turn
-											%><td class="col4">Your Turn</td> <%
-										}  else {
+										if(game.getPlayer1().getColor() == game.getTurn()%2 && game.getPlayer1().getPlayerId() == userId) { //if player1's turn %>
+											<td class="col4">Your Turn</td> 
+											<% }  else if(game.getPlayer2().getColor() == game.getTurn()%2 && game.getPlayer2().getPlayerId() == userId){ %>
+											<td class="col4">Your Turn</td> <%
+										} else {
 											%>
 											<td class="col4">Waiting</td>
 											<%

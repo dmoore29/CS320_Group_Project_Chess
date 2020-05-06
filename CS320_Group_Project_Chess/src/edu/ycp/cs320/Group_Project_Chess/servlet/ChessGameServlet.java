@@ -233,9 +233,26 @@ public class ChessGameServlet extends HttpServlet {
 						int ref;
 						controller.getGame().setEnPx(8);
 						controller.getGame().setEnPy(8);
-						Boolean check;
+						Boolean check = false;
 						Boolean checkMate = false;
 						checkFlag = 0;
+						
+						if(controller.getGame().getBoard().getPiece(destX, destY).getRank() == Rank.PAWN) { //if piece is a pawn
+							Pawn p = (Pawn) controller.getGame().getBoard().getPiece(destX, destY); //creates temporary pawn to call controller.getGame().getPromo()tion
+							if(p.promotion(controller.getGame().getBoard())) { //if pawn is at y0 or y7
+								controller.getGame().setPromo(1);
+							}
+							int refe;
+							if(Math.abs(sourceY - destY) == 2){ //if its a pawn and its first move
+								controller.getGame().setEnPx(sourceX);
+								if(p.getColor() == 0) { //if piece is white
+									controller.getGame().setEnPy(5);
+								} else {
+									controller.getGame().setEnPy(2);
+								}
+							}
+						}
+						
 						if(controller.getGame().getBoard().getPiece(destX, destY).getColor() == 0) {
 							check = controller.check(1);
 						} else {
@@ -248,6 +265,8 @@ public class ChessGameServlet extends HttpServlet {
 							} else {
 								checkMate = controller.checkmate(0);
 							}						
+						} else {
+							checkFlag = 0;
 						}
 						
 						if(checkMate) {
@@ -267,21 +286,6 @@ public class ChessGameServlet extends HttpServlet {
 							}
 						}
 						
-						if(controller.getGame().getBoard().getPiece(destX, destY).getRank() == Rank.PAWN) { //if piece is a pawn
-							Pawn p = (Pawn) controller.getGame().getBoard().getPiece(destX, destY); //creates temporary pawn to call controller.getGame().getPromo()tion
-							if(p.promotion(controller.getGame().getBoard())) { //if pawn is at y0 or y7
-								controller.getGame().setPromo(1);
-							}
-							int refe;
-							if(Math.abs(sourceY - destY) == 2){ //if its a pawn and its first move
-								controller.getGame().setEnPx(sourceX);
-								if(p.getColor() == 0) { //if piece is white
-									controller.getGame().setEnPy(5);
-								} else {
-									controller.getGame().setEnPy(2);
-								}
-							}
-						}
 						System.out.println("VALID");
 						controller.getGame().setTurn(controller.getGame().getTurn()+1); //increments turn counter
 					} else {

@@ -272,16 +272,16 @@ public class GameController {
 									
 									//if enP is possible
 									if(enP) { 
-										Piece temp = null;
+ 										Piece temp = null;
 										if(model.getBoard().getSpace(piece.getLocation().x,piece.getLocation().y).getPiece().getRank() == Rank.PAWN 
 												&& x == model.getEnPx() 
 												&& y == model.getEnPy()) {
 											movePiece(model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y), model.getBoard().getSpace(x, y)); //moves piece
 											if(model.getEnPy() == 2) {
-												temp = new Pawn(Rank.PAWN, model.getBoard().getSpace(x, 2).getPiece().getColor(), model.getBoard().getSpace(x, 2).getPiece().getLocation());
+												temp = new Pawn(Rank.PAWN, model.getBoard().getSpace(x, 3).getPiece().getColor(), model.getBoard().getSpace(x, 3).getPiece().getLocation());
 												model.getBoard().getSpace(model.getEnPx(), 3).setPiece(null);
 											} else {
-												temp = new Pawn(Rank.PAWN, model.getBoard().getSpace(x, 5).getPiece().getColor(), model.getBoard().getSpace(x, 5).getPiece().getLocation());
+												temp = new Pawn(Rank.PAWN, model.getBoard().getSpace(x, 4).getPiece().getColor(), model.getBoard().getSpace(x, 4).getPiece().getLocation());
 												model.getBoard().getSpace(model.getEnPx(), 4).setPiece(null);
 											}
 										}

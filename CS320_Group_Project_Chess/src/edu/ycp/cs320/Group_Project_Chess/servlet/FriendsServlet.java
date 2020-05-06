@@ -119,8 +119,14 @@ public class FriendsServlet extends HttpServlet {
 			
 		}
 		if (req.getParameter("view") != null) {
-			System.out.println("Friends Servlet: forwarding to profile");
-			resp.sendRedirect(req.getContextPath() + "/profile");
+			if (req.getParameter("userSelection") != null) {
+				req.getSession().setAttribute("friendProfile", (String) req.getParameter("userSelection"));
+				System.out.println("Friends Servlet: forwarding to profile");
+				resp.sendRedirect(req.getContextPath() + "/profile");
+			} else {
+				System.out.println("Friends Servlet: reloading friends");
+				resp.sendRedirect(req.getContextPath() + "/friends");
+			}
 		}
 		if (req.getParameter("challenge") != null) { //creating new game
 			GameController controller = new GameController();

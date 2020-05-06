@@ -41,7 +41,7 @@
 		           	<ul>
 		           		<% ArrayList<User> userList = friends.getFriendsList();
 		           		   	for (User users : userList) { %>
-		           				<li><input name="userSelection" type="radio" value="<%=users.getCredentials().getUsername() %>" /><p><%=users.getCredentials().getUsername() %></p></li>	
+		           				<li><input name="userSelection" type="radio" value="<%=users.getCredentials().getUsername()%>" /><p><%=users.getCredentials().getUsername() %></p></li>	
 		           			<% } %>
 		            </ul> 
 		        </div>

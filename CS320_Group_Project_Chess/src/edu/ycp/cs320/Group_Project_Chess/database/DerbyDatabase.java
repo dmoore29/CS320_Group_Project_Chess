@@ -129,6 +129,7 @@ public class DerbyDatabase implements IDatabase{
 					// check if any users were found
 					if (!found) {
 						System.out.println("No users with username " + username + " were found in the database");
+						result = null;
 					}
 					
 					return result;
@@ -560,6 +561,67 @@ public class DerbyDatabase implements IDatabase{
 					DBUtil.closeQuietly(stmt);
 					DBUtil.closeQuietly(stmt2);
 				}
+			}
+		});
+	}
+	
+	// adds a new friend pair to friends
+	public Integer addToFriends(final int user1, final int user2) throws SQLException {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"insert into friends (user1Id, user2Id) "
+							+ " values (?, ?) ", Statement.RETURN_GENERATED_KEYS
+					);
+					
+					stmt.setInt(1, user1);
+					stmt.setInt(2, user2);
+					
+					stmt.execute();
+					
+					ResultSet rs = stmt.getGeneratedKeys();
+					int generatedKey = 0;
+					if (rs.next()) {
+					    generatedKey = rs.getInt(1);
+					}
+					
+					return generatedKey;
+		
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	//removes a friend pair from friends
+	public Integer removeFromFriends(final int user1, final int user2) throws SQLException {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
+				stmt = conn.prepareStatement(
+						"delete from friends "
+						+ "where (user1Id = ? AND user2Id = ? ) "
+						+ "	OR (user1Id = ? AND user2Id = ? ) "
+				);
+				
+				stmt.setInt(1, user1);
+				stmt.setInt(2, user2);
+				stmt.setInt(3, user2);
+				stmt.setInt(4, user1);
+				
+				stmt.executeUpdate();
+		
+				DBUtil.closeQuietly(stmt);
+				DBUtil.closeQuietly(conn);
+				
+				return 1;
 			}
 		});
 	}

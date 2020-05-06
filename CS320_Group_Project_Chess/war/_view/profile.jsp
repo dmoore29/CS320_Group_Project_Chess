@@ -76,7 +76,8 @@
 			    	<p class="losses">${profile.getStats().getLosses()}</p>
 		    	</aside>
 		    </div>
-            <% Integer bioFlag = (Integer) request.getAttribute("editBioFlag");
+            <% Integer viewFriends = (Integer) request.getAttribute("viewFriends");
+               Integer bioFlag = (Integer) request.getAttribute("editBioFlag");
            	   Integer picFlag = (Integer) request.getAttribute("editPicFlag"); %>
            	<% if (bioFlag != null || picFlag != null){ %>
            		<% if (bioFlag != null){ %>
@@ -112,14 +113,16 @@
            	<% } else { %>
            	<p> About Me: </p>
             <p class="bio">${profile.getProfile().getBio()}</p>
-           	<form action="${pageContext.servletContext.contextPath}/profile" method="post">
-	            <div class="menu">
-	            	<ul>
-	            		<li><input name="editBio" type="submit" value="Edit Your Bio" /></li>
-	            		<li><input name="editPic" type="submit" value="Edit Your Picture" /></li>
-	            	</ul>    
-	            </div>
-	        </form>
+	            <% if (viewFriends == null) { %>
+	           	<form action="${pageContext.servletContext.contextPath}/profile" method="post">
+		            <div class="menu">
+		            	<ul>
+		            		<li><input name="editBio" type="submit" value="Edit Your Bio" /></li>
+		            		<li><input name="editPic" type="submit" value="Edit Your Picture" /></li>
+		            	</ul>    
+		            </div>
+		        </form>
+		        <% } %>
             <% } %>
         </main>
         <aside class="websiteName">

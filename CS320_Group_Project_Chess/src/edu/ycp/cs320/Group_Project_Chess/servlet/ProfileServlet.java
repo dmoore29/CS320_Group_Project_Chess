@@ -39,11 +39,17 @@ public class ProfileServlet extends HttpServlet {
 		
 		controller = new ProfileController();
 		
-		User user = controller.getProfile(name);
+		User user = null;
+		String friend = (String) req.getSession().getAttribute("friendProfile");
+		if (friend != null) {
+			user = controller.getProfile(friend);
+			req.getSession().setAttribute("friendProfile", null);
+			req.setAttribute("viewFriends", 1);
+		} else {
+			user = controller.getProfile(name);
+		}
 		
 		req.setAttribute("profile", user);
-		
-		
 		
 		req.getRequestDispatcher("/_view/profile.jsp").forward(req, resp);
 		

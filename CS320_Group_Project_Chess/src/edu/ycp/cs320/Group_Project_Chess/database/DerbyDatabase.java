@@ -564,6 +564,68 @@ public class DerbyDatabase implements IDatabase{
 		});
 	}
 	
+	// adds a new friend pair to friends
+	public Integer addToFriends(final int user1, final int user2) throws SQLException {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"insert into friends (user1Id, user2Id) "
+							+ " values (?, ?) ", Statement.RETURN_GENERATED_KEYS
+					);
+					
+					stmt.setInt(1, user1);
+					stmt.setInt(2, user2);
+					
+					stmt.execute();
+					
+					ResultSet rs = stmt.getGeneratedKeys();
+					int generatedKey = 0;
+					if (rs.next()) {
+					    generatedKey = rs.getInt(1);
+					}
+					
+					return generatedKey;
+		
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	//removes a friend pair from friends
+	public Integer removeFromFriends(final int user1, final int user2) throws SQLException {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet rs = null;
+				
+				stmt = conn.prepareStatement(
+						"delete from friends "
+						+ "where (user1Id = ? AND user2Id = ? ) "
+						+ "	OR (user1Id = ? AND user2Id = ? ) "
+				);
+				
+				stmt.setInt(1, user1);
+				stmt.setInt(2, user2);
+				stmt.setInt(3, user2);
+				stmt.setInt(4, user1);
+				
+				stmt.executeUpdate();
+		
+				DBUtil.closeQuietly(stmt);
+				DBUtil.closeQuietly(conn);
+				
+				return 1;
+			}
+		});
+	}
+	
 	// adds a new user to the database
 	public Integer registerUser(final Credentials creds) throws SQLException {
 		return executeTransaction(new Transaction<Integer>() {

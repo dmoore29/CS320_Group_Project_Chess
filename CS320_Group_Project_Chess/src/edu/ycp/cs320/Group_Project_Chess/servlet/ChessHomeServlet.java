@@ -20,6 +20,7 @@ public class ChessHomeServlet extends HttpServlet {
 	
 	GameHomeController controller = null;
 	
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -45,6 +46,9 @@ public class ChessHomeServlet extends HttpServlet {
 		
 		ArrayList<Game> games = controller.getGameswithUsername(name);
 		
+		GameController c = new GameController();
+		User current = c.loadUser(name);
+		req.setAttribute("userId", current.getUserId());
 		req.setAttribute("games", games);
 		
 		req.getRequestDispatcher("/_view/chessHome.jsp").forward(req, resp);
@@ -105,6 +109,11 @@ public class ChessHomeServlet extends HttpServlet {
 			resp.sendRedirect(req.getContextPath() + "/profile");
 		}
 		
+		if (req.getParameter("friends") != null) {
+			System.out.println("Profile Servlet: forwarding to friends");
+			resp.sendRedirect(req.getContextPath() + "/friends");
+		}
+		
 		if (req.getParameter("logout") != null) {
 			req.getSession().setAttribute("name", null);
 			System.out.println("Home Servlet: forwarding to login");
@@ -144,9 +153,18 @@ public class ChessHomeServlet extends HttpServlet {
 					e.printStackTrace();
 				}
 				
+				String name = (String) req.getSession().getAttribute("name");
+				GameController c = new GameController();
+				User current = c.loadUser(name);
+				req.setAttribute("userId", current.getUserId());
+				
 				System.out.println("ChessHome Servlet: reloading chessHome");
 				resp.sendRedirect(req.getContextPath() + "/chessHome");
 			} else {
+				String name = (String) req.getSession().getAttribute("name");
+				GameController c = new GameController();
+				User current = c.loadUser(name);
+				req.setAttribute("userId", current.getUserId());
 				System.out.println("ChessHome Servlet: reloading chessHome");
 				resp.sendRedirect(req.getContextPath() + "/chessHome");
 			}

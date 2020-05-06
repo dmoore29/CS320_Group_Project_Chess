@@ -221,7 +221,8 @@ public class ChessGameServlet extends HttpServlet {
 			Piece revert = controller.getGame().getBoard().getSpace(destX, destY).getPiece();
 			if(controller.getGame().getBoard().getSpace(destX, destY).getPiece() != null)
 			System.err.println("SPACE COLOR: " + revert.getColor());
-
+			Boolean check = false;
+			Boolean checkMate = false;
 			
 			if(controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece() != null) { //if space has a piece
 				if(sourceX == destX && sourceY == destY) { //if source is destination
@@ -233,8 +234,7 @@ public class ChessGameServlet extends HttpServlet {
 						int ref;
 						controller.getGame().setEnPx(8);
 						controller.getGame().setEnPy(8);
-						Boolean check = false;
-						Boolean checkMate = false;
+
 						checkFlag = 0;
 						
 						if(controller.getGame().getBoard().getPiece(destX, destY).getRank() == Rank.PAWN) { //if piece is a pawn
@@ -265,8 +265,6 @@ public class ChessGameServlet extends HttpServlet {
 							} else {
 								checkMate = controller.checkmate(0);
 							}						
-						} else {
-							checkFlag = 0;
 						}
 						
 						if(checkMate) {
@@ -312,7 +310,38 @@ public class ChessGameServlet extends HttpServlet {
 					int ref3;
 					controller.getGame().setEnPx(8);
 					controller.getGame().setEnPy(8);
-				}	else {
+					
+					checkFlag = 0;
+					if(controller.getGame().getBoard().getPiece(destX, destY).getColor() == 0) {
+						check = controller.check(1);
+					} else {
+						check = controller.check(0);
+					}
+					if(check) {
+						checkFlag = 1;
+						if(controller.getGame().getBoard().getPiece(destX, destY).getColor() == 0) {
+							checkMate = controller.checkmate(1);
+						} else {
+							checkMate = controller.checkmate(0);
+						}						
+					}
+					
+					if(checkMate) {
+						checkMateFlag = 1;
+						
+						boolean user1Wins = false;
+						if(controller.getGame().getBoard().getPiece(destX, destY).getColor() == 0) {
+							user1Wins = true;
+						}
+						
+						
+						try {
+							controller.updateUserStats(user1Wins, controller.getGame().getPlayer1().getUser());
+							controller.updateUserStats(!user1Wins, controller.getGame().getPlayer2().getUser());
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}				}	else {
 					System.out.println("NOT VALID ");
 				}
 			}

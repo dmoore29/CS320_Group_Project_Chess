@@ -114,5 +114,9 @@ public class FriendsServlet extends HttpServlet {
 			}
 			
 		}
+		if (req.getParameter("view") != null) {
+			System.out.println("Friends Servlet: forwarding to profile");
+			resp.sendRedirect(req.getContextPath() + "/profile");
+		}
 	}
 }

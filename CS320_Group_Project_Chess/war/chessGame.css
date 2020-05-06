@@ -30,7 +30,6 @@ img {
 }
 
 .space{
-	margin-left: 0%;
 	width:55%;
 	height:100%;
 	position: absolute; 
@@ -158,16 +157,6 @@ footer p {
     padding-top: 5px;
     transform: rotate(270deg);
     color:#644BBF;
-}
-#right_aside{
-    float: right;
-    width: 21.25%;
-    padding: 0 1.875%;
-}
-#right_aside > h2{
-    margin-top: 150%;
-    height: 100%;
-    width: 75%;
 }
 #IGN{
     font-style: italic;

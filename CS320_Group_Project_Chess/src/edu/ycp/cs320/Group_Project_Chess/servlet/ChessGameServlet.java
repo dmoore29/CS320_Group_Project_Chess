@@ -231,7 +231,7 @@ public class ChessGameServlet extends HttpServlet {
 				if(controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece().validMove(new Point(destX, destY), controller.getGame().getBoard()) == true) {	//if move is valid			
 					controller.movePiece(controller.getGame().getBoard().getSpace(sourceX, sourceY), controller.getGame().getBoard().getSpace(destX, destY)); //moves piece
 					if(!controller.check(controller.getGame().getBoard().getPiece(destX, destY).getColor())) {
-						int ref1;
+						//overwrites current En Passant capture location
 						controller.getGame().setEnPx(8);
 						controller.getGame().setEnPy(8);
 
@@ -242,7 +242,7 @@ public class ChessGameServlet extends HttpServlet {
 							if(p.promotion(controller.getGame().getBoard())) { //if pawn is at y0 or y7
 								controller.getGame().setPromo(1);
 							}
-							int ref2;
+							//stores capture location for En Passant
 							if(Math.abs(sourceY - destY) == 2){ //if its a pawn and its first move
 								controller.getGame().setEnPx(sourceX);
 								if(p.getColor() == 0) { //if piece is white
@@ -253,6 +253,7 @@ public class ChessGameServlet extends HttpServlet {
 							}
 						}
 						
+						//check
 						if(controller.getGame().getBoard().getPiece(destX, destY).getColor() == 0) {
 							check = controller.check(1);
 						} else {
@@ -267,6 +268,7 @@ public class ChessGameServlet extends HttpServlet {
 							}						
 						}
 						
+						//checkmate
 						if(checkMate) {
 							checkMateFlag = 1;
 							
@@ -274,7 +276,6 @@ public class ChessGameServlet extends HttpServlet {
 							if(controller.getGame().getBoard().getPiece(destX, destY).getColor() == 0) {
 								user1Wins = true;
 							}
-							
 							
 							try {
 								controller.updateUserStats(user1Wins, controller.getGame().getPlayer1().getUser());
@@ -298,8 +299,9 @@ public class ChessGameServlet extends HttpServlet {
 					req.setAttribute("pos1x", sourceX);
 					req.setAttribute("pos1y", sourceY);
 					pos1Recieved = true;
-					int ref3;
-				} else if(controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece().getRank() == Rank.PAWN 
+				} 
+				//En Passant logic
+				else if(controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece().getRank() == Rank.PAWN 
 						&& destX == controller.getGame().getEnPx() 
 						&& destY == controller.getGame().getEnPy()
 						&& (sourceX == destX + 1 || sourceX == destX -1)) {
@@ -310,7 +312,6 @@ public class ChessGameServlet extends HttpServlet {
 						controller.getGame().getBoard().getSpace(controller.getGame().getEnPx(), 4).setPiece(null);
 					}
 					controller.getGame().setTurn(controller.getGame().getTurn()+1); //increments turn on En Passant move
-					int ref4;
 					controller.getGame().setEnPx(8);
 					controller.getGame().setEnPy(8);
 					
@@ -336,7 +337,6 @@ public class ChessGameServlet extends HttpServlet {
 						if(controller.getGame().getBoard().getPiece(destX, destY).getColor() == 0) {
 							user1Wins = true;
 						}
-						
 						
 						try {
 							controller.updateUserStats(user1Wins, controller.getGame().getPlayer1().getUser());

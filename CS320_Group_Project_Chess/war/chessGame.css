@@ -16,7 +16,7 @@ td:hover{
 }
 
 tr{
-	width: auto;
+	min-width: auto;
 	height: 12.5%;
 }
 
@@ -25,16 +25,17 @@ img {
 	height: auto;
 }
 .board{
-	height: 70%;
-	width: 60%;
+	height: 100%;
+	width: 100%;
+	table-layout: fixed;
 }
 
 .space{
-	width:55%;
-	height:100%;
+	width:70vmin;
+	height:70vmin;
 	position: absolute; 
 	/* background-color: #00FF00; */
-	left: 20%;
+	left: 6vw;
 }
 
 .test0{
@@ -58,10 +59,10 @@ img {
 }
 
 .promotion{
+	clear: right;
 	float: right;
-	margin-right: 50%;
-    width: 35%;
-	margin-top: 15%;
+    width: 15vw;
+	margin-top: 5vh;
 }
 
 .promotion ul{
@@ -71,6 +72,11 @@ img {
     border-style: solid;
     border-radius: 5px;
 	border-color: #644BBF; 
+}
+
+.promotion li{
+	width: 100%;
+	list-style-type: none;
 }
 
 .promotion p {
@@ -93,18 +99,14 @@ html{
 }
 body {
     font-family: "Open Sans", Arial, Helvetica, sans-serif;
-    width: 90%;
+    width: 90vw;
+    height: 95vh;
     margin: 0 auto;
     background-color: #2C2C2C;
     box-shadow: 0 0 10px 2px black;
     color: #644BBF;
 }
-header {
 
-}
-header > img {
-
-}
 #Links{
     text-decoration: underline;
 }
@@ -158,6 +160,7 @@ footer p {
     transform: rotate(270deg);
     color:#644BBF;
 }
+
 #IGN{
     font-style: italic;
 }
@@ -167,6 +170,10 @@ main {
     padding: 0 1.875%;
 }
 footer {
+	position: absolute;
+	height: 5vh;
+	width: 100%;
+	bottom: 10px;
     clear: both;
 }
 
@@ -178,6 +185,7 @@ main p{
 }
 #menu{
     float: right;
+    clear: left;
 }
 #menu ul{
     list-style-type:none;
@@ -188,7 +196,7 @@ main p{
 }
 #menu ul li input{
     padding:.5em;
-    width:150px;
+    width:15vw;
     background-color:#644BBF;
     color:black;
     text-decoration:none;

@@ -26,6 +26,9 @@ public class ChessGameServlet extends HttpServlet {
 	Game game = null;
 	GameController controller = null;
 	
+	//TODO: SWTICH TO GAME MODEL
+	boolean validCastle = true;
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -230,6 +233,16 @@ public class ChessGameServlet extends HttpServlet {
 				}
 				if(controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece().validMove(new Point(destX, destY), controller.getGame().getBoard()) == true) {	//if move is valid			
 					controller.movePiece(controller.getGame().getBoard().getSpace(sourceX, sourceY), controller.getGame().getBoard().getSpace(destX, destY)); //moves piece
+					
+					//castling
+					if(controller.getGame().getBoard().getPiece(destX, destY).getRank() == Rank.KING 
+							&& Math.abs(destX - sourceX) == 2 && validCastle) {
+						if (destX > sourceX) { //moving right
+							controller.movePiece(controller.getGame().getBoard().getSpace(7, destY), controller.getGame().getBoard().getSpace(5, destY));
+						} else { //moving left
+							controller.movePiece(controller.getGame().getBoard().getSpace(0, destY), controller.getGame().getBoard().getSpace(3, destY));
+						}
+					}
 					if(!controller.check(controller.getGame().getBoard().getPiece(destX, destY).getColor())) {
 						//overwrites current En Passant capture location
 						controller.getGame().setEnPx(8);

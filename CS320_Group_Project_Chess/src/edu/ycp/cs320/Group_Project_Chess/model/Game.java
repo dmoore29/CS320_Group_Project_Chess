@@ -45,12 +45,12 @@ public class Game {
 		}
 		
 		//create kings
-		board.setPiece(new King(Rank.KING, 1, new Point(3, 0)));
-		board.setPiece(new King(Rank.KING, 0, new Point(3, 7)));
+		board.setPiece(new King(Rank.KING, 1, new Point(4, 0)));
+		board.setPiece(new King(Rank.KING, 0, new Point(4, 7)));
 		
 		//create queens
-		board.setPiece(new Queen(Rank.QUEEN, 1, new Point(4, 0)));
-		board.setPiece(new Queen(Rank.QUEEN, 0, new Point(4, 7)));
+		board.setPiece(new Queen(Rank.QUEEN, 1, new Point(3, 0)));
+		board.setPiece(new Queen(Rank.QUEEN, 0, new Point(3, 7)));
 		
 	}
 	

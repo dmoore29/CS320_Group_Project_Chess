@@ -12,6 +12,12 @@ public class Game {
 	private int promo;
 	private int enPx;
 	private int enPy;
+	private boolean moved001; //black left rook
+	private boolean moved701; //black right rook
+	private boolean moved401; //black king
+	private boolean moved070; //white left rook
+	private boolean moved770; //white right rook
+	private boolean moved470; //white king
 	
 	//constructor for a new game of chess
 	public Game(Player player1, Player player2) {
@@ -24,6 +30,12 @@ public class Game {
 		promo = 0;
 		enPx = 8;
 		enPy = 8;
+		moved001 = false;
+		moved701 = false;
+		moved401 = false;
+		moved070 = false;
+		moved770 = false;
+		moved470 = false;
 		
 		//pieces need rank, color, location
 		//white = 0 black = 1
@@ -139,4 +151,48 @@ public class Game {
 	public void setEnPy(int enPy) {
 		this.enPy = enPy;
 	}
+	
+	public void setMoved001(boolean moved) {
+		moved001 = moved;
+	}
+	
+	public boolean getMoved001() {
+		return moved001;
+	}
+	
+	public void setMoved701(boolean moved) {
+		moved701 = moved;
+	}
+	
+	public boolean getMoved701() {
+		return moved701;
+	}	
+	public void setMoved401(boolean moved) {
+		moved401 = moved;
+	}
+	
+	public boolean getMoved401() {
+		return moved401;
+	}	
+	public void setMoved070(boolean moved) {
+		moved070 = moved;
+	}
+	
+	public boolean getMoved070() {
+		return moved070;
+	}	
+	public void setMoved770(boolean moved) {
+		moved770 = moved;
+	}
+	
+	public boolean getMoved770() {
+		return moved770;
+	}	
+	public void setMoved470(boolean moved) {
+		moved470 = moved;
+	}
+	
+	public boolean getMoved470() {
+		return moved470;
+	}	
 }

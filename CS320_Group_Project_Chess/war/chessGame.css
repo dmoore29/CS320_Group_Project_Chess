@@ -59,9 +59,10 @@ img {
 }
 
 .promotion{
+	clear: right;
 	float: right;
-    width: 10vw;
-	margin-top: 15%;
+    width: 15vw;
+	margin-top: 5vh;
 }
 
 .promotion ul{
@@ -75,7 +76,7 @@ img {
 
 .promotion li{
 	width: 100%;
-	border-style: solid;
+	list-style-type: none;
 }
 
 .promotion p {
@@ -160,17 +161,6 @@ footer p {
     color:#644BBF;
 }
 
-#right_aside{
-    float: right;
-    width: 21.25vw;
-    padding: 0 1.875%;
-}
-#right_aside > h2{
-    margin-top: 150%;
-    height: 100%;
-    width: 75%;
-}
-
 #IGN{
     font-style: italic;
 }
@@ -195,6 +185,7 @@ main p{
 }
 #menu{
     float: right;
+    clear: left;
 }
 #menu ul{
     list-style-type:none;
@@ -205,7 +196,7 @@ main p{
 }
 #menu ul li input{
     padding:.5em;
-    width:150px;
+    width:15vw;
     background-color:#644BBF;
     color:black;
     text-decoration:none;

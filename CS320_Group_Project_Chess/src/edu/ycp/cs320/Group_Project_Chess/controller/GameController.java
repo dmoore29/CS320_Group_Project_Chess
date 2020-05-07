@@ -157,7 +157,7 @@ public class GameController {
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
 				// If the space contains a piece.
-				if(model.getBoard().getPiece(j, i) != null && (king.getLocation().x != j && king.getLocation().y != i)) {
+				if(model.getBoard().getPiece(j, i) != null) {
 					// If the piece that the space contains belongs to the opposing player.
 					if((model.getBoard().getSpace(j, i).getPiece().getColor() != player)) {
 						// If the opposing player's piece is able to move to the provided player's king, the current player is in check.

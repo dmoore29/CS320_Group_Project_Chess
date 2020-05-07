@@ -29,7 +29,8 @@ public class King extends Piece {
 		} 
 		
 		//castle to right
-		if(Math.abs(xDifference) == 2 
+		if(Math.abs(xDifference) == 2
+				&& dest.x == location.x+2
 				&& location.y == dest.y
 				&& board.getPiece(location.x+1, location.y) == null
 				&& board.getPiece(location.x+2, location.y) == null
@@ -40,6 +41,7 @@ public class King extends Piece {
 		
 		//castle to left
 		if(Math.abs(xDifference) == 2 
+				&& dest.x == location.x-2
 				&& location.y == dest.y
 				&& board.getPiece(location.x-1, location.y) == null
 				&& board.getPiece(location.x-2, location.y) == null

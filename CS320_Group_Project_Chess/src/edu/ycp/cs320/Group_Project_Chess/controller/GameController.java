@@ -100,19 +100,6 @@ public class GameController {
 		return database.updateStats(newStats, user.getUserId());
 	}
 	
-	/**
-	 * Return true if the intended move is allowed.
-	 * 
-	 * @param model   the model of the game
-	 * @param origin	the starting space
-	 * @param destination	the intended move space 
-	 * @return false if the intended move is not allowed,
-	 *     true if the intended move is allowed.
-	 */
-	public boolean validMove(Space origin, Space destination) {
-		throw new UnsupportedOperationException("TODO - implement");
-//		model.getBoard().get
-	}
 	
 	/**
 	 * Moves the piece to intended location. (Called after validMove is called)

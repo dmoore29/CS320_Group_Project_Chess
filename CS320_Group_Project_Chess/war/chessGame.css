@@ -31,7 +31,6 @@ img {
 }
 
 .space{
-	margin-left: 0%;
 	width:70vmin;
 	height:70vmin;
 	position: absolute; 
@@ -61,8 +60,7 @@ img {
 
 .promotion{
 	float: right;
-	margin-right: 50%;
-    width: 35%;
+    width: 10vw;
 	margin-top: 15%;
 }
 
@@ -73,6 +71,11 @@ img {
     border-style: solid;
     border-radius: 5px;
 	border-color: #644BBF; 
+}
+
+.promotion li{
+	width: 100%;
+	border-style: solid;
 }
 
 .promotion p {
@@ -156,6 +159,7 @@ footer p {
     transform: rotate(270deg);
     color:#644BBF;
 }
+
 #right_aside{
     float: right;
     width: 21.25vw;
@@ -166,6 +170,7 @@ footer p {
     height: 100%;
     width: 75%;
 }
+
 #IGN{
     font-style: italic;
 }
@@ -176,8 +181,9 @@ main {
 }
 footer {
 	position: absolute;
+	height: 5vh;
 	width: 100%;
-	bottom: 4%;
+	bottom: 10px;
     clear: both;
 }
 

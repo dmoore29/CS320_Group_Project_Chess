@@ -316,7 +316,6 @@ public class DerbyDatabase implements IDatabase{
 					ArrayList<Game> result = new ArrayList<Game>();
 					
 					stmt.setInt(1, player1a.getUserId());
-					
 					resultSet = stmt.executeQuery();
 										
 					// for testing that a result was returned
@@ -328,10 +327,10 @@ public class DerbyDatabase implements IDatabase{
 						Game game = new Game();
 
 						loadGame(game, resultSet, 1);
-
-						User player2a = new User();
-						loadUser(player2a, resultSet, 9);
 						
+						User player2a = new User();
+						loadUser(player2a, resultSet, 15);
+
 						game.setPlayer1(new Player(player1a, 0, game.getPlayer1().getPlayerId()));
 						game.setPlayer2(new Player(player2a, 1, game.getPlayer2().getPlayerId()));
 						
@@ -359,6 +358,7 @@ public class DerbyDatabase implements IDatabase{
 					stmt2.setInt(1, player2b.getUserId());
 					
 					resultSet = stmt2.executeQuery();
+
 										
 					// for testing that a result was returned
 					found = false;
@@ -367,7 +367,6 @@ public class DerbyDatabase implements IDatabase{
 						found = true;
 						
 						Game game = new Game();
-
 						loadGame(game, resultSet, 1);
 
 						User player1b = new User();
@@ -794,8 +793,8 @@ public class DerbyDatabase implements IDatabase{
 				PreparedStatement stmt = null;
 				
 				stmt = conn.prepareStatement(
-						"insert into games (boards_id, player1Id, player2Id, turn, promo, enPx, enPy) "
-						+ " values (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
+						"insert into games (boards_id, player1Id, player2Id, turn, promo, enPx, enPy, moved001, moved701, moved401, moved070, moved770, moved470) "
+						+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
 				);
 				
 				System.out.println("BOARD ID: " + game.getBoard().getBoardId());
@@ -806,6 +805,12 @@ public class DerbyDatabase implements IDatabase{
 				stmt.setInt(5, game.getPromo());
 				stmt.setInt(6, game.getEnPx());
 				stmt.setInt(7, game.getEnPy());
+				stmt.setBoolean(8, game.getMoved001());
+				stmt.setBoolean(9, game.getMoved701());
+				stmt.setBoolean(10, game.getMoved401());
+				stmt.setBoolean(11, game.getMoved070());
+				stmt.setBoolean(12, game.getMoved770());
+				stmt.setBoolean(13, game.getMoved470());
 				
 				stmt.execute();
 				
@@ -828,7 +833,7 @@ public class DerbyDatabase implements IDatabase{
 			@Override
 			public Integer execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
-				
+								
 				stmt = conn.prepareStatement(
 						"update games "
 						+ "set boards_id = ?, "
@@ -837,7 +842,13 @@ public class DerbyDatabase implements IDatabase{
 						+ "turn = ?, "
 						+ "promo = ?, "
 						+ "enPx = ?, "
-						+ "enPy = ? "
+						+ "enPy = ?, "
+						+ "moved001 = ?, "
+						+ "moved701 = ?, "
+						+ "moved401 = ?, "
+						+ "moved070 = ?, "
+						+ "moved770 = ?, "
+						+ "moved470 = ? "
 						+ "where games_id = ?"
 				);
 				
@@ -848,7 +859,13 @@ public class DerbyDatabase implements IDatabase{
 				stmt.setInt(5, game.getPromo());
 				stmt.setInt(6, game.getEnPx());
 				stmt.setInt(7, game.getEnPy());
-				stmt.setInt(8, game.getGameId());
+				stmt.setBoolean(8, game.getMoved001());
+				stmt.setBoolean(9, game.getMoved701());
+				stmt.setBoolean(10, game.getMoved401());
+				stmt.setBoolean(11, game.getMoved070());
+				stmt.setBoolean(12, game.getMoved770());
+				stmt.setBoolean(13, game.getMoved470());
+				stmt.setInt(14, game.getGameId());
 				
 				stmt.executeUpdate();
 		
@@ -1113,6 +1130,12 @@ public class DerbyDatabase implements IDatabase{
 		game.setPromo(resultSet.getInt(index++));
 		game.setEnPx(resultSet.getInt(index++));
 		game.setEnPy(resultSet.getInt(index++));
+		game.setMoved001(resultSet.getBoolean(index++));
+		game.setMoved701(resultSet.getBoolean(index++));
+		game.setMoved401(resultSet.getBoolean(index++));
+		game.setMoved070(resultSet.getBoolean(index++));
+		game.setMoved770(resultSet.getBoolean(index++));
+		game.setMoved470(resultSet.getBoolean(index++));
 	}
 	
 	private void loadBoard(Board board, ResultSet resultSet, int index) throws SQLException {
@@ -1208,7 +1231,13 @@ public class DerbyDatabase implements IDatabase{
 							"   turn integer, " +
 							"   promo integer, " +
 							"   enPx integer, " +
-							"   enPy integer" +
+							"   enPy integer, " +
+							"   moved001 boolean, " +
+							"   moved701 boolean, " +
+							"   moved401 boolean, " +
+							"   moved070 boolean, " +
+							"   moved770 boolean, " +
+							"   moved470 boolean" +
 							")"
 					);
 					stmt3.executeUpdate();
@@ -1336,8 +1365,8 @@ public class DerbyDatabase implements IDatabase{
 					
 					
 					insertGame = conn.prepareStatement(
-							"insert into games (boards_id, player1Id, player2Id, turn, promo, enPx, enPy) "
-							+ "  values (?, ?, ?, ?, ?, ?, ?)"
+							"insert into games (boards_id, player1Id, player2Id, turn, promo, enPx, enPy, moved001, moved701, moved401, moved070, moved770, moved470) "
+							+ "  values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 					);
 					
 					for (Game game : gameList) {					
@@ -1348,6 +1377,12 @@ public class DerbyDatabase implements IDatabase{
 						insertGame.setInt(5, game.getPromo());
 						insertGame.setInt(6, game.getEnPx());
 						insertGame.setInt(7, game.getEnPy());
+						insertGame.setBoolean(8, game.getMoved001());
+						insertGame.setBoolean(9, game.getMoved701());
+						insertGame.setBoolean(10, game.getMoved401());
+						insertGame.setBoolean(11, game.getMoved070());
+						insertGame.setBoolean(12, game.getMoved770());
+						insertGame.setBoolean(13, game.getMoved470());
 						insertGame.addBatch();
 					}
 					

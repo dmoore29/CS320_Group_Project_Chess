@@ -123,6 +123,12 @@ public class InitialData {
 				game.setPromo(Integer.parseInt(i.next()));
 				game.setEnPx(Integer.parseInt(i.next()));
 				game.setEnPy(Integer.parseInt(i.next()));
+				game.setMoved001(Boolean.parseBoolean(i.next()));
+				game.setMoved701(Boolean.parseBoolean(i.next()));
+				game.setMoved401(Boolean.parseBoolean(i.next()));
+				game.setMoved070(Boolean.parseBoolean(i.next()));
+				game.setMoved770(Boolean.parseBoolean(i.next()));
+				game.setMoved470(Boolean.parseBoolean(i.next()));
 				game.setGameId(gameId++);
 				gameList.add(game);
 			}

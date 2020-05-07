@@ -55,8 +55,8 @@ public class GameControllerTest {
 		assertEquals(Rank.BISHOP, game.getBoard().getSpace(2, 0).getPiece().getRank());
 		assertEquals(Rank.BISHOP, game.getBoard().getSpace(5, 0).getPiece().getRank());
 		
-		assertEquals(Rank.KING, game.getBoard().getSpace(3, 0).getPiece().getRank());
-		assertEquals(Rank.QUEEN, game.getBoard().getSpace(4, 0).getPiece().getRank());
+		assertEquals(Rank.KING, game.getBoard().getSpace(4, 0).getPiece().getRank());
+		assertEquals(Rank.QUEEN, game.getBoard().getSpace(3, 0).getPiece().getRank());
 		
 	}
 	

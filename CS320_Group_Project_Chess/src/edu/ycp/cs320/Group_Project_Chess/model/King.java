@@ -19,7 +19,8 @@ public class King extends Piece {
 			if(board.getSpace(dest.x, dest.y).getPiece().getColor() == color) {
 				return false;
 			}
-		}
+		} 
+		
 		
 		if((Math.abs(yDifference) == 1 && Math.abs(xDifference) == 0) 
 				|| (Math.abs(yDifference) == 0 && Math.abs(xDifference) == 1) 

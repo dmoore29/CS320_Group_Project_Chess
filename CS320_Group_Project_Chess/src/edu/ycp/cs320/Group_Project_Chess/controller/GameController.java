@@ -42,17 +42,21 @@ public class GameController {
 	 * @return false king or knight has moved
 	 *     true if king and knight have not moved
 	 */
-	public boolean validCastle() {
-		if(!model.getMoved001() 
-				&& !model.getMoved701()
-				&& !model.getMoved401()
-				&& !model.getMoved070()
-				&& !model.getMoved770()
-				&& !model.getMoved470()) { //if all conditions are true
-			return true;
-		} else { //no pieces moved
-			return false;
+	public boolean validCastle(int color) {
+		if(color == 0) {
+			if(!model.getMoved070()
+					&& !model.getMoved770()
+					&& !model.getMoved470()) { //if all conditions are true
+				return true;
+			}
+		} else {
+			if(!model.getMoved001() 
+			&& !model.getMoved701()
+			&& !model.getMoved401()) { //if all conditions are true
+				return true;
+			}
 		}
+			return false;
 	}
 	
 	

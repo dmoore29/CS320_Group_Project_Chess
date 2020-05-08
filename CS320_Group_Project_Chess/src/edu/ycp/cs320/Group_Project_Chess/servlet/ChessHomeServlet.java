@@ -18,7 +18,8 @@ import edu.ycp.cs320.Group_Project_Chess.model.User;
 public class ChessHomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	GameHomeController controller = null;
+	GameHomeController homeController = null;
+	GameController controller = null;
 	
 	
 	@Override
@@ -42,12 +43,12 @@ public class ChessHomeServlet extends HttpServlet {
 		System.out.println("   User: <" + name + "> logged in");
 //-- structure taken from the library example
 		
-		controller = new GameHomeController();
+		homeController = new GameHomeController();
 		
-		ArrayList<Game> games = controller.getGameswithUsername(name);
+		ArrayList<Game> games = homeController.getGameswithUsername(name);
 		
-		GameController c = new GameController();
-		User current = c.loadUser(name);
+		controller = new GameController();
+		User current = controller.loadUser(name);
 		req.setAttribute("userId", current.getUserId());
 		req.setAttribute("games", games);
 		
@@ -69,39 +70,43 @@ public class ChessHomeServlet extends HttpServlet {
 			GameController controller = new GameController();
 			String username = (String) req.getSession().getAttribute("name");
 			User u1 = controller.loadUser(username);
-			User u2;
+			User u2 = null;
+			try {
+				u2 = homeController.enterMatchMaking(username);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			
-			if (req.getParameter("opponent") != null) {
-				u2 = controller.loadUser(req.getParameter("opponent"));
-			} else {
-				if(username == "user1") {
-					u2 = controller.loadUser("user2");
-				} else {
-					u2 = controller.loadUser("user1");
+			if (u2 != null) {
+
+				Player p1 = new Player(u1, 0);
+				p1.setPlayerId(u1.getUserId());
+				Player p2 = new Player(u2, 1);
+				p2.setPlayerId(u2.getUserId());
+				Game game = new Game(p1, p2);
+				int newId = 0;
+				
+				try {
+					game.setPromo(0);
+					game.setEnPx(8);
+					game.setEnPy(8);
+					newId = controller.StoreNewGame(game);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				
+				System.out.println("NEW ID: " + newId);
+				req.getSession().setAttribute("gameId", newId);
+				System.out.println("ChessHome Servlet: forwarding to chessGame");
+				resp.sendRedirect(req.getContextPath() + "/chessGame");
+				
+			} else {
+				System.out.println("entered matchmaking, waiting for opponent");
+				System.out.println("ChessHome Servlet: reloading chessHome");
+				resp.sendRedirect(req.getContextPath() + "/chessHome");
 			}
 
-			Player p1 = new Player(u1, 0);
-			p1.setPlayerId(u1.getUserId());
-			Player p2 = new Player(u2, 1);
-			p2.setPlayerId(u2.getUserId());
-			Game game = new Game(p1, p2);
-			int newId = 0;
-			
-			try {
-				game.setPromo(0);
-				game.setEnPx(8);
-				game.setEnPy(8);
-				newId = controller.StoreNewGame(game);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			System.out.println("NEW ID: " + newId);
-			req.getSession().setAttribute("gameId", newId);
-			System.out.println("ChessHome Servlet: forwarding to chessGame");
-			resp.sendRedirect(req.getContextPath() + "/chessGame");
 		}
 		
 		if (req.getParameter("profile") != null) {

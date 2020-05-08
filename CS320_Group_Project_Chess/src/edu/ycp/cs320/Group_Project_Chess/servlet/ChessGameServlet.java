@@ -25,9 +25,7 @@ public class ChessGameServlet extends HttpServlet {
 	private int restrictTurn = 1;
 	Game game = null;
 	GameController controller = null;
-	
-	//TODO: SWTICH TO GAME MODEL
-	boolean validCastle = true;
+	private boolean validCastle = false;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -164,6 +162,42 @@ public class ChessGameServlet extends HttpServlet {
 			
 			controller.getGame().setPromo(0);
 			
+			boolean check;
+			boolean checkMate = false;
+			
+			//check
+			if(controller.getGame().getBoard().getPiece(destX, destY).getColor() == 0) {
+				check = controller.check(1);
+			} else {
+				check = controller.check(0);
+			}
+			if(check) {
+				checkFlag = 1;
+				if(controller.getGame().getBoard().getPiece(destX, destY).getColor() == 0) {
+					checkMate = controller.checkmate(1);
+				} else {
+					checkMate = controller.checkmate(0);
+				}						
+			}
+			
+			//checkmate
+			if(checkMate) {
+				checkMateFlag = 1;
+				
+				boolean user1Wins = false;
+				if(controller.getGame().getBoard().getPiece(destX, destY).getColor() == 0) {
+					user1Wins = true;
+				}
+				
+				try {
+					controller.updateUserStats(user1Wins, controller.getGame().getPlayer1().getUser());
+					controller.updateUserStats(!user1Wins, controller.getGame().getPlayer2().getUser());
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			
 			req.setAttribute("restrictTurn", restrictTurn);
 			req.setAttribute("checkMateFlag", checkMateFlag);
 			req.setAttribute("checkFlag", checkFlag);
@@ -226,6 +260,7 @@ public class ChessGameServlet extends HttpServlet {
 			System.err.println("SPACE COLOR: " + revert.getColor());
 			Boolean check = false;
 			Boolean checkMate = false;
+			Boolean failedCastle = false;
 			
 			if(controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece() != null) { //if space has a piece
 				if(sourceX == destX && sourceY == destY) { //if source is destination
@@ -248,6 +283,7 @@ public class ChessGameServlet extends HttpServlet {
 							controller.movePiece(controller.getGame().getBoard().getSpace(destX, destY), controller.getGame().getBoard().getSpace(sourceX, sourceY));
 							destX = sourceX;
 							destY = sourceY;
+							failedCastle = true;
 						}
 					}
 					
@@ -308,7 +344,8 @@ public class ChessGameServlet extends HttpServlet {
 						controller.updateCastleConditions(sourceX, sourceY, destX, destY); //updates castle conditions
 						validCastle = controller.validCastle();
 						System.out.println("VALID");
-						controller.getGame().setTurn(controller.getGame().getTurn()+1); //increments turn counter
+						if(!failedCastle)
+							controller.getGame().setTurn(controller.getGame().getTurn()+1); //increments turn counter
 					} else {
 						controller.movePiece(controller.getGame().getBoard().getSpace(destX, destY), controller.getGame().getBoard().getSpace(sourceX, sourceY));
 						controller.getGame().getBoard().getSpace(destX, destY).setPiece(revert);

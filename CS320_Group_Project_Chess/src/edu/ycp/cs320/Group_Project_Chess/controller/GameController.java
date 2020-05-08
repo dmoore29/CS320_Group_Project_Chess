@@ -43,12 +43,6 @@ public class GameController {
 	 *     true if king and knight have not moved
 	 */
 	public boolean validCastle() {
-		System.out.println("MOVED: " + model.getMoved701());
-		System.out.println("MOVED: " + model.getMoved401());
-		System.out.println("MOVED: " + model.getMoved001());
-		System.out.println("MOVED: " + model.getMoved770());
-		System.out.println("MOVED: " + model.getMoved070());
-		System.out.println("MOVED: " + model.getMoved470());
 		if(!model.getMoved001() 
 				&& !model.getMoved701()
 				&& !model.getMoved401()

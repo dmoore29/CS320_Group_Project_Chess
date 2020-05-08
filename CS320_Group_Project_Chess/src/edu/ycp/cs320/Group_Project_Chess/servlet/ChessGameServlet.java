@@ -235,13 +235,6 @@ public class ChessGameServlet extends HttpServlet {
 					controller.movePiece(controller.getGame().getBoard().getSpace(sourceX, sourceY), controller.getGame().getBoard().getSpace(destX, destY)); //moves piece
 					
 					//castling
-					System.err.println("VALID CASTLE:" + validCastle);
-					System.out.println("VALID CASTLE:" + validCastle);
-					System.err.println("VALID CASTLE:" + validCastle);
-					System.out.println("VALID CASTLE:" + validCastle);
-					System.err.println("VALID CASTLE:" + validCastle);
-					System.out.println("VALID CASTLE:" + validCastle);
-					System.err.println("VALID CASTLE:" + validCastle);
 					if(controller.getGame().getBoard().getPiece(destX, destY).getRank() == Rank.KING 
 							&& Math.abs(destX - sourceX) == 2
 							&& !controller.check(controller.getGame().getBoard().getPiece(destX, destY).getColor())) {

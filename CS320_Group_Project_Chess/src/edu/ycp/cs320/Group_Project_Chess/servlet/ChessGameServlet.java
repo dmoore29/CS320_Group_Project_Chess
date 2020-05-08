@@ -25,9 +25,7 @@ public class ChessGameServlet extends HttpServlet {
 	private int restrictTurn = 1;
 	Game game = null;
 	GameController controller = null;
-	
-	//TODO: SWTICH TO GAME MODEL
-	boolean validCastle = true;
+	private boolean validCastle = false;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -262,6 +260,7 @@ public class ChessGameServlet extends HttpServlet {
 			System.err.println("SPACE COLOR: " + revert.getColor());
 			Boolean check = false;
 			Boolean checkMate = false;
+			Boolean failedCastle = false;
 			
 			if(controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece() != null) { //if space has a piece
 				if(sourceX == destX && sourceY == destY) { //if source is destination
@@ -284,6 +283,7 @@ public class ChessGameServlet extends HttpServlet {
 							controller.movePiece(controller.getGame().getBoard().getSpace(destX, destY), controller.getGame().getBoard().getSpace(sourceX, sourceY));
 							destX = sourceX;
 							destY = sourceY;
+							failedCastle = true;
 						}
 					}
 					
@@ -344,7 +344,8 @@ public class ChessGameServlet extends HttpServlet {
 						controller.updateCastleConditions(sourceX, sourceY, destX, destY); //updates castle conditions
 						validCastle = controller.validCastle();
 						System.out.println("VALID");
-						controller.getGame().setTurn(controller.getGame().getTurn()+1); //increments turn counter
+						if(!failedCastle)
+							controller.getGame().setTurn(controller.getGame().getTurn()+1); //increments turn counter
 					} else {
 						controller.movePiece(controller.getGame().getBoard().getSpace(destX, destY), controller.getGame().getBoard().getSpace(sourceX, sourceY));
 						controller.getGame().getBoard().getSpace(destX, destY).setPiece(revert);

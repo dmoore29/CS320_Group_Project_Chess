@@ -395,7 +395,7 @@ public class DerbyDatabase implements IDatabase{
 				try {
 					stmt = conn.prepareStatement(
 							" select * from users " +
-							" ORDER BY wins, elo "
+							" ORDER BY wins DESC, elo DESC"
 					);
 					
 					ArrayList<User> result = new ArrayList<User>();
@@ -440,7 +440,7 @@ public class DerbyDatabase implements IDatabase{
 				try {
 					stmt = conn.prepareStatement(
 							" select * from users " +
-							" ORDER BY elo, wins "
+							" ORDER BY elo DESC, wins DESC"
 					);
 					
 					ArrayList<User> result = new ArrayList<User>();

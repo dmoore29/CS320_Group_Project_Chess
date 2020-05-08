@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.Group_Project_Chess.controller.LoginController;
 import edu.ycp.cs320.Group_Project_Chess.model.Credentials;
-import edu.ycp.cs320.Group_Project_Chess.model.User;
 
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -43,11 +42,10 @@ public class LoginServlet extends HttpServlet {
 			needsEmail = true;
 		}
 		
-		User user = null;
 		Credentials credentials;
 		
 		String errorMessage = null;
-		String destination = null;
+		Boolean reload = true;
 		
 		controller = new LoginController();
 			
@@ -58,13 +56,10 @@ public class LoginServlet extends HttpServlet {
 		if (needsEmail) {
 			if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
 				errorMessage = "Please enter a Username, Password, and Email Address";
-				destination = "/_view/login.jsp";
 			} else if (controller.existingUsername(username)){
 				errorMessage = "Username already taken";
-				destination = "/_view/login.jsp";
 			} else if (controller.existingEmail(email)) {
 				errorMessage = "Email already registered to an account";
-				destination = "/_view/login.jsp";
 			} else {
 				try {
 				controller.registerNewUser(new Credentials(email, username, password));
@@ -77,7 +72,6 @@ public class LoginServlet extends HttpServlet {
 		} else {
 			if (username.isEmpty() || password.isEmpty()) {
 				errorMessage = "Please enter a Username and Password";
-				destination = "/_view/login.jsp";
 			} else {
 				testLogin = true;
 			}
@@ -86,10 +80,9 @@ public class LoginServlet extends HttpServlet {
 		if (testLogin) {
 			credentials = new Credentials(email, username, password);
 			if (controller.validLogin(credentials)) {
-				destination = "/_view/home.jsp";
+				reload = false;
 			} else {
 				errorMessage = "Invalid Login";
-				destination = "/_view/login.jsp";
 			}
 		}
 		
@@ -99,8 +92,14 @@ public class LoginServlet extends HttpServlet {
 		
 		req.getSession().setAttribute("name", username);
 					
-		System.out.println("Login Servlet: reposting login.jsp");
-		req.getRequestDispatcher(destination).forward(req, resp);
+		if (reload) {
+			System.out.println("Login Servlet: reposting login.jsp");
+			req.getRequestDispatcher("/_view/login.jsp").forward(req, resp);
+		} else {
+			System.out.println("Login Servlet: login successful");
+			resp.sendRedirect(req.getContextPath() + "/home");
+		}
+		
 		
 	}
 }

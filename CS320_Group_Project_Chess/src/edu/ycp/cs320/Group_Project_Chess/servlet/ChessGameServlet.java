@@ -164,6 +164,42 @@ public class ChessGameServlet extends HttpServlet {
 			
 			controller.getGame().setPromo(0);
 			
+			boolean check;
+			boolean checkMate = false;
+			
+			//check
+			if(controller.getGame().getBoard().getPiece(destX, destY).getColor() == 0) {
+				check = controller.check(1);
+			} else {
+				check = controller.check(0);
+			}
+			if(check) {
+				checkFlag = 1;
+				if(controller.getGame().getBoard().getPiece(destX, destY).getColor() == 0) {
+					checkMate = controller.checkmate(1);
+				} else {
+					checkMate = controller.checkmate(0);
+				}						
+			}
+			
+			//checkmate
+			if(checkMate) {
+				checkMateFlag = 1;
+				
+				boolean user1Wins = false;
+				if(controller.getGame().getBoard().getPiece(destX, destY).getColor() == 0) {
+					user1Wins = true;
+				}
+				
+				try {
+					controller.updateUserStats(user1Wins, controller.getGame().getPlayer1().getUser());
+					controller.updateUserStats(!user1Wins, controller.getGame().getPlayer2().getUser());
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			
 			req.setAttribute("restrictTurn", restrictTurn);
 			req.setAttribute("checkMateFlag", checkMateFlag);
 			req.setAttribute("checkFlag", checkFlag);

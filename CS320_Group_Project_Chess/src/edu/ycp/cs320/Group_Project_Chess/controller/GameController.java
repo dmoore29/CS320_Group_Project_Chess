@@ -36,6 +36,72 @@ public class GameController {
 		database = new DerbyDatabase();
 	}
 	
+	/**
+	 * Check whether castling is valid
+	 * 
+	 * @return false king or knight has moved
+	 *     true if king and knight have not moved
+	 */
+	public boolean validCastle() {
+		System.out.println("MOVED: " + model.getMoved701());
+		System.out.println("MOVED: " + model.getMoved401());
+		System.out.println("MOVED: " + model.getMoved001());
+		System.out.println("MOVED: " + model.getMoved770());
+		System.out.println("MOVED: " + model.getMoved070());
+		System.out.println("MOVED: " + model.getMoved470());
+		if(!model.getMoved001() 
+				&& !model.getMoved701()
+				&& !model.getMoved401()
+				&& !model.getMoved070()
+				&& !model.getMoved770()
+				&& !model.getMoved470()) { //if all conditions are true
+			return true;
+		} else { //no pieces moved
+			return false;
+		}
+	}
+	
+	
+	/**
+	 * Updates the castle conditions if a rook or king has moved
+	 * 
+	 * @param sourceX starting x
+	 * @param sourceY starting y
+	 * @param destX destination x
+	 * @param destY destination y
+	 */
+	public void updateCastleConditions(int sourceX, int sourceY, int destX, int destY) {
+		if(model.getBoard().getPiece(destX, destY) != null) {
+			if(model.getBoard().getPiece(destX, destY).getRank() == Rank.KING) { //moving king
+				if(model.getBoard().getPiece(destX, destY).getColor() == 0) { //white piece
+					model.setMoved470(true); //white king
+					System.out.println("WHITE KING MOVED");
+				} else { //black piece
+					model.setMoved401(true); //black king
+					System.out.println("BLACK KING MOVED");
+				}
+			} else if(model.getBoard().getPiece(destX, destY).getRank() == Rank.ROOK) { //moving rook
+				if(sourceX == 0) { //left rook
+					if(model.getBoard().getPiece(destX, destY).getColor() == 0) { //white piece
+						model.setMoved070(true); //white left rook
+						System.out.println("LEFT WHITE ROOK MOVED");
+					} else { //black piece
+						model.setMoved001(true); //black left rook
+						System.out.println("LEFT BLACK ROOK MOVED");
+					}
+				} else { //right rook
+					if(model.getBoard().getPiece(destX, destY).getColor() == 0) { //white piece
+						model.setMoved770(true); //white right rook
+						System.out.println("RIGHT WHITE ROOK MOVED");
+					} else { //black piece
+						model.setMoved701(true); //black right rook
+						System.out.println("RIGHT BLACK ROOK MOVED");
+					}
+				}
+			}
+		}
+	}
+	
 	public Game loadGame(int gameId) {
 		model = database.findGamewithGameId(gameId);
 		return model;

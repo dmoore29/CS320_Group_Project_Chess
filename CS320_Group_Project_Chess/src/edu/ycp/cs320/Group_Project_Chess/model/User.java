@@ -6,6 +6,7 @@ public class User {
 	private Stats stats;
 	private FriendsList friends;
 	private Profile profile;
+	private int matchMaking;
 	
 	public User() {
 		friends = new FriendsList();
@@ -51,5 +52,13 @@ public class User {
 	
 	public int getUserId() {
 		return userId;
+	}
+	
+	public void setMatchMaking(int matchMaking) {
+		this.matchMaking = matchMaking;
+	}
+	
+	public int getMatchMaking() {
+		return matchMaking;
 	}
 }

@@ -290,6 +290,100 @@ public class DerbyDatabase implements IDatabase{
 		});
 	}
 	
+	// transaction that retrieves Users currently in match making
+	public User findUserinMatchMaking() {
+		return executeTransaction(new Transaction<User>() {
+			@Override
+			public User execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							" select * from users " +
+							" where users.matchMaking = ? "
+					);
+					
+					User result = new User();
+					
+					stmt.setInt(1, 1);
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						User user = new User();
+						loadUser(user, resultSet, 1);
+						
+						ArrayList<User> friends = findFriendswithUserId(user.getUserId());
+						for (User friend : friends) {
+							user.getFriends().addFriend(friend);
+						}
+						
+						result = user;
+					}
+					
+					// check if any users were found
+					if (!found) {
+						System.out.println("No users found in match making in the database");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	// transaction that retrieves Users match making status
+	public Integer findMatchMakingforUsername(final String username) {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							" select matchMaking from users " +
+							" where users.username = ? "
+					);
+					
+					Integer result = null;
+					
+					stmt.setString(1, username);
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						result = resultSet.getInt(1);
+					}
+					
+					// check if any users were found
+					if (!found) {
+						System.out.println("No users found with username " + username + " in the database");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
 	// transaction that retrieves all games with a specific user 
 	public ArrayList<Game> findGameswithUser(final String username) {
 		return executeTransaction(new Transaction<ArrayList<Game>>() {
@@ -330,7 +424,7 @@ public class DerbyDatabase implements IDatabase{
 						
 						User player2a = new User();
 						loadUser(player2a, resultSet, 15);
-
+						
 						game.setPlayer1(new Player(player1a, 0, game.getPlayer1().getPlayerId()));
 						game.setPlayer2(new Player(player2a, 1, game.getPlayer2().getPlayerId()));
 						
@@ -370,7 +464,7 @@ public class DerbyDatabase implements IDatabase{
 						loadGame(game, resultSet, 1);
 
 						User player1b = new User();
-						loadUser(player2b, resultSet, 9);
+						loadUser(player2b, resultSet, 15);
 						
 						game.setPlayer1(new Player(player1b, 0, game.getPlayer1().getPlayerId()));
 						game.setPlayer2(new Player(player2b, 1, game.getPlayer2().getPlayerId()));
@@ -634,8 +728,8 @@ public class DerbyDatabase implements IDatabase{
 				
 				try {
 					stmt = conn.prepareStatement(
-							"insert into users (email, username, password, wins, losses, elo, bio, pictureNumber) "
-							+ " values (?, ?, ?, ?, ?, ?, ?, ?) ", Statement.RETURN_GENERATED_KEYS
+							"insert into users (email, username, password, wins, losses, elo, bio, pictureNumber, matchMaking) "
+							+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?) ", Statement.RETURN_GENERATED_KEYS
 					);
 					
 					stmt.setString(1, creds.getEmail());
@@ -646,6 +740,7 @@ public class DerbyDatabase implements IDatabase{
 					stmt.setInt(6, 100);
 					stmt.setString(7, "Tell the world about yourself!");
 					stmt.setInt(8, 1);
+					stmt.setInt(9, 0);
 					
 					stmt.execute();
 					
@@ -682,7 +777,8 @@ public class DerbyDatabase implements IDatabase{
 						+ "losses = ?, "
 						+ "elo = ?, "
 						+ "bio = ?, "
-						+ "pictureNumber = ? "
+						+ "pictureNumber = ?, "
+						+ "matchMaking = ? "
 						+ "where user_id = ?"
 				);
 				
@@ -694,7 +790,8 @@ public class DerbyDatabase implements IDatabase{
 				stmt.setInt(6, user.getStats().getElo());
 				stmt.setString(7, newBio);
 				stmt.setInt(8, user.getProfile().getPictureNumber());
-				stmt.setInt(9, user.getUserId());
+				stmt.setInt(9, user.getMatchMaking());
+				stmt.setInt(10, user.getUserId());
 				
 				stmt.executeUpdate();
 		
@@ -722,7 +819,8 @@ public class DerbyDatabase implements IDatabase{
 						+ "losses = ?, "
 						+ "elo = ?, "
 						+ "bio = ?, "
-						+ "pictureNumber = ? "
+						+ "pictureNumber = ?, "
+						+ "matchMaking = ? "
 						+ "where user_id = ?"
 				);
 				
@@ -734,7 +832,8 @@ public class DerbyDatabase implements IDatabase{
 				stmt.setInt(6, newStats.getElo());
 				stmt.setString(7, user.getProfile().getBio());
 				stmt.setInt(8, user.getProfile().getPictureNumber());
-				stmt.setInt(9, user.getUserId());
+				stmt.setInt(9, user.getMatchMaking());
+				stmt.setInt(10, user.getUserId());
 				
 				stmt.executeUpdate();
 		
@@ -762,7 +861,8 @@ public class DerbyDatabase implements IDatabase{
 						+ "losses = ?, "
 						+ "elo = ?, "
 						+ "bio = ?, "
-						+ "pictureNumber = ? "
+						+ "pictureNumber = ?, "
+						+ "matchMaking = ? "
 						+ "where user_id = ?"
 				);
 				
@@ -774,7 +874,50 @@ public class DerbyDatabase implements IDatabase{
 				stmt.setInt(6, user.getStats().getElo());
 				stmt.setString(7, user.getProfile().getBio());
 				stmt.setInt(8, picNum);
-				stmt.setInt(9, user.getUserId());
+				stmt.setInt(9, user.getMatchMaking());
+				stmt.setInt(10, user.getUserId());
+				
+				stmt.executeUpdate();
+		
+				DBUtil.closeQuietly(stmt);
+				return 1;
+			}
+		});
+	}
+	
+	// updates the user's matchMaking field
+	public Integer updateMatchMaking(final int matchMaking, final int Id) throws SQLException {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
+				User user = findUserwithUserId(Id);
+				
+				stmt = conn.prepareStatement(
+						"update users "
+						+ "set email = ?, "
+						+ "username = ?, "
+						+ "password = ?, "
+						+ "wins = ?, "
+						+ "losses = ?, "
+						+ "elo = ?, "
+						+ "bio = ?, "
+						+ "pictureNumber = ?, "
+						+ "matchMaking = ? "
+						+ "where user_id = ?"
+				);
+				
+				stmt.setString(1, user.getCredentials().getEmail());
+				stmt.setString(2, user.getCredentials().getUsername());
+				stmt.setString(3, user.getCredentials().getPassword());
+				stmt.setInt(4, user.getStats().getWins());
+				stmt.setInt(5, user.getStats().getLosses());
+				stmt.setInt(6, user.getStats().getElo());
+				stmt.setString(7, user.getProfile().getBio());
+				stmt.setInt(8, user.getProfile().getPictureNumber());
+				stmt.setInt(9, matchMaking);
+				stmt.setInt(10, user.getUserId());
 				
 				stmt.executeUpdate();
 		
@@ -1119,6 +1262,7 @@ public class DerbyDatabase implements IDatabase{
 		user.getStats().setElo(resultSet.getInt(index++));
 		user.getProfile().setBio(resultSet.getString(index++));
 		user.getProfile().setPictureNumber(resultSet.getInt(index++));
+		user.setMatchMaking(resultSet.getInt(index++));
 	}
 	
 	private void loadGame(Game game, ResultSet resultSet, int index) throws SQLException {
@@ -1195,7 +1339,8 @@ public class DerbyDatabase implements IDatabase{
 						"	losses integer, " +
 						"	elo integer, " +
 						"	bio varchar(100), " +
-						"	pictureNumber integer" +
+						"	pictureNumber integer, " +
+						"	matchMaking integer" +
 						")"
 					);	
 					stmt1.executeUpdate();
@@ -1289,7 +1434,7 @@ public class DerbyDatabase implements IDatabase{
 				PreparedStatement insertFriend = null;
 
 				try {
-					insertUser = conn.prepareStatement("insert into users (email, username, password, wins, losses, elo, bio, pictureNumber) values (?, ?, ?, ?, ?, ?, ?, ?)");
+					insertUser = conn.prepareStatement("insert into users (email, username, password, wins, losses, elo, bio, pictureNumber, matchMaking) values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 					for (User user : userList) {
 						insertUser.setString(1, user.getCredentials().getEmail());
 						insertUser.setString(2, user.getCredentials().getUsername());
@@ -1299,6 +1444,7 @@ public class DerbyDatabase implements IDatabase{
 						insertUser.setInt(6, user.getStats().getElo());
 						insertUser.setString(7, user.getProfile().getBio());
 						insertUser.setInt(8, user.getProfile().getPictureNumber());
+						insertUser.setInt(9, user.getMatchMaking());
 						insertUser.addBatch();
 					}
 					insertUser.executeBatch();

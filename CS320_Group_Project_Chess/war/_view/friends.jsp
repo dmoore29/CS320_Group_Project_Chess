@@ -54,12 +54,10 @@
 	           			</tr>
 	           		</thead>
 	           		<tbody>
-	           			<tr>
 			           		<% ArrayList<User> userList = friends.getFriendsList();
 		           		   	for (User users : userList) { %>
-	           				<input name="userSelection" type="radio" value="<%=users.getCredentials().getUsername()%>" /><p><%=users.getCredentials().getUsername() %></p>	           				
+	           				<tr><td><input name="userSelection" type="radio" value="<%=users.getCredentials().getUsername()%>" /><p><b><%=users.getCredentials().getUsername() %>: Wins: <%=users.getStats().getWins() %> |Losses: <%=users.getStats().getLosses() %> | ELO: <%=users.getStats().getElo() %> </b></p></td></tr>	           				
 	           				<% } %>
-	           			</tr>
 	           		</tbody>
 	           	</table>
 		           	<ul>

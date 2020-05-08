@@ -7,8 +7,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.ycp.cs320.Group_Project_Chess.controller.HomeController;
+
 public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	HomeController controller = null;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -30,6 +34,10 @@ public class HomeServlet extends HttpServlet {
 		// proceed to handle request...
 		System.out.println("   User: <" + name + "> logged in");
 //-- structure taken from the library example
+		
+		controller = new HomeController();
+		req.setAttribute("topWins", controller.findTopWins());
+		req.setAttribute("topElo", controller.findTopElo());
 		
 		req.getRequestDispatcher("/_view/home.jsp").forward(req, resp);
 		

@@ -384,6 +384,96 @@ public class DerbyDatabase implements IDatabase{
 		});
 	}
 	
+	// transaction that retrieves top 10 users in the database ordered by their wins and elo
+	public ArrayList<User> findUserswithMostWins() {
+		return executeTransaction(new Transaction<ArrayList<User>>() {
+			@Override
+			public ArrayList<User> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							" select * from users " +
+							" ORDER BY wins DESC, elo DESC"
+					);
+					
+					ArrayList<User> result = new ArrayList<User>();
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					int count = 10;
+					
+					while (resultSet.next() && count > 0) {
+						found = true;
+						
+						User user = new User();
+						loadUser(user, resultSet, 1);
+						
+						result.add(user);
+					}
+					
+					// check if any users were found
+					if (!found) {
+						System.out.println("No users found in the database");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	// transaction that retrieves top 10 users in the database ordered by their elo and wins
+	public ArrayList<User> findUserswithHighestElo() {
+		return executeTransaction(new Transaction<ArrayList<User>>() {
+			@Override
+			public ArrayList<User> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							" select * from users " +
+							" ORDER BY elo DESC, wins DESC"
+					);
+					
+					ArrayList<User> result = new ArrayList<User>();
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					int count = 10;
+					
+					while (resultSet.next() && count > 0) {
+						found = true;
+						
+						User user = new User();
+						loadUser(user, resultSet, 1);
+						
+						result.add(user);
+					}
+					
+					// check if any users were found
+					if (!found) {
+						System.out.println("No users found in the database");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
 	// transaction that retrieves all games with a specific user 
 	public ArrayList<Game> findGameswithUser(final String username) {
 		return executeTransaction(new Transaction<ArrayList<Game>>() {

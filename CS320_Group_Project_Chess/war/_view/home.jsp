@@ -74,19 +74,7 @@
             				<td class="col3"><%=user.getStats().getWins() %></td>
             			</tr>
             			<% } %>
-            		
-            		
-            		
-            		
-            		
             		</tbody>
-            			
-            	
-            	
-            	
-            	
-            	
-            	
             	</table>
             	<table class="elo">
             		<thead>
@@ -95,22 +83,15 @@
             				<td class="col2"><b>User</b></td>
             				<td class="col3"><b>Elo</b></td></tr></thead>
             		<tbody>
+            			<% 	index = 1;
+            				for (User user : topElo){ %>
             			<tr>
-            				<td class="col1">
-            		
-            		
-            		
-            		
-            		
-            		
+            				<td class="col1"><%=index++ %>:</td>
+            				<td class="col2"><%=user.getCredentials().getUsername() %></td>
+            				<td class="col3"><%=user.getStats().getElo() %></td>
+            			</tr>
+            			<% } %>
             		</tbody>
-            			
-            	
-            	
-            	
-            	
-            	
-            	
             	</table>
             </div>
         </main>

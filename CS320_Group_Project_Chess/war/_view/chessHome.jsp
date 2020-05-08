@@ -48,11 +48,15 @@
             	} %>
             	<form class="gameSelect" action="${pageContext.servletContext.contextPath}/chessHome" method="post">
 	            	<ul class="opponent">
-		            	<label for="fname">Challenge New Opponent:</label>
-						<li><input class="opponentContent" name="opponent" type="text"</li>
-						<li><input class="opponentContent" name="chessGame" type="submit" value="New Chess Game" /></li>
+						<li><input class="opponentContent" name="chessGame" type="submit" value="Find Opponent" /></li>
 						<li><input class="opponentContent" name="oldChessGame" type="submit" value="Load Chess Game" /></li>
 	            		<li><input class="opponentContent" name="deleteOldChessGame" type="submit" value="Delete Chess Game" /></li>
+	            		<% Integer matchMakingFlag = (Integer) request.getAttribute("inMatchMaking");
+	            			if (matchMakingFlag != null) {
+	            				if (matchMakingFlag == 1){
+	            					%><li><h3>Searching for Opponent...</h3></li>
+	            				<% } %>
+	            			<% } %>
 					   </ul>
 					   
 					<div class="table2">

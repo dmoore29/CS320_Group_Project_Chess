@@ -39,4 +39,8 @@ public class GameHomeController {
 			return null;
 		}
 	}
+	
+	public int isUserInMatchMaking(String name) {
+		return db.findMatchMakingforUsername(name);
+	}
 }

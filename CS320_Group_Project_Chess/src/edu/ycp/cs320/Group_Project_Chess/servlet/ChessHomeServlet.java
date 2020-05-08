@@ -51,6 +51,7 @@ public class ChessHomeServlet extends HttpServlet {
 		User current = controller.loadUser(name);
 		req.setAttribute("userId", current.getUserId());
 		req.setAttribute("games", games);
+		req.setAttribute("inMatchMaking", homeController.isUserInMatchMaking(name));
 		
 		req.getRequestDispatcher("/_view/chessHome.jsp").forward(req, resp);
 		

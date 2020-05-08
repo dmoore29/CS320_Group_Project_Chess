@@ -341,6 +341,49 @@ public class DerbyDatabase implements IDatabase{
 		});
 	}
 	
+	// transaction that retrieves Users match making status
+	public Integer findMatchMakingforUsername(final String username) {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							" select matchMaking from users " +
+							" where users.username = ? "
+					);
+					
+					Integer result = null;
+					
+					stmt.setString(1, username);
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						result = resultSet.getInt(1);
+					}
+					
+					// check if any users were found
+					if (!found) {
+						System.out.println("No users found with username " + username + " in the database");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
 	// transaction that retrieves all games with a specific user 
 	public ArrayList<Game> findGameswithUser(final String username) {
 		return executeTransaction(new Transaction<ArrayList<Game>>() {

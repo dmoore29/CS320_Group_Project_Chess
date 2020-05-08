@@ -13,7 +13,13 @@ public class HomeController {
 		db = new DerbyDatabase();
 	}
 	
+	public ArrayList<User> findTopWins(){
+		return db.findUserswithMostWins();
+	}
 	
+	public ArrayList<User> findTopElo(){
+		return db.findUserswithHighestElo();
+	}
 	
 	
 }

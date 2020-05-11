@@ -42,6 +42,7 @@ public class FriendsServlet extends HttpServlet {
 		
 		controller = new FriendsController();
 		
+		// loads the friends list
 		req.setAttribute("friendsList", controller.getFriends(name));
 		
 		req.getRequestDispatcher("/_view/friends.jsp").forward(req, resp);
@@ -72,6 +73,8 @@ public class FriendsServlet extends HttpServlet {
 			System.out.println("Friends Servlet: forwarding to login");
 			resp.sendRedirect(req.getContextPath() + "/login");
 		}
+		
+		// remove friend logic
 		if (req.getParameter("remove") != null) {
 			
 			if (req.getParameter("userSelection") != null) { 
@@ -95,6 +98,8 @@ public class FriendsServlet extends HttpServlet {
 			}
 			
 		}
+		
+		// add new friend logic
 		if (req.getParameter("add") != null) {
 			
 			if (req.getParameter("username") != null) {
@@ -118,6 +123,8 @@ public class FriendsServlet extends HttpServlet {
 			}
 			
 		}
+		
+		// view a friend's profile logic
 		if (req.getParameter("view") != null) {
 			if (req.getParameter("userSelection") != null) {
 				req.getSession().setAttribute("friendProfile", (String) req.getParameter("userSelection"));
@@ -128,6 +135,8 @@ public class FriendsServlet extends HttpServlet {
 				resp.sendRedirect(req.getContextPath() + "/friends");
 			}
 		}
+		
+		// challenge a friend logic
 		if (req.getParameter("challenge") != null) { //creating new game
 			GameController controller = new GameController();
 			String username = (String) req.getSession().getAttribute("name");

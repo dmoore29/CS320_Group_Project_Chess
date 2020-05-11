@@ -1018,6 +1018,7 @@ public class DerbyDatabase implements IDatabase{
 	}
 	
 //	@Override
+	// transaction that adds a new game to the games table
 	public Integer newGame(final Game game) throws SQLException {
 		return executeTransaction(new Transaction<Integer>() {
 			@Override
@@ -1061,6 +1062,7 @@ public class DerbyDatabase implements IDatabase{
 		});
 	}
 	
+	// updates a game that is already in the games table
 	public Integer updateGame(final Game game) throws SQLException {
 		return executeTransaction(new Transaction<Integer>() {
 			@Override
@@ -1109,6 +1111,7 @@ public class DerbyDatabase implements IDatabase{
 		});
 	}
 	
+	// removes a game from the games table
 	public Integer deleteGame(final int gameId) throws SQLException {
 		return executeTransaction(new Transaction<Integer>() {
 			@Override
@@ -1169,6 +1172,7 @@ public class DerbyDatabase implements IDatabase{
 		});
 	}
 	
+	// adds a new board to the boards table
 	public Integer newBoard(final Board board) throws SQLException {
 		return executeTransaction(new Transaction<Integer>() {
 			@Override
@@ -1233,6 +1237,7 @@ public class DerbyDatabase implements IDatabase{
 		});
 	}
 	
+	// updates a board that is already in the boards table
 	public Integer updateBoard(final Board board) throws SQLException {
 		return executeTransaction(new Transaction<Integer>() {
 			@Override
@@ -1342,6 +1347,7 @@ public class DerbyDatabase implements IDatabase{
 	}
 // from library example
 	
+	// takes a User reference and sets its data equal to what was found in the result set
 	private void loadUser(User user, ResultSet resultSet, int index) throws SQLException {
 		user.setUserId(resultSet.getInt(index++));
 		user.getCredentials().setEmail(resultSet.getString(index++));
@@ -1355,6 +1361,7 @@ public class DerbyDatabase implements IDatabase{
 		user.setMatchMaking(resultSet.getInt(index++));
 	}
 	
+	// takes a Game reference and sets its data equal to what was found in the result set
 	private void loadGame(Game game, ResultSet resultSet, int index) throws SQLException {
 		game.setGameId(resultSet.getInt(index++));
 		game.getBoard().setBoardId(resultSet.getInt(index++));
@@ -1372,6 +1379,7 @@ public class DerbyDatabase implements IDatabase{
 		game.setMoved470(resultSet.getBoolean(index++));
 	}
 	
+	// takes a Board reference and sets its data equal to what was found in the result set
 	private void loadBoard(Board board, ResultSet resultSet, int index) throws SQLException {
 		board.setBoardId(resultSet.getInt(index++));
 		for (int y = 0; y < 8; y++) {
@@ -1408,6 +1416,7 @@ public class DerbyDatabase implements IDatabase{
 		}
 	}
 	
+	// creates all the tables when the database file is initial ran
 	public void createTables() {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
@@ -1418,6 +1427,7 @@ public class DerbyDatabase implements IDatabase{
 				PreparedStatement stmt4 = null;
 			
 				try {
+					// creates the users table
 					stmt1 = conn.prepareStatement(
 						"create table users (" +
 						"	user_id integer primary key " +
@@ -1437,6 +1447,7 @@ public class DerbyDatabase implements IDatabase{
 					
 					System.out.println("Users table created");
 					
+					// creates the boards table
 					String boardStatement = "";
 					
 					for (int y = 0; y < 8; y++) {
@@ -1456,6 +1467,7 @@ public class DerbyDatabase implements IDatabase{
 					
 					System.out.println("Boards table created");					
 					
+					// creates the games table
 					stmt3 = conn.prepareStatement(
 							"create table games (" +
 							"	games_id integer primary key " +
@@ -1479,6 +1491,7 @@ public class DerbyDatabase implements IDatabase{
 					
 					System.out.println("Games table created");	
 					
+					// creates the friends table
 					stmt4 = conn.prepareStatement(
 							"create table friends (" +
 							"	friends_id integer primary key " +
@@ -1500,6 +1513,7 @@ public class DerbyDatabase implements IDatabase{
 		});
 	}
 	
+	// takes the data from the CSV files and loads it into the newly create tables
 	public void loadInitialData() {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override

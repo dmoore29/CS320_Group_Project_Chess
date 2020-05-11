@@ -31,6 +31,7 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 		System.out.println("Login Servlet: doPost");
 		
+		// flags for determining different tests
 		boolean needsEmail = true;
 		boolean testLogin = false;
 		
@@ -48,11 +49,13 @@ public class LoginServlet extends HttpServlet {
 		Boolean reload = true;
 		
 		controller = new LoginController();
-			
+		
+		// gather and test for complete user inputs depending on the above flags
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
 		String email = req.getParameter("email");
-			
+		
+		// if all fields are filled, register a new user or test the credentials
 		if (needsEmail) {
 			if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
 				errorMessage = "Please enter a Username, Password, and Email Address";

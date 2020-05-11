@@ -45,8 +45,10 @@ public class ChessHomeServlet extends HttpServlet {
 		
 		homeController = new GameHomeController();
 		
+		// gathers all the games the user is playing
 		ArrayList<Game> games = homeController.getGameswithUsername(name);
 		
+		// passes game data to the JSP
 		controller = new GameController();
 		User current = controller.loadUser(name);
 		req.setAttribute("userId", current.getUserId());
@@ -72,12 +74,15 @@ public class ChessHomeServlet extends HttpServlet {
 			String username = (String) req.getSession().getAttribute("name");
 			User u1 = controller.loadUser(username);
 			User u2 = null;
+			
+// matchmaking procedure
 			try {
 				u2 = homeController.enterMatchMaking(username);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 			
+			// if someone was in matchmaking, then start a new game with that user. Else, reload chess home
 			if (u2 != null) {
 
 				Player p1 = new Player(u1, 0);
@@ -109,6 +114,7 @@ public class ChessHomeServlet extends HttpServlet {
 			}
 
 		}
+// end matchmaking procedure
 		
 		if (req.getParameter("profile") != null) {
 			System.out.println("ChessHome Servlet: forwarding to profile");

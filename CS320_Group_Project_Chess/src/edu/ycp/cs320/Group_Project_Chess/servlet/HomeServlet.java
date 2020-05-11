@@ -35,6 +35,7 @@ public class HomeServlet extends HttpServlet {
 		System.out.println("   User: <" + name + "> logged in");
 //-- structure taken from the library example
 		
+		// loads leaderboard data
 		controller = new HomeController();
 		req.setAttribute("topWins", controller.findTopWins());
 		req.setAttribute("topElo", controller.findTopElo());

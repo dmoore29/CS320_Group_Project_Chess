@@ -31,6 +31,7 @@ public class ChessGameServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
+		// determines if a new game or a previous game is loading
 		if (req.getSession().getAttribute("loadGameFlag") != null) {
 			System.out.println("flag detected");
 			if ((int) req.getSession().getAttribute("loadGameFlag") == 1) {
@@ -47,6 +48,7 @@ public class ChessGameServlet extends HttpServlet {
 			game = controller.loadGame((int) req.getSession().getAttribute("gameId"));
 		}
 		
+		// tests if either user is in check and/or checkmate
 		controller.setGame(game);
 		if(controller.check(0)) {
 			checkFlag = 1;
@@ -66,6 +68,8 @@ public class ChessGameServlet extends HttpServlet {
 			checkFlag = 0;
 			checkMateFlag = 0;
 		}
+		
+		// updates all the flags
 		req.setAttribute("restrictTurn", restrictTurn);
 		req.setAttribute("checkMateFlag", checkMateFlag);
 		req.setAttribute("checkFlag", checkFlag);

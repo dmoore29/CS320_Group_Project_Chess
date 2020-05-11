@@ -39,6 +39,7 @@ public class ProfileServlet extends HttpServlet {
 		
 		controller = new ProfileController();
 		
+		// gather user data depending on if viewing current user or a friend's profile
 		User user = null;
 		String friend = (String) req.getSession().getAttribute("friendProfile");
 		if (friend != null) {
@@ -81,6 +82,7 @@ public class ProfileServlet extends HttpServlet {
 			resp.sendRedirect(req.getContextPath() + "/login");
 		}
 		
+		// edit bio button
 		if (req.getParameter("editBio") != null) {
 			System.out.println("Profile Servlet: editing bio");
 			controller = new ProfileController();
@@ -90,6 +92,7 @@ public class ProfileServlet extends HttpServlet {
 			req.getRequestDispatcher("/_view/profile.jsp").forward(req, resp);
 		}
 		
+		// edit picture button
 		if (req.getParameter("editPic") != null) {
 			System.out.println("Profile Servlet: editing picture");
 			controller = new ProfileController();
@@ -99,6 +102,7 @@ public class ProfileServlet extends HttpServlet {
 			req.getRequestDispatcher("/_view/profile.jsp").forward(req, resp);
 		}
 		
+		// submit bio edit. calls controller to execute
 		if(req.getParameter("bioFieldSubmit") != null) {
 			System.out.println("Profile Servlet: submitting bio updates");
 			controller = new ProfileController();
@@ -111,6 +115,7 @@ public class ProfileServlet extends HttpServlet {
 			resp.sendRedirect(req.getContextPath() + "/profile");
 		}
 		
+		// submit picture edit. calls controller to execute
 		if(req.getParameter("picSelectionSubmit") != null) {
 			System.out.println("Profile Servlet: submitting picture updates");
 			controller = new ProfileController();

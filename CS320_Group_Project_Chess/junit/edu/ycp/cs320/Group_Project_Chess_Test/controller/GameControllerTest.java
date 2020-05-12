@@ -93,16 +93,16 @@ public class GameControllerTest {
 		
 		game.getBoard().getSpace(2,3).setPiece(null);
 		
-		//Bishop
-		originSpace = game.getBoard().getSpace(5, 0);
-		destinationSpace = game.getBoard().getSpace(2, 3);
+		//King
+		originSpace = game.getBoard().getSpace(4, 0);
+		destinationSpace = game.getBoard().getSpace(4, 1);
 		controller.movePiece(originSpace, destinationSpace);
 		
-		assertEquals(Rank.BISHOP, game.getBoard().getSpace(2, 3).getPiece().getRank());
+		assertEquals(Rank.KING, game.getBoard().getSpace(4, 1).getPiece().getRank());
 		
-		assertNull(game.getBoard().getSpace(5, 0).getPiece());
+		assertNull(game.getBoard().getSpace(4, 0).getPiece());
 		
-		game.getBoard().getSpace(2,3).setPiece(null);
+		game.getBoard().getSpace(4,1).setPiece(null);
 		
 		
 	}
@@ -113,6 +113,7 @@ public class GameControllerTest {
 		controller = new GameController(gameCastle);
 		gameCastle.getBoard().setPiece(new King(Rank.KING, 1, new Point(4,7)));
 		gameCastle.getBoard().setPiece(new Rook(Rank.ROOK, 1, new Point(7,7)));
+		//not sure how to go about this... -Anthony
 		//assertTrue(board.getPiece(4, 7).validMove(new Point(6, 7), board));
 		//assertTrue(board.getPiece(7, 7).validMove(new Point(5, 7), board));
 		

@@ -51,11 +51,58 @@ public class GameControllerTest {
 		Space destinationSpace = game.getBoard().getSpace(2, 2);
 		controller.movePiece(originSpace, destinationSpace);
 		
-		// Test to see if space(0,2) contains a PAWN.
+		//Knight
+		// Test to see if space(2,2) contains a Knight.
 		assertEquals(Rank.KNIGHT, game.getBoard().getSpace(2, 2).getPiece().getRank());
 		
-		// Test to see if space(0,1) is now empty.
+		// Test to see if space(1,0) is now empty.
 		assertNull(game.getBoard().getSpace(1, 0).getPiece());
+		
+		game.getBoard().getSpace(2,2).setPiece(null);
+		
+		//Rook
+		originSpace = game.getBoard().getSpace(0, 0);
+		destinationSpace = game.getBoard().getSpace(0, 4);
+		controller.movePiece(originSpace, destinationSpace);
+		
+		assertEquals(Rank.ROOK, game.getBoard().getSpace(0, 4).getPiece().getRank());
+		
+		assertNull(game.getBoard().getSpace(0, 0).getPiece());
+		
+		game.getBoard().getSpace(0,4).setPiece(null);
+		
+		//Queen
+		originSpace = game.getBoard().getSpace(3, 0);
+		destinationSpace = game.getBoard().getSpace(7, 4);
+		controller.movePiece(originSpace, destinationSpace);
+		
+		assertEquals(Rank.QUEEN, game.getBoard().getSpace(7, 4).getPiece().getRank());
+		
+		assertNull(game.getBoard().getSpace(3, 0).getPiece());
+		
+		game.getBoard().getSpace(7,4).setPiece(null);
+		
+		//Bishop
+		originSpace = game.getBoard().getSpace(5, 0);
+		destinationSpace = game.getBoard().getSpace(2, 3);
+		controller.movePiece(originSpace, destinationSpace);
+		
+		assertEquals(Rank.BISHOP, game.getBoard().getSpace(2, 3).getPiece().getRank());
+		
+		assertNull(game.getBoard().getSpace(5, 0).getPiece());
+		
+		game.getBoard().getSpace(2,3).setPiece(null);
+		
+		//Bishop
+		originSpace = game.getBoard().getSpace(5, 0);
+		destinationSpace = game.getBoard().getSpace(2, 3);
+		controller.movePiece(originSpace, destinationSpace);
+		
+		assertEquals(Rank.BISHOP, game.getBoard().getSpace(2, 3).getPiece().getRank());
+		
+		assertNull(game.getBoard().getSpace(5, 0).getPiece());
+		
+		game.getBoard().getSpace(2,3).setPiece(null);
 		
 		
 	}

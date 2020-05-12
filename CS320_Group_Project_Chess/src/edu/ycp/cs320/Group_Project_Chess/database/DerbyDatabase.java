@@ -155,7 +155,7 @@ public class DerbyDatabase implements IDatabase{
 							" where users.user_id = ? "
 					);
 					
-					User result = new User();
+					User result = null;
 					
 					stmt.setInt(1, userId);
 					
@@ -207,7 +207,7 @@ public class DerbyDatabase implements IDatabase{
 							" where users.user_id = ? "
 					);
 					
-					User result = new User();
+					User result = null;
 					
 					stmt.setInt(1, userId);
 					
@@ -253,7 +253,7 @@ public class DerbyDatabase implements IDatabase{
 							" where users.email = ? "
 					);
 					
-					User result = new User();
+					User result = null;
 					
 					stmt.setString(1, email);
 					

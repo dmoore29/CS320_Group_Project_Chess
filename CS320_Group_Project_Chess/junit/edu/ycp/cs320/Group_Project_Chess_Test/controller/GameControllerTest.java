@@ -8,7 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.ycp.cs320.Group_Project_Chess.controller.GameController;
+import edu.ycp.cs320.Group_Project_Chess.database.DerbyDatabase;
 import edu.ycp.cs320.Group_Project_Chess.model.Bishop;
+import edu.ycp.cs320.Group_Project_Chess.model.Board;
 import edu.ycp.cs320.Group_Project_Chess.model.Game;
 import edu.ycp.cs320.Group_Project_Chess.model.King;
 import edu.ycp.cs320.Group_Project_Chess.model.Knight;
@@ -19,21 +21,54 @@ import edu.ycp.cs320.Group_Project_Chess.model.Queen;
 import edu.ycp.cs320.Group_Project_Chess.model.Rank;
 import edu.ycp.cs320.Group_Project_Chess.model.Rook;
 import edu.ycp.cs320.Group_Project_Chess.model.Space;
+import edu.ycp.cs320.Group_Project_Chess.model.User;
 
 public class GameControllerTest {
 
 	private GameController controller;
-	private Game game, gameCheck, gameCheckmate;
+	private Game game, gameCheck, gameCheckmate, gameCastle;
 	private Player player1, player2;
+	private Board board;
+	private User user;
+	private DerbyDatabase database;
 	
 	@Before
 	public void setUp() {
 		game = new Game(player1, player2);
-		gameCheck = new Game();
+		gameCheck = new Game(player1, player2);
 		gameCheck.getBoard().newGameBoard();
-		gameCheckmate = new Game();
+		gameCheckmate = new Game(player1, player2);
 		gameCheckmate.getBoard().newGameBoard();
 		controller = new GameController(game);
+		gameCastle = new Game(player1, player2);
+		user = new User();
+		database = new DerbyDatabase();
+	}
+	
+	@Test
+	public void testMovePiece() {
+		Space originSpace = game.getBoard().getSpace(1, 0);
+		Space destinationSpace = game.getBoard().getSpace(2, 2);
+		controller.movePiece(originSpace, destinationSpace);
+		
+		// Test to see if space(0,2) contains a PAWN.
+		assertEquals(Rank.KNIGHT, game.getBoard().getSpace(2, 2).getPiece().getRank());
+		
+		// Test to see if space(0,1) is now empty.
+		assertNull(game.getBoard().getSpace(1, 0).getPiece());
+		
+		
+	}
+	
+	@Test
+	public void testValidCastle() {
+		board = new Board();
+		controller = new GameController(gameCastle);
+		gameCastle.getBoard().setPiece(new King(Rank.KING, 1, new Point(4,7)));
+		gameCastle.getBoard().setPiece(new Rook(Rank.ROOK, 1, new Point(7,7)));
+		//assertTrue(board.getPiece(4, 7).validMove(new Point(6, 7), board));
+		//assertTrue(board.getPiece(7, 7).validMove(new Point(5, 7), board));
+		
 	}
 	
 	

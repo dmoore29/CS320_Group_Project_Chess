@@ -31,18 +31,24 @@ public class LoginController {
 
 	// returns true if a user already exists in the database with the given username
 	public boolean existingUsername(String username) {
-		if (db.findUserwithUsername(username).getUserId() > 0) {
-			System.out.println("User with username of " + username + " already exists");
-			return true;
+		User user = db.findUserwithUsername(username);
+		if (user != null) {
+			if (user.getUserId() > 0) {
+				System.out.println("User with username of " + username + " already exists");
+				return true;
+			}
 		}
 		return false;
 	}
 
 	// returns true if a user already exists in the database with the given email
 	public boolean existingEmail(String email) {
-		if (db.findUserwithEmail(email).getUserId() > 0) {
-			System.out.println("User with email of " + email + " already exists");
-			return true;
+		User user = db.findUserwithEmail(email);
+		if (user != null) {
+			if (user.getUserId() > 0) {
+				System.out.println("User with email of " + email + " already exists");
+				return true;
+			}
 		}
 		return false;
 	}

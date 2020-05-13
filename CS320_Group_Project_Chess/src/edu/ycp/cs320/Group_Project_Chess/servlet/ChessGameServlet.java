@@ -265,6 +265,7 @@ public class ChessGameServlet extends HttpServlet {
 			Boolean check = false;
 			Boolean checkMate = false;
 			Boolean failedCastle = false;
+			Boolean throughCheck = true;
 			
 			if(controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece() != null) { //if space has a piece
 				if(sourceX == destX && sourceY == destY) { //if source is destination
@@ -278,12 +279,35 @@ public class ChessGameServlet extends HttpServlet {
 					if(controller.getGame().getBoard().getPiece(destX, destY).getRank() == Rank.KING 
 							&& Math.abs(destX - sourceX) == 2
 							&& !controller.check(controller.getGame().getBoard().getPiece(destX, destY).getColor())) {
-						if(validCastle) {
-							if (destX > sourceX) { //moving right
+								
+						if (destX > sourceX && validCastle) { //moving right
+							
+							//check the in between space
+							controller.movePiece(controller.getGame().getBoard().getSpace(destX, destY), controller.getGame().getBoard().getSpace(sourceX+1, destY));
+							throughCheck = controller.check(controller.getGame().getBoard().getPiece(sourceX+1, destY).getColor());
+							controller.movePiece(controller.getGame().getBoard().getSpace(sourceX+1, destY), controller.getGame().getBoard().getSpace(destX, destY));
+							
+							if(!throughCheck) { //does not pass through check
 								controller.movePiece(controller.getGame().getBoard().getSpace(7, destY), controller.getGame().getBoard().getSpace(5, destY));
-							} else { //moving left
+							} else { //passes through check
+								controller.movePiece(controller.getGame().getBoard().getSpace(destX, destY), controller.getGame().getBoard().getSpace(sourceX, sourceY));
+								destX = sourceX;
+								destY = sourceY;
+								failedCastle = true;							}
+						} else if(destX < sourceX && validCastle) { //moving left
+							
+							//check the in between space
+							controller.movePiece(controller.getGame().getBoard().getSpace(destX, destY), controller.getGame().getBoard().getSpace(sourceX-1, destY));
+							throughCheck = controller.check(controller.getGame().getBoard().getPiece(sourceX-1, destY).getColor());
+							controller.movePiece(controller.getGame().getBoard().getSpace(sourceX-1, destY), controller.getGame().getBoard().getSpace(destX, destY));
+							
+							if(!throughCheck) { //does not pass through check
 								controller.movePiece(controller.getGame().getBoard().getSpace(0, destY), controller.getGame().getBoard().getSpace(3, destY));
-							}
+							} else {
+								controller.movePiece(controller.getGame().getBoard().getSpace(destX, destY), controller.getGame().getBoard().getSpace(sourceX, sourceY));
+								destX = sourceX;
+								destY = sourceY;
+								failedCastle = true;							}
 						} else {
 							controller.movePiece(controller.getGame().getBoard().getSpace(destX, destY), controller.getGame().getBoard().getSpace(sourceX, sourceY));
 							destX = sourceX;
@@ -346,10 +370,12 @@ public class ChessGameServlet extends HttpServlet {
 								e.printStackTrace();
 							}
 						}
-						controller.updateCastleConditions(sourceX, sourceY, destX, destY); //updates castle conditions
+						
 						System.out.println("VALID");
-						if(!failedCastle)
+						if(!failedCastle) {
+							controller.updateCastleConditions(sourceX, sourceY, destX, destY); //updates castle conditions
 							controller.getGame().setTurn(controller.getGame().getTurn()+1); //increments turn counter
+						}
 					} else {
 						controller.movePiece(controller.getGame().getBoard().getSpace(destX, destY), controller.getGame().getBoard().getSpace(sourceX, sourceY));
 						controller.getGame().getBoard().getSpace(destX, destY).setPiece(revert);
@@ -362,7 +388,7 @@ public class ChessGameServlet extends HttpServlet {
 					req.setAttribute("pos1x", sourceX);
 					req.setAttribute("pos1y", sourceY);
 					pos1Recieved = true;
-				} 
+				}
 				//En Passant logic
 				else if(controller.getGame().getBoard().getSpace(sourceX, sourceY).getPiece().getRank() == Rank.PAWN 
 						&& destX == controller.getGame().getEnPx() 

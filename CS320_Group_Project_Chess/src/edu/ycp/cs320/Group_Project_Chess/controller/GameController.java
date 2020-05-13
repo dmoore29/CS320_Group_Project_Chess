@@ -44,15 +44,18 @@ public class GameController {
 	 */
 	public boolean validCastle(int color) {
 		if(color == 0) {
-			if(!model.getMoved070()
-					&& !model.getMoved770()
-					&& !model.getMoved470()) { //if all conditions are true
+			if((!model.getMoved070()
+					&& !model.getMoved470()) || 
+						(!model.getMoved770() 
+					&& !model.getMoved470())) { //if all conditions are true
 				return true;
 			}
 		} else {
-			if(!model.getMoved001() 
-			&& !model.getMoved701()
-			&& !model.getMoved401()) { //if all conditions are true
+			if((!model.getMoved001() 
+				&& !model.getMoved401()) || 
+					(!model.getMoved401() 
+				&& !model.getMoved701())
+			) { //if all conditions are true
 				return true;
 			}
 		}
@@ -359,7 +362,7 @@ public class GameController {
 									} else {
 									
 										// tests if the piece can make a valid move to the iterated space
-										if (model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y).getPiece().validMove(new Point(x, y), model.getBoard()) && enP == false) {
+										if (model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y).getPiece() != null && model.getBoard().getSpace(piece.getLocation().x, piece.getLocation().y).getPiece().validMove(new Point(x, y), model.getBoard())) {
 											
 											// if the valid move passes, we need to store the contents of the space being moved to by placing it into this temp Piece
 											Piece temp = null;
